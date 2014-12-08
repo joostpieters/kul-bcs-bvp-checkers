@@ -1,51 +1,39 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
-import bvp.Bord;
-import bvp.Figuren;
-import bvp.Figuur;
+import ui.Gui;
 import common.Configs;
+import common.Direction;
 import common.Location;
 import common.Player;
-import domain.action.ActionCatch;
-import domain.action.ActionMove;
+import domain.action.Action;
+import domain.action.ActionFactory;
 import domain.board.Board;
-import domain.board.BoardFactory;
-import domain.board.BoardSize;
 import domain.piece.Piece;
-import domain.square.Square;
 
-public class GameController {
-
-	public static void main(String[] args) {
-		File file = new File("data\\input\\default.txt");
-		try {
-			Board board = BoardFactory.create(file);
-			GameController controller = new GameController(board);
-			controller.play();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+public class GameController {	
+	private final Gui gui;
+	
+	private Gui getGui()
+	{
+		return gui;
 	}
 	
-	private Board board;
+	private final Board board;
 	
-	public Board getBoard() {
+	private Board getBoard() {
 		return board;
-	}
-
-	public void setBoard(Board board) {
-		this.board = board;
 	}
 
 	private Player currentPlayer = Configs.FirstPlayer;
 
-	public Player getCurrentPlayer() {
+	private Player getCurrentPlayer() {
 		return currentPlayer;
 	}
 
-	public void setCurrentPlayer(Player currentPlayer) {
+	private void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
 	
@@ -54,128 +42,114 @@ public class GameController {
 		setCurrentPlayer(getCurrentPlayer() == Player.White ? Player.Black : Player.White);
 	}
 	
-	private Bord guiFrame = new Bord("Checkers");
-	
-	public Bord getGuiFrame()
-	{
-		return guiFrame;
-	}
-	
 	public GameController(Board board) {
 		this.board = board;
+		this.gui = new Gui(board);
 	}
 	
-	public void showGui()
+	private boolean isOutOfMoves(Player player)
 	{
-		Bord frame = getGuiFrame();
-		BoardSize size = getBoard().getSize();
-		Figuren numbers = new Figuren("data\\cijfers32.fig");
-		Figuren schijven = new Figuren("data\\schijven.fig");
-		Figuur whitePiece = schijven.getFiguur("witteschijf"); //50 x 50
-		Figuur whiteDame = schijven.getFiguur("wittedamschijf");
-		Figuur blackPiece = schijven.getFiguur("zwarteschijf");
-		Figuur blackDame = schijven.getFiguur("zwartedamschijf");
-		Figuur background = new Figuur(size.getCols()*50, size.getRows()*50);
-		Figuur whiteSquare = new Figuur(Configs.SquareSizePx, Configs.SquareSizePx);
-		Figuur blackSquare = new Figuur(Configs.SquareSizePx, Configs.SquareSizePx);
-		whiteSquare.vulRechthoek(0,0,Configs.SquareSizePx,Configs.SquareSizePx,Configs.LightColor);
-		blackSquare.vulRechthoek(0,0,Configs.SquareSizePx,Configs.SquareSizePx,Configs.DarkColor);
-		for (int row = 0; row < size.getRows(); row++)
+		HashMap<Location, Piece> playerPieces = getBoard().getPlayerPieces(player);
+		for(Location location : playerPieces.keySet())
 		{
-			for (int col = 0; col < size.getCols(); col++)
+			boolean includeBackwards = playerPieces.get(location).canMoveBackwards();
+			if(canMoveFromLocation(player, location, includeBackwards) || canCatchFromLocation(player, location))
 			{
-				Location location = new Location(row, col, size);
-				Square square = getBoard().getSquare(location);
-				if (location.isWhite())
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private void checkForPromotions(Player player)
+	{
+		HashMap<Location, Piece> playerPieces = getBoard().getPlayerPieces(player);
+		for(Location location : playerPieces.keySet())
+		{
+			if(location.isPromotionRow(player))
+			{
+				Piece piece = playerPieces.get(location);
+				if(piece.canPromote())
 				{
-					background.plaatsFiguur(whiteSquare, col*Configs.SquareSizePx, row*Configs.SquareSizePx);
-				}
-				else
-				{
-					background.plaatsFiguur(blackSquare, col*Configs.SquareSizePx, row*Configs.SquareSizePx);
-					int hPixels = col*Configs.SquareSizePx;
-					int vPixels = row*Configs.SquareSizePx;
-					if(square.hasPiece())
-					{
-						Piece piece = square.getPiece();
-						Player player = piece.getPlayer();
-						if(player == Player.White) //TODO dames
-						{
-							background.plaatsFiguur(whitePiece, hPixels, vPixels);
-						}
-						else
-						{
-							background.plaatsFiguur(blackPiece, hPixels, vPixels);
-						}
-					}
-					int index = location.getIndex();
-    				String digits = Integer.toString(index);
-    				for(int i=0; i<digits.length(); i++)
-    				{
-    					String digit = digits.substring(i, i+1);
-    					Figuur figure = numbers.getFiguur(digit).scaleer(10,10);
-						background.plaatsFiguur(figure, hPixels + Configs.SquareSizePx/3 + 10*i, vPixels + Configs.SquareSizePx/3);
-    				}
+					getBoard().promotePiece(location);
 				}
 			}
 		}
-		frame.toon(background);
+	}
+
+	private boolean canCatchFromLocation(Player player, Location location) {
+		Board board = getBoard();
+		List<Location> targets = new ArrayList<Location>();
+		try { targets.add(location.getRelativeLocation(player, Direction.Front, Direction.Front, Direction.Right, Direction.Right)); } catch(IllegalArgumentException outOfRange) {}
+		try { targets.add(location.getRelativeLocation(player, Direction.Front, Direction.Front, Direction.Left, Direction.Left)); } catch(IllegalArgumentException outOfRange) {}
+		if(Configs.BackwardCatchingAllowed)
+		{
+			try { targets.add(location.getRelativeLocation(player, Direction.Back, Direction.Back, Direction.Right, Direction.Right)); } catch(IllegalArgumentException outOfRange) {}
+			try { targets.add(location.getRelativeLocation(player, Direction.Back, Direction.Back, Direction.Left, Direction.Left)); } catch(IllegalArgumentException outOfRange) {}
+		}
+		
+		for(Location target : targets)
+		{
+			if(board.isLocationFree(target) && board.isLocationOccupiedBy(player.getOpponent(), location.getCenterBetween(target)))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean canMoveFromLocation(Player player, Location location, boolean includeBackwards) {
+		Board board = getBoard();
+		List<Location> targets = new ArrayList<Location>();
+		try { targets.add(location.getRelativeLocation(player, Direction.Front, Direction.Right)); } catch(IllegalArgumentException outOfRange) {}
+		try { targets.add(location.getRelativeLocation(player, Direction.Front, Direction.Left)); } catch(IllegalArgumentException outOfRange) {}
+		if(includeBackwards)
+		{
+			try { targets.add(location.getRelativeLocation(player, Direction.Back, Direction.Right)); } catch(IllegalArgumentException outOfRange) {}
+			try { targets.add(location.getRelativeLocation(player, Direction.Back, Direction.Left)); } catch(IllegalArgumentException outOfRange) {}
+		}
+		for(Location target : targets)
+		{
+			if(board.isLocationFree(target))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
-	private void play()
+	public void play()
 	{
 		Scanner scanner = new Scanner(System.in);
 		Board board = getBoard();
-		System.out.println(board);
-		showGui();
+		//System.out.println(board);
+		getGui().paint();
 		while(true)
 		{
 			Player currentPlayer = getCurrentPlayer();
-			String move = askMove(scanner);
-			
-			if(ActionMove.isValidPattern(move))
+			if(isOutOfMoves(currentPlayer))
 			{
-				ActionMove action = new ActionMove(move);
-				if(action.isValidOn(board, currentPlayer))
-				{
-					System.out.println("Valid move");
-					action.executeOn(board, currentPlayer);
-					//check promotion
-					//check victory conditions
-					switchCurrentPlayer();
-					System.out.println(board);
-					showGui();
-				}
-				else
-				{
-					System.out.println("Invalid move");
-				}
+				System.out.println(currentPlayer + " lost because there are no more possible moves.");
+				break;
 			}
-			else if(ActionCatch.isValidPattern(move))
+			String move = askMove(scanner);
+			Action action = ActionFactory.create(move);
+			if(action.isValidOn(board, currentPlayer))
 			{
-				ActionCatch action = new ActionCatch(move);
-				if(action.isValidOn(board, currentPlayer))
-				{
-					System.out.println("Valid catch");
-					action.executeOn(board, currentPlayer);
-					//check promotion
-					//check victory conditions
-					switchCurrentPlayer();
-					System.out.println(board);
-					showGui();
-				}
-				else
-				{
-					System.out.println("Invalid catch");
-				}
-				System.out.println("Valid catch");
+				System.out.println("Valid action");
+				action.executeOn(board, currentPlayer);
+				checkForPromotions(currentPlayer);
+				//check victory conditions
+				switchCurrentPlayer();
+				//System.out.println(board);
+				getGui().paint();
 			}
 			else
 			{
-				System.out.println("Invalid pattern, try again.");
+				System.out.println("Invalid move");
 			}
 		}
-		//scanner.close();
+		scanner.close();
 	}
 	
 	private String askMove(Scanner scanner)
@@ -186,9 +160,6 @@ public class GameController {
 	
 	//TODO remise
 	//TODO give up
-	//TODO no more moves
-	//TODO promotions
-	//TODO Dames: flying moves, catches
-	//TODO CompositeActions: multiple catches
+	//TODO CompositeActions: fly, fly-catch-fly
 	//TODO implement Configs
 }

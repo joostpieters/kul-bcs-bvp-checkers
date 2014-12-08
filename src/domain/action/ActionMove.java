@@ -1,8 +1,5 @@
 package domain.action;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import common.Location;
 import common.Player;
 import domain.board.Board;
@@ -10,7 +7,7 @@ import domain.board.BoardSize;
 import domain.square.Square;
 
 public class ActionMove extends Action {
-	private static final String regex = "(\\d+)\\s*-\\s*(\\d+)";
+	public static final String REGEX = "(\\d+)\\s*-\\s*(\\d+)";
 	private final int fromIndex;
 	private final int toIndex;
 	
@@ -37,21 +34,9 @@ public class ActionMove extends Action {
 		this.toIndex = toIndex;
 	}
 	
-	public ActionMove(String move)
-	{
-		Pattern movePattern = Pattern.compile(regex);
-		Matcher matcher = movePattern.matcher(move);
-		if(!matcher.matches())
-		{
-			throw new IllegalArgumentException("Invalid move pattern: " + move);
-		}
-		this.fromIndex = Integer.parseInt(matcher.group(1));
-		this.toIndex = Integer.parseInt(matcher.group(2));
-	}
-	
 	public static boolean isValidPattern(String pattern)
 	{
-		return pattern.matches(regex);
+		return pattern.matches(REGEX);
 	}
 
 	@Override

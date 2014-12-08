@@ -10,7 +10,7 @@ public class Location
 
 	public Location(int row, int col, BoardSize size)
 	{
-		if(!size.isValidSquare(row, col))
+		if(!size.isValidLocation(row, col))
 		{
 			throw new IllegalArgumentException(String.format("Location (%d, %d) is outside of the board size %s.", row, col, size));
 		}
@@ -83,8 +83,8 @@ public class Location
 		try
 		{
 			Location casted = (Location)obj;
-			return 	this.getRow() == casted.getRow() && 
-					this.getCol() == casted.getCol() &&
+			return 	this.isOnSameRow(casted) && 
+					this.isOnSameColumn(casted) &&
 					this.getBoardSize().equals(casted.getBoardSize());
 		}
 		catch(ClassCastException ex)
@@ -125,13 +125,52 @@ public class Location
 		return getRowDistance(other);
 	}
 	
+	public boolean isAbove(Location other)
+	{
+		return getRow() < other.getRow();
+	}
+	
+	public boolean isOnSameRow(Location other)
+	{
+		return getRow() == other.getRow();
+	}
+	
+	public boolean isBelow(Location other)
+	{
+		return getRow() > other.getRow();
+	}
+	
+	public boolean isLeftFrom(Location other)
+	{
+		return getCol() < other.getCol();
+	}
+	
+	public boolean isOnSameColumn(Location other)
+	{
+		return getCol() == other.getCol();
+	}
+	
+	public boolean isRightFrom(Location other)
+	{
+		return getCol() > other.getCol();
+	}
+	
 	public boolean isInFrontOf(Location other, Player player)
 	{
-		int delta = getRow() - other.getRow(); //positive if this is lower than other on the board
+		int delta = getRow() - other.getRow();
 		
-		return (player == Player.White) ?
+		return player == Player.White ?
 				delta < 0 :
 				delta > 0;
+	}
+	
+	public boolean isBehind(Location other, Player player)
+	{
+		int delta = getRow() - other.getRow();
+		
+		return player == Player.White ?
+				delta > 0 :
+				delta < 0;
 	}
 	
 	public Location getCenterBetween(Location other)
@@ -144,5 +183,63 @@ public class Location
 		int centerRow = (getRow() + other.getRow()) / 2;
 		int centerCol = (getCol() + other.getCol()) / 2;
 		return new Location(centerRow, centerCol, getBoardSize());
+	}
+	
+	public Location getAbove()
+	{
+		return new Location(getRow()-1, getCol(), getBoardSize());
+	}
+	
+	public Location getBelow()
+	{
+		return new Location(getRow()+1, getCol(), getBoardSize());
+	}
+	
+	public Location getLeft()
+	{
+		return new Location(getRow(), getCol()-1, getBoardSize());
+	}
+	
+	public Location getRight()
+	{
+		return new Location(getRow(), getCol()+1, getBoardSize());
+	}
+	
+	public Location getFront(Player player)
+	{
+		return player == Player.White ?
+				getAbove() :
+				getBelow();
+	}
+	
+	public Location getBack(Player player)
+	{
+		return player == Player.White ?
+				getBelow() :
+				getAbove();
+	}
+	
+	private Location getByDirection(Player player, Direction direction)
+	{
+		switch(direction)
+		{
+			case Above: return getAbove();
+			case Below: return getBelow();
+			case Front: return getFront(player);
+			case Back: return getBack(player);
+			case Left: return getLeft();
+			case Right: return getRight();
+			default: throw new IllegalArgumentException("Unknown direction: " + direction);
+		}
+	}
+	
+	public Location getRelativeLocation(Player player, Direction... steps)
+	{
+		Location current = this;
+		for(Direction direction : steps)
+		{
+			current = current.getByDirection(player, direction);
+		}
+		return current;
 	}
 }

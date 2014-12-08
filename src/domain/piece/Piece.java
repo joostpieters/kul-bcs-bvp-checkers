@@ -23,4 +23,24 @@ public class Piece {
 				'z' :
 				'w';
 	}
+	
+	public boolean canMoveBackwards()
+	{
+		return false;
+	}
+	
+	public boolean canFly()
+	{
+		return false;
+	}
+	
+	public boolean canPromote()
+	{
+		return true;
+	}
+	
+	public Piece getDeepClone()
+	{
+		return new Piece(getPlayer());
+	}
 }

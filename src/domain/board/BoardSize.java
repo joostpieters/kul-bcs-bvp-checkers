@@ -37,7 +37,7 @@ public class BoardSize {
 				cols % 2 == 0;
 	}
 	
-	public boolean isValidSquare(int row, int col)
+	public boolean isValidLocation(int row, int col)
 	{
 		return 	row >= 0 && row < getRows() &&
 				col >= 0 && col < getCols();

@@ -1,4 +1,6 @@
 package domain.board;
+import java.util.HashMap;
+
 import common.Location;
 import common.Player;
 import domain.piece.Dame;
@@ -109,6 +111,41 @@ public class Board {
 		addPiece(location, dame);
 	}
 	
+	public HashMap<Location, Piece> getPlayerPieces(Player player)
+	{
+		HashMap<Location, Piece> result = new HashMap<Location, Piece>();
+		for(int row=0; row < getSize().getRows(); row++)
+		{
+			for(int col=0; col < getSize().getRows(); col++)
+			{
+				Location location = createLocation(row, col);
+				Square square = getSquare(location);
+				if(square.hasPiece())
+				{
+					Piece piece = square.getPiece();
+					if(piece.getPlayer() == player)
+					{
+						result.put(location, piece);
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public boolean isLocationFree(Location target)
+	{
+		Square targetSquare = getSquare(target);
+		return !targetSquare.hasPiece();
+	}
+	
+	public boolean isLocationOccupiedBy(Player occupant, Location target)
+	{
+		Square targetSquare = getSquare(target);
+		return targetSquare.hasPiece() && targetSquare.getPiece().getPlayer() == occupant;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -144,5 +181,24 @@ public class Board {
 		}
 		
 		return builder.toString();
+	}
+	
+	public Board getDeepClone()
+	{
+		Board clone = new Board(getSize());
+		for(int row=0; row < size.getRows(); row++)
+		{
+			for(int col=0; col < size.getCols(); col++)
+			{
+				Location location = new Location(row, col, size);
+				Square square = getSquare(location);
+				if(square.hasPiece())
+				{
+					Piece piece = square.getPiece();
+					clone.addPiece(location, piece.getDeepClone());
+				}
+			}
+		}
+		return clone;
 	}
 }
