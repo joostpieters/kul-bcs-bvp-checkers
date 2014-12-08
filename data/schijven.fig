@@ -1,0 +1,7 @@
+eenheid grid 50
+
+bestand data\\schijven3.gif
+  witteschijf [grid,grid] [     0, 0]
+  wittedamschijf [grid,grid] [grid, 0]
+  zwarteschijf [grid,grid] [2*grid, 0]	
+  zwartedamschijf [grid,grid] [3*grid, 0]
