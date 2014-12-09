@@ -1,5 +1,6 @@
 package domain.action;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +13,10 @@ public class CompositeAction extends Action {
 	
 	public CompositeAction(Action... actions) {
 		this.actions = Arrays.asList(actions);
+	}
+	
+	public CompositeAction(List<Action> actions) {
+		this.actions = new ArrayList<Action>(actions);
 	}
 	
 	@Override

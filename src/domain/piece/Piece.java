@@ -1,4 +1,5 @@
 package domain.piece;
+import common.Configs;
 import common.Player;
 
 
@@ -24,9 +25,14 @@ public class Piece {
 				'w';
 	}
 	
-	public boolean canMoveBackwards()
+	public boolean canMoveBackward()
 	{
 		return false;
+	}
+	
+	public boolean canCatchBackward()
+	{
+		return Configs.BackwardCatchingAllowed;
 	}
 	
 	public boolean canFly()
@@ -42,5 +48,10 @@ public class Piece {
 	public Piece getDeepClone()
 	{
 		return new Piece(getPlayer());
+	}
+	
+	@Override
+	public String toString() {
+		return "Piece";
 	}
 }

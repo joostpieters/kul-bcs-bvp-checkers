@@ -1,5 +1,7 @@
 package common;
 
+import java.util.Arrays;
+
 import domain.board.BoardSize;
 
 public class Location
@@ -17,6 +19,28 @@ public class Location
 		this.row = row;
 		this.col = col;
 		this.size = size;
+	}
+	
+	public Location(int index, BoardSize size)
+	{
+		if(!size.isValidIndex(index))
+		{
+			throw new IllegalArgumentException(String.format("Invalid index %d for board size %s.", index, size));
+		}
+		index = index - 1; //zero-based indexing
+		this.row = index * 2 / size.getCols();
+		int col = (index % (size.getCols() / 2)) * 2;
+		if(this.row % 2 == 0)
+		{
+			col++;
+		}
+		this.col = col;
+		this.size = size;
+	}
+	
+	public Location(Location copy)
+	{
+		this(copy.getRow(), copy.getCol(), copy.getBoardSize());
 	}
 
 	public int getRow() {
@@ -57,23 +81,6 @@ public class Location
 		return squareNumber / 2 + 1; //only count black squares
 	}
 	
-	public static Location fromIndex(int index, BoardSize size)
-	{
-		if(!size.isValidIndex(index))
-		{
-			throw new IllegalArgumentException(String.format("Invalid index %d for board size %s.", index, size));
-		}
-		index = index - 1; //zero-based indexing
-		int row = index * 2 / size.getCols();
-		int col = (index % (size.getCols() / 2)) * 2;
-		if(row % 2 == 0)
-		{
-			col++;
-		}
-		
-		return new Location(row, col, size);
-	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj == null)
@@ -83,8 +90,8 @@ public class Location
 		try
 		{
 			Location casted = (Location)obj;
-			return 	this.isOnSameRow(casted) && 
-					this.isOnSameColumn(casted) &&
+			return 	this.getRow() == casted.getRow() && 
+					this.getCol() == casted.getCol() &&
 					this.getBoardSize().equals(casted.getBoardSize());
 		}
 		catch(ClassCastException ex)
@@ -100,39 +107,9 @@ public class Location
 				getRow() == 0;
 	}
 	
-	public int getRowDistance(Location other)
-	{
-		return Math.abs(other.getRow()-getRow());
-	}
-	
-	public int getColumnDistance(Location other)
-	{
-		return Math.abs(other.getCol()-getCol());
-	}
-	
-	public boolean isOnSameDiagonal(Location other)
-	{
-		return getRowDistance(other) == getColumnDistance(other);
-	}
-	
-	public int getDiagonalDistance(Location other)
-	{
-		if(!isOnSameDiagonal(other))
-		{
-			throw new IllegalArgumentException("Given location is not on same diagonal.");
-		}
-		
-		return getRowDistance(other);
-	}
-	
 	public boolean isAbove(Location other)
 	{
 		return getRow() < other.getRow();
-	}
-	
-	public boolean isOnSameRow(Location other)
-	{
-		return getRow() == other.getRow();
 	}
 	
 	public boolean isBelow(Location other)
@@ -143,11 +120,6 @@ public class Location
 	public boolean isLeftFrom(Location other)
 	{
 		return getCol() < other.getCol();
-	}
-	
-	public boolean isOnSameColumn(Location other)
-	{
-		return getCol() == other.getCol();
 	}
 	
 	public boolean isRightFrom(Location other)
@@ -171,18 +143,6 @@ public class Location
 		return player == Player.White ?
 				delta > 0 :
 				delta < 0;
-	}
-	
-	public Location getCenterBetween(Location other)
-	{
-		if(	!isOnSameDiagonal(other) ||
-			getDiagonalDistance(other) != 2)
-		{
-			throw new IllegalArgumentException("Cannot calculate center if other location is not on same diagonal or distance is not 2.");
-		}
-		int centerRow = (getRow() + other.getRow()) / 2;
-		int centerCol = (getCol() + other.getCol()) / 2;
-		return new Location(centerRow, centerCol, getBoardSize());
 	}
 	
 	public Location getAbove()
@@ -233,7 +193,7 @@ public class Location
 		}
 	}
 	
-	public Location getRelativeLocation(Player player, Direction... steps)
+	public Location getRelativeLocation(Player player, Iterable<Direction> steps)
 	{
 		Location current = this;
 		for(Direction direction : steps)
@@ -241,5 +201,10 @@ public class Location
 			current = current.getByDirection(player, direction);
 		}
 		return current;
+	}
+	
+	public Location getRelativeLocation(Player player, Direction... steps)
+	{
+		return getRelativeLocation(player, Arrays.asList(steps));
 	}
 }

@@ -8,7 +8,6 @@ import common.Location;
 import common.Player;
 import domain.board.Board;
 import domain.board.BoardSize;
-import domain.piece.Dame;
 import domain.piece.Piece;
 import domain.square.Square;
 
@@ -31,7 +30,7 @@ public class Gui {
 
 	private Figuur getFigure(Figuren pieces, Piece piece) //50 x 50
 	{
-		if(piece instanceof Dame) //TODO find better way
+		if(!piece.canPromote())
 		{
 			if(piece.getPlayer() == Player.White)
 			{

@@ -13,7 +13,7 @@ public class Main {
 			GameController controller = new GameController(board);
 			controller.play();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.err.println("Input file not found");
 		}
 	}
 }

@@ -26,4 +26,9 @@ public class SquareWhite extends Square
 	{
 		throw new IllegalStateException("White Squares cannot contain pieces.");
 	}
+	
+	@Override
+	public String toString() {
+		return "White Square";
+	}
 }

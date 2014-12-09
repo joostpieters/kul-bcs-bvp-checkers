@@ -69,31 +69,31 @@ public class LocationTests {
 
 	@Test
 	public void testFromIndex() {
-		Location idx19on8x8 = Location.fromIndex(19, new BoardSize(8, 8));
+		Location idx19on8x8 = new Location(19, new BoardSize(8, 8));
 		assertEquals(4, idx19on8x8.getRow());
 		assertEquals(5, idx19on8x8.getCol());
 		
-		Location idx46on10x10 = Location.fromIndex(46, new BoardSize(10, 10));
+		Location idx46on10x10 = new Location(46, new BoardSize(10, 10));
 		assertEquals(9, idx46on10x10.getRow());
 		assertEquals(0, idx46on10x10.getCol());
 		
-		Location idx3on3x3 = Location.fromIndex(3, new BoardSize(4, 4));
+		Location idx3on3x3 = new Location(3, new BoardSize(4, 4));
 		assertEquals(1, idx3on3x3.getRow());
 		assertEquals(0, idx3on3x3.getCol());
 		
-		Location idx2on2x3 = Location.fromIndex(2, new BoardSize(2, 4));
+		Location idx2on2x3 = new Location(2, new BoardSize(2, 4));
 		assertEquals(0, idx2on2x3.getRow());
 		assertEquals(3, idx2on2x3.getCol());
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testFromIndexTooHigh() {
-		Location.fromIndex(5, new BoardSize(3, 3));
+		new Location(5, new BoardSize(3, 3));
 	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void testFromIndexTooLow() {
-		Location.fromIndex(0, new BoardSize(3, 3));
+		new Location(0, new BoardSize(3, 3));
 	}
 	
 	@Test
@@ -113,7 +113,7 @@ public class LocationTests {
 					int index = loc.getIndex();
 					assertEquals(prevIndex++, index);
 					
-					Location recalculated = Location.fromIndex(index, size);
+					Location recalculated = new Location(index, size);
 					assertEquals(row, recalculated.getRow());
 					assertEquals(col, recalculated.getCol());
 				}

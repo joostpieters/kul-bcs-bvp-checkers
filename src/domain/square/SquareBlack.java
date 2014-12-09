@@ -35,4 +35,13 @@ public class SquareBlack extends Square
 	{
 		this.piece = null;
 	}
+
+	@Override
+	public String toString() {
+		if(hasPiece())
+		{
+			return "Black Square containing " + getPiece().toString();
+		}
+		return "Black Square";
+	}
 }

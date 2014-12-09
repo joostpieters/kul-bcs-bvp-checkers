@@ -2,6 +2,7 @@ package domain.board;
 import java.util.HashMap;
 
 import common.Location;
+import common.LocationPair;
 import common.Player;
 import domain.piece.Dame;
 import domain.piece.Piece;
@@ -71,26 +72,22 @@ public class Board {
 		square.setPiece(null);
 	}
 	
-	public void movePiece(Location from, Location to)
+	public void movePiece(LocationPair pair)
 	{
-		if(from.equals(to))
-		{
-			throw new IllegalArgumentException("Cannot move Piece to original location.");
-		}
-		Square fromSquare = getSquare(from);
-		Square toSquare = getSquare(to);
+		Square fromSquare = getSquare(pair.getFrom());
+		Square toSquare = getSquare(pair.getTo());
 		
 		if(!fromSquare.hasPiece())
 		{
-			throw new IllegalStateException(String.format("Square %s does not contains a piece.", from));
+			throw new IllegalStateException(String.format("Square %s does not contains a piece.", pair.getFrom()));
 		}
 		if(toSquare.hasPiece())
 		{
-			throw new IllegalStateException(String.format("Square %s already contains a piece.", to));
+			throw new IllegalStateException(String.format("Square %s already contains a piece.", pair.getTo()));
 		}
 		Piece piece = fromSquare.getPiece();
-		removePiece(from);
-		addPiece(to, piece);
+		removePiece(pair.getFrom());
+		addPiece(pair.getTo(), piece);
 	}
 	
 	public void promotePiece(Location location)

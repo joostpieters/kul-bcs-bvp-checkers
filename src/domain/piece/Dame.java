@@ -18,7 +18,12 @@ public class Dame extends Piece {
 	}
 	
 	@Override
-	public boolean canMoveBackwards() {
+	public boolean canMoveBackward() {
+		return true;
+	}
+	
+	@Override
+	public boolean canCatchBackward() {
 		return true;
 	}
 	
@@ -35,5 +40,10 @@ public class Dame extends Piece {
 	@Override
 	public Piece getDeepClone() {
 		return new Dame(getPlayer());
+	}
+	
+	@Override
+	public String toString() {
+		return "Dame";
 	}
 }

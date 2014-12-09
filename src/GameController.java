@@ -1,19 +1,24 @@
+import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
 import ui.Gui;
 import common.Configs;
 import common.Direction;
 import common.Location;
+import common.LocationPair;
 import common.Player;
 import domain.action.Action;
 import domain.action.ActionFactory;
 import domain.board.Board;
+import domain.board.BoardFactory;
 import domain.piece.Piece;
 
-public class GameController {	
+public class GameController
+{
 	private final Gui gui;
 	
 	private Gui getGui()
@@ -23,7 +28,8 @@ public class GameController {
 	
 	private final Board board;
 	
-	private Board getBoard() {
+	private Board getBoard()
+	{
 		return board;
 	}
 
@@ -39,10 +45,11 @@ public class GameController {
 	
 	private void switchCurrentPlayer()
 	{
-		setCurrentPlayer(getCurrentPlayer() == Player.White ? Player.Black : Player.White);
+		setCurrentPlayer(getCurrentPlayer().getOpponent());
 	}
 	
-	public GameController(Board board) {
+	public GameController(Board board)
+	{
 		this.board = board;
 		this.gui = new Gui(board);
 	}
@@ -52,7 +59,7 @@ public class GameController {
 		HashMap<Location, Piece> playerPieces = getBoard().getPlayerPieces(player);
 		for(Location location : playerPieces.keySet())
 		{
-			boolean includeBackwards = playerPieces.get(location).canMoveBackwards();
+			boolean includeBackwards = playerPieces.get(location).canMoveBackward();
 			if(canMoveFromLocation(player, location, includeBackwards) || canCatchFromLocation(player, location))
 			{
 				return false;
@@ -90,7 +97,8 @@ public class GameController {
 		
 		for(Location target : targets)
 		{
-			if(board.isLocationFree(target) && board.isLocationOccupiedBy(player.getOpponent(), location.getCenterBetween(target)))
+			LocationPair pair = new LocationPair(location, target);
+			if(board.isLocationFree(target) && board.isLocationOccupiedBy(player.getOpponent(), pair.getCenterBetween()))
 			{
 				return true;
 			}
@@ -120,7 +128,7 @@ public class GameController {
 	
 	public void play()
 	{
-		Scanner scanner = new Scanner(System.in);
+		InputProvider inputProvider = new InputProvider();
 		Board board = getBoard();
 		//System.out.println(board);
 		getGui().paint();
@@ -132,8 +140,8 @@ public class GameController {
 				System.out.println(currentPlayer + " lost because there are no more possible moves.");
 				break;
 			}
-			String move = askMove(scanner);
-			Action action = ActionFactory.create(move);
+			String move = inputProvider.getInput(getCurrentPlayer());
+			Action action = ActionFactory.create(move, board.getSize());
 			if(action.isValidOn(board, currentPlayer))
 			{
 				System.out.println("Valid action");
@@ -143,23 +151,25 @@ public class GameController {
 				switchCurrentPlayer();
 				//System.out.println(board);
 				getGui().paint();
+				
+				SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+				String timestamp = format.format(Calendar.getInstance().getTime());
+				String filename = "data\\output\\Board_" + timestamp + ".txt";
+				try {
+					BoardFactory.save(board, new java.io.File(filename));
+				} catch (FileNotFoundException e) {
+					System.err.println("Could not save board to: " + filename);
+					e.printStackTrace();
+				}
 			}
 			else
 			{
 				System.out.println("Invalid move");
 			}
 		}
-		scanner.close();
+		inputProvider.close();
 	}
 	
-	private String askMove(Scanner scanner)
-	{
-		System.out.print(getCurrentPlayer() + "'s next move: ");
-		return scanner.nextLine();
-	}
-	
-	//TODO remise
-	//TODO give up
-	//TODO CompositeActions: fly, fly-catch-fly
+	//TODO CompositeActions: fly-catch-fly
 	//TODO implement Configs
 }

@@ -10,4 +10,7 @@ public abstract class Square
 	public abstract Piece getPiece() throws IllegalStateException;
 
 	public abstract void setPiece(Piece piece) throws IllegalStateException;
+	
+	@Override
+	public abstract String toString();
 }
