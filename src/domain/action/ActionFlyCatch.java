@@ -1,7 +1,7 @@
 package domain.action;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import common.Location;
 import common.Player;
@@ -9,7 +9,7 @@ import common.RestrictedLocationPair;
 import domain.board.Board;
 import domain.square.Square;
 
-public class ActionFly extends Action
+public class ActionFlyCatch extends Action
 {
 	private final RestrictedLocationPair pair;
 	
@@ -18,7 +18,7 @@ public class ActionFly extends Action
 		return pair;
 	}
 	
-	public ActionFly(RestrictedLocationPair pair)
+	public ActionFlyCatch(RestrictedLocationPair pair)
 	{
 		this.pair = pair;
 	}
@@ -50,18 +50,28 @@ public class ActionFly extends Action
 	{
 		RestrictedLocationPair pair = getPair();
 		
-		if(pair.getDiagonalDistance() <= 1)
+		if(pair.getDiagonalDistance() <= 1) //ensures pairs below has minimum size 2
 		{
 			throw new IllegalStateException("Can only fly on diagonals and over more than one square");
 		}
 		
 		List<RestrictedLocationPair> pairs = pair.getPairsBetweenInclusive();
-		List<Action> actions = pairs.stream().map(p -> new AtomicActionStep(p)).collect(Collectors.toList());
+		List<Action> actions = new ArrayList<>();
+		for(int i=0; i < pairs.size() - 2; i++) //TODO can fly further
+		{
+			RestrictedLocationPair stepPair = pairs.get(i);
+			Action step = new AtomicActionStep(stepPair);
+			actions.add(step);
+		}
+		Location catchStart = pairs.get(pairs.size() - 2).getFrom();
+		Location catchEnd = pairs.get(pairs.size() - 1).getTo();
+		RestrictedLocationPair catchPair = new RestrictedLocationPair(catchStart, catchEnd);
+		actions.add(new AtomicActionCatch(catchPair));
 		return new CompositeAction(actions);
 	}
-
+	
 	@Override
 	public String toString() {
-		return String.format("Fly %s", getPair());
+		return String.format("FlyCatch %s", getPair());
 	}
 }

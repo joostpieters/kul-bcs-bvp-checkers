@@ -1,16 +1,16 @@
 package domain.action;
 
-import common.LocationPair;
+import common.RestrictedLocationPair;
 
 public abstract class AtomicAction extends Action {
-	private final LocationPair pair;
+	private final RestrictedLocationPair pair;
 	
-	protected LocationPair getPair()
+	protected RestrictedLocationPair getPair()
 	{
 		return pair;
 	}
 	
-	public AtomicAction(LocationPair pair)
+	public AtomicAction(RestrictedLocationPair pair)
 	{
 		this.pair = pair;
 	}

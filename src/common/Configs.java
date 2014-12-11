@@ -15,4 +15,8 @@ public class Configs {
 	public final static Color DarkColor = Color.GRAY;
 	public final static Color LightColor = Color.WHITE;
 	public final static int SquareSizePx = 50;
+	
+	//Inputs
+	public final static String ResignInput = "resign";
+	public final static String RemiseInput = "remise";
 }
