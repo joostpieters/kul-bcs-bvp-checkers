@@ -1,8 +1,16 @@
 package domain;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import ui.UserInterface;
 import common.Configs;
 import common.Player;
 import domain.board.Board;
+import domain.location.DiagonalLocationPair;
+import domain.location.Direction;
+import domain.location.Location;
+import domain.piece.Piece;
 
 
 public class Game {
@@ -83,5 +91,66 @@ public class Game {
 	public Game(Board board, UserInterface ui) {
 		this.board = board;
 		this.ui = ui;
+	}
+	
+	public boolean isCurrentPlayerOutOfMoves()
+	{
+		Player player = getCurrentPlayer();
+		HashMap<Location, Piece> playerPieces = getBoard().getPlayerPieces(player);
+		for(Location location : playerPieces.keySet())
+		{
+			boolean includeBackwards = playerPieces.get(location).canMoveBackward();
+			if(canMoveFromLocation(location, includeBackwards) || canCatchFromLocation(location))
+			{
+				return false;
+			}
+		}
+		return true; //true by default when player has no more pieces
+	}
+
+	private boolean canCatchFromLocation(Location location) //TODO find better place
+	{
+		Board board = getBoard();
+		Player player = getCurrentPlayer();
+		List<Location> targets = new ArrayList<Location>();
+		try { targets.add(location.getRelativeLocation(player, Direction.Front, Direction.Front, Direction.Right, Direction.Right)); } catch(IllegalArgumentException outOfRange) {}
+		try { targets.add(location.getRelativeLocation(player, Direction.Front, Direction.Front, Direction.Left, Direction.Left)); } catch(IllegalArgumentException outOfRange) {}
+		if(Configs.BackwardCatchingAllowed)
+		{
+			try { targets.add(location.getRelativeLocation(player, Direction.Back, Direction.Back, Direction.Right, Direction.Right)); } catch(IllegalArgumentException outOfRange) {}
+			try { targets.add(location.getRelativeLocation(player, Direction.Back, Direction.Back, Direction.Left, Direction.Left)); } catch(IllegalArgumentException outOfRange) {}
+		}
+		
+		for(Location target : targets)
+		{
+			DiagonalLocationPair pair = new DiagonalLocationPair(location, target);
+			if(board.isLocationFree(target) && board.isLocationOccupiedBy(player.getOpponent(), pair.getCenterBetween()))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean canMoveFromLocation(Location location, boolean includeBackwards) //TODO find better place
+	{
+		Board board = getBoard();
+		Player player = getCurrentPlayer();
+		List<Location> targets = new ArrayList<Location>();
+		try { targets.add(location.getRelativeLocation(player, Direction.Front, Direction.Right)); } catch(IllegalArgumentException outOfRange) {}
+		try { targets.add(location.getRelativeLocation(player, Direction.Front, Direction.Left)); } catch(IllegalArgumentException outOfRange) {}
+		if(includeBackwards)
+		{
+			try { targets.add(location.getRelativeLocation(player, Direction.Back, Direction.Right)); } catch(IllegalArgumentException outOfRange) {}
+			try { targets.add(location.getRelativeLocation(player, Direction.Back, Direction.Left)); } catch(IllegalArgumentException outOfRange) {}
+		}
+		for(Location target : targets)
+		{
+			if(board.isLocationFree(target))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

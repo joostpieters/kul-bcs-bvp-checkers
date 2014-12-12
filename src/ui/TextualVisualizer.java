@@ -14,4 +14,9 @@ public class TextualVisualizer implements IVisualizer {
 		//do nothing
 	}
 
+	@Override
+	public void update(Board board) {
+		paint(board);
+	}
+
 }

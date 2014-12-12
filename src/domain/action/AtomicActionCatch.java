@@ -1,22 +1,27 @@
 package domain.action;
 
-import common.Location;
 import common.Player;
-import common.RestrictedLocationPair;
 import domain.board.Board;
+import domain.location.DiagonalLocationPair;
+import domain.location.Location;
 import domain.square.Square;
 
 public class AtomicActionCatch extends AtomicAction
 {
-	public AtomicActionCatch(RestrictedLocationPair pair)
+	public AtomicActionCatch(DiagonalLocationPair pair)
 	{
 		super(pair);
 	}
 	
+//	public AtomicActionCatch(AtomicActionStep step1, AtomicActionStep step2)
+//	{
+//		super(new DiagonalLocationPair(step1.getPair().getFrom(), step2.getPair().getTo()));
+//	}
+	
 	@Override
 	public boolean isValidOn(Board board, Player currentPlayer)
 	{
-		RestrictedLocationPair pair = getPair();
+		DiagonalLocationPair pair = getPair();
 		Location from = pair.getFrom();
 		Location to = pair.getTo();
 		
@@ -50,7 +55,7 @@ public class AtomicActionCatch extends AtomicAction
 			throw new IllegalStateException(String.format("%s is invalid.", this));
 		}
 		
-		RestrictedLocationPair pair = getPair();
+		DiagonalLocationPair pair = getPair();
 		Location center = pair.getCenterBetween();
 		board.removePiece(center);
 		board.movePiece(pair);

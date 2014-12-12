@@ -1,9 +1,9 @@
 package domain.board;
 import java.util.HashMap;
 
-import common.Location;
-import common.LocationPair;
 import common.Player;
+import domain.location.Location;
+import domain.location.LocationPair;
 import domain.piece.Dame;
 import domain.piece.Piece;
 import domain.square.Square;
@@ -14,7 +14,7 @@ public class Board {
 	private final Square[][] squares;
 	private final BoardSize size;
 	
-	public Board(BoardSize size)
+	public Board(BoardSize size) //TODO read-only board/game?
 	{
 		this.size = size;
 		this.squares = new Square[size.getRows()][size.getCols()];
@@ -144,7 +144,8 @@ public class Board {
 	}
 	
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		StringBuilder builder = new StringBuilder();
 		
 		for(int row=0; row < getSize().getRows(); row++)
@@ -154,19 +155,19 @@ public class Board {
 				Location location = createLocation(row, col);
 				if(location.isBlack())
 				{
-					int index = location.getIndex();
-					String paddedIndex = String.format("%2d", index);
-					builder.append(paddedIndex);
-					builder.append(':');
 					Square square = getSquare(location);
 					if(square.hasPiece())
 					{
+						int index = location.getIndex();
+						String paddedIndex = String.format("%2d", index);
+						builder.append(paddedIndex);
+						builder.append(' ');
 						Piece piece = square.getPiece(); 
 						builder.append(piece.getPieceCode());
 					}
 					else
 					{
-						builder.append('o');
+						builder.append("    "); //don't print o's
 					}
 				}
 				else //white square

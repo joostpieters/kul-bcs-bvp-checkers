@@ -6,10 +6,10 @@ import bvp.Bord;
 import bvp.Figuren;
 import bvp.Figuur;
 import common.Configs;
-import common.Location;
 import common.Player;
 import domain.board.Board;
 import domain.board.BoardSize;
+import domain.location.Location;
 import domain.piece.Piece;
 import domain.square.Square;
 
@@ -101,5 +101,10 @@ public class GraphicalVisualizer implements IVisualizer {
 	{
 		Bord frame = getFrame();
 		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+	}
+
+	@Override
+	public void update(Board board) {
+		paint(board);
 	}
 }

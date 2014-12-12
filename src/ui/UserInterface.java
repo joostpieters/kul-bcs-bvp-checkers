@@ -3,20 +3,10 @@ package ui;
 import java.util.Scanner;
 
 import common.Player;
-import domain.board.Board;
 
 public class UserInterface { //TODO localize strings
 	private final static Scanner inputScanner = new Scanner(System.in);
-	private final IVisualizer visualizer;
 	
-	private IVisualizer getVisualizer() {
-		return visualizer;
-	}
-	
-	public UserInterface(IVisualizer visualizer) {
-		this.visualizer = visualizer;
-	}
-
 	public boolean askYesNo(String message)
 	{
 		return askInput(message).toLowerCase().equals("y");
@@ -41,7 +31,7 @@ public class UserInterface { //TODO localize strings
 	
 	public void showWarning(String message)
 	{
-		System.out.println("Warning: " + message);
+		System.out.println("Warning! " + message);
 	}
 	
 	public void showError(String message)
@@ -80,14 +70,8 @@ public class UserInterface { //TODO localize strings
 		showMessage(player + " lost because there are no more possible moves.");
 	}
 	
-	public void visualize(Board board)
-	{
-		getVisualizer().paint(board);
-	}
-	
 	public void close()
 	{
-		getVisualizer().close();
 		inputScanner.close();
 	}
 }

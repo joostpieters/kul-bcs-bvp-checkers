@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import common.Location;
 import domain.board.BoardSize;
+import domain.location.Location;
 
 public class LocationTests {
 	private final Location loc1x1on4x4 = new Location(1, 1, new BoardSize(4, 4));

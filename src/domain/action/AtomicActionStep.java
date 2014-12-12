@@ -1,14 +1,14 @@
 package domain.action;
 
-import common.Location;
 import common.Player;
-import common.RestrictedLocationPair;
 import domain.board.Board;
+import domain.location.DiagonalLocationPair;
+import domain.location.Location;
 import domain.square.Square;
 
 public class AtomicActionStep extends AtomicAction
 {
-	public AtomicActionStep(RestrictedLocationPair pair)
+	public AtomicActionStep(DiagonalLocationPair pair)
 	{
 		super(pair);
 	}
@@ -16,7 +16,7 @@ public class AtomicActionStep extends AtomicAction
 	@Override
 	public boolean isValidOn(Board board, Player currentPlayer)
 	{
-		RestrictedLocationPair pair = getPair();
+		DiagonalLocationPair pair = getPair();
 		Location from = pair.getFrom();
 		Location to = pair.getTo();
 		

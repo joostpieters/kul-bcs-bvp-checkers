@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import common.Player;
 import domain.board.Board;
+import domain.location.Location;
 
 public class CompositeAction extends Action {
 	private final List<Action> actions;
@@ -19,10 +20,28 @@ public class CompositeAction extends Action {
 		this.actions = new ArrayList<Action>(actions);
 	}
 	
+	public CompositeAction() {
+		this.actions = new ArrayList<Action>();
+	}
+	
+	protected List<Action> getActions()
+	{
+		return actions;
+	}
+	
+	protected void addAction(Action action)
+	{
+		getActions().add(action);
+	}
+	
 	@Override
 	public boolean isValidOn(Board board, Player currentPlayer) {
+		if(getActions().size() == 0)
+		{
+			throw new IllegalStateException("CompositeAction is empty.");
+		}
 		Board testBoard = (Board)board.getDeepClone();
-		for(Action action : actions)
+		for(Action action : getActions())
 		{
 			if(!action.isValidOn(testBoard, currentPlayer))
 			{
@@ -40,7 +59,7 @@ public class CompositeAction extends Action {
 			throw new IllegalStateException(String.format("%s is invalid.", this));
 		}
 		
-		for(Action action : actions)
+		for(Action action : getActions())
 		{
 			action.executeOn(board, currentPlayer);
 		}
@@ -49,8 +68,13 @@ public class CompositeAction extends Action {
 	
 	@Override
 	public String toString() {
-		List<String> list = actions.stream().map(e -> e.toString()).collect(Collectors.toList());
+		List<String> list = getActions().stream().map(e -> e.toString()).collect(Collectors.toList());
 		String[] strings = (String[]) list.toArray(new String[list.size()]);
-		return String.join(" + ", strings);
+		return "(" + String.join(" + ", strings) + ")";
+	}
+
+	@Override
+	protected Location getFrom() {
+		return getActions().get(0).getFrom();
 	}
 }
