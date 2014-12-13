@@ -2,22 +2,24 @@ package domain.board;
 import java.util.HashMap;
 
 import common.Player;
+import domain.board.contracts.IBoard;
 import domain.location.Location;
 import domain.location.LocationPair;
 import domain.piece.Dame;
-import domain.piece.Piece;
-import domain.square.Square;
+import domain.piece.contracts.IPiece;
 import domain.square.SquareBlack;
 import domain.square.SquareWhite;
+import domain.square.contracts.ISquare;
 
-public class Board {
-	private final Square[][] squares;
+public class Board implements IBoard {
+	private final ISquare[][] squares;
 	private final BoardSize size;
+	private final ReadOnlyBoard readOnlyWrapper = new ReadOnlyBoard(this);
 	
-	public Board(BoardSize size) //TODO read-only board/game?
+	public Board(BoardSize size)
 	{
 		this.size = size;
-		this.squares = new Square[size.getRows()][size.getCols()];
+		this.squares = new ISquare[size.getRows()][size.getCols()];
 		
 		for(int row=0; row < size.getRows(); row++)
 		{
@@ -29,30 +31,39 @@ public class Board {
 		}
 	}
 	
+	@Override
 	public BoardSize getSize() {
 		return size;
 	}
-
-	private Square createSquare(Location location)
+	
+	@Override
+	public ReadOnlyBoard getReadOnlyBoard() {
+		return readOnlyWrapper;
+	}
+	
+	private ISquare createSquare(Location location)
 	{
 		return location.isBlack() ?
 			 new SquareBlack() :
 			 new SquareWhite();
 	}
 	
+	@Override
 	public Location createLocation(int row, int col)
 	{
 		return new Location(row, col, getSize());
 	}
 	
-	public Square getSquare(Location location)
+	@Override
+	public ISquare getSquare(Location location)
 	{
 		return squares[location.getRow()][location.getCol()];
 	}
 	
-	public void addPiece(Location location, Piece piece)
+	@Override
+	public void addPiece(Location location, IPiece piece)
 	{
-		Square square = getSquare(location);
+		ISquare square = getSquare(location);
 		if(square.hasPiece())
 		{
 			throw new IllegalStateException(String.format("Square %s already contains a piece.", location));
@@ -61,9 +72,10 @@ public class Board {
 		square.setPiece(piece);
 	}
 	
+	@Override
 	public void removePiece(Location location)
 	{
-		Square square = getSquare(location);
+		ISquare square = getSquare(location);
 		if(!square.hasPiece())
 		{
 			throw new IllegalStateException(String.format("Square %s does not contains a piece.", location));
@@ -72,32 +84,38 @@ public class Board {
 		square.setPiece(null);
 	}
 	
+	@Override
+	public boolean isValidMove(LocationPair pair)
+	{
+		ISquare fromSquare = getSquare(pair.getFrom());
+		ISquare toSquare = getSquare(pair.getTo());
+		
+		return fromSquare.hasPiece() && !toSquare.hasPiece();
+	}
+	
+	@Override
 	public void movePiece(LocationPair pair)
 	{
-		Square fromSquare = getSquare(pair.getFrom());
-		Square toSquare = getSquare(pair.getTo());
+		if(!isValidMove(pair))
+		{
+			throw new IllegalStateException("Invalid move: Square from was empty or Square to was not.");
+		}
 		
-		if(!fromSquare.hasPiece())
-		{
-			throw new IllegalStateException(String.format("Square %s does not contains a piece.", pair.getFrom()));
-		}
-		if(toSquare.hasPiece())
-		{
-			throw new IllegalStateException(String.format("Square %s already contains a piece.", pair.getTo()));
-		}
-		Piece piece = fromSquare.getPiece();
+		ISquare fromSquare = getSquare(pair.getFrom());
+		IPiece piece = fromSquare.getPiece();
 		removePiece(pair.getFrom());
 		addPiece(pair.getTo(), piece);
 	}
 	
+	@Override
 	public void promotePiece(Location location)
 	{
-		Square square = getSquare(location);
+		ISquare square = getSquare(location);
 		if(!square.hasPiece())
 		{
 			throw new IllegalStateException(String.format("Square %s does not contains a piece.", location));
 		}
-		Piece piece = square.getPiece();
+		IPiece piece = square.getPiece();
 		Player player = piece.getPlayer();
 		if(!location.isPromotionRow(player))
 		{
@@ -108,18 +126,19 @@ public class Board {
 		addPiece(location, dame);
 	}
 	
-	public HashMap<Location, Piece> getPlayerPieces(Player player)
+	@Override
+	public HashMap<Location, IPiece> getPlayerPieces(Player player)
 	{
-		HashMap<Location, Piece> result = new HashMap<Location, Piece>();
+		HashMap<Location, IPiece> result = new HashMap<Location, IPiece>();
 		for(int row=0; row < getSize().getRows(); row++)
 		{
 			for(int col=0; col < getSize().getRows(); col++)
 			{
 				Location location = createLocation(row, col);
-				Square square = getSquare(location);
+				ISquare square = getSquare(location);
 				if(square.hasPiece())
 				{
-					Piece piece = square.getPiece();
+					IPiece piece = square.getPiece();
 					if(piece.getPlayer() == player)
 					{
 						result.put(location, piece);
@@ -131,15 +150,17 @@ public class Board {
 		return result;
 	}
 	
+	@Override
 	public boolean isLocationFree(Location target)
 	{
-		Square targetSquare = getSquare(target);
+		ISquare targetSquare = getSquare(target);
 		return !targetSquare.hasPiece();
 	}
 	
+	@Override
 	public boolean isLocationOccupiedBy(Player occupant, Location target)
 	{
-		Square targetSquare = getSquare(target);
+		ISquare targetSquare = getSquare(target);
 		return targetSquare.hasPiece() && targetSquare.getPiece().getPlayer() == occupant;
 	}
 	
@@ -155,14 +176,14 @@ public class Board {
 				Location location = createLocation(row, col);
 				if(location.isBlack())
 				{
-					Square square = getSquare(location);
+					ISquare square = getSquare(location);
 					if(square.hasPiece())
 					{
 						int index = location.getIndex();
 						String paddedIndex = String.format("%2d", index);
 						builder.append(paddedIndex);
 						builder.append(' ');
-						Piece piece = square.getPiece(); 
+						IPiece piece = square.getPiece(); 
 						builder.append(piece.getPieceCode());
 					}
 					else
@@ -181,19 +202,20 @@ public class Board {
 		return builder.toString();
 	}
 	
-	public Board getDeepClone()
+	@Override
+	public IBoard getDeepClone()
 	{
-		Board clone = new Board(getSize());
+		IBoard clone = new Board(getSize());
 		for(int row=0; row < size.getRows(); row++)
 		{
 			for(int col=0; col < size.getCols(); col++)
 			{
 				Location location = new Location(row, col, size);
-				Square square = getSquare(location);
+				ISquare square = getSquare(location);
 				if(square.hasPiece())
 				{
-					Piece piece = square.getPiece();
-					clone.addPiece(location, piece.getDeepClone());
+					IPiece piece = square.getPiece();
+					clone.addPiece(location, piece.getClone());
 				}
 			}
 		}

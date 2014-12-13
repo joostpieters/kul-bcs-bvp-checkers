@@ -1,17 +1,20 @@
 package domain.square;
-import domain.piece.Piece;
+import domain.piece.contracts.IPiece;
+import domain.square.contracts.IReadOnlySquare;
+import domain.square.contracts.ISquare;
 
 
-public class SquareBlack extends Square
+public class SquareBlack implements ISquare
 {
-	private Piece piece;
-
+	private IPiece piece;
+	private final ReadOnlySquare readOnlySquare = new ReadOnlySquare(this);
+	
 	public SquareBlack()
 	{
 		this(null);
 	}
 	
-	public SquareBlack(Piece piece)
+	public SquareBlack(IPiece piece)
 	{
 		this.piece = piece;
 	}
@@ -21,12 +24,12 @@ public class SquareBlack extends Square
 		return piece != null;
 	}
 	
-	public Piece getPiece()
+	public IPiece getPiece()
 	{
 		return piece;
 	}
 
-	public void setPiece(Piece piece)
+	public void setPiece(IPiece piece)
 	{
 		this.piece = piece;
 	}
@@ -40,8 +43,13 @@ public class SquareBlack extends Square
 	public String toString() {
 		if(hasPiece())
 		{
-			return "Black Square containing " + getPiece().toString();
+			return "Black Square containing " + getPiece();
 		}
 		return "Black Square";
+	}
+
+	@Override
+	public IReadOnlySquare getReadOnlySquare() {
+		return readOnlySquare;
 	}
 }

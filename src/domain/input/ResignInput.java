@@ -2,8 +2,10 @@ package domain.input;
 
 import common.Player;
 import domain.Game;
+import domain.input.contracts.IInput;
+import domain.updates.GameUpdateSource;
 
-public class ResignInput implements IInput
+public class ResignInput extends GameUpdateSource implements IInput
 {
 	private final Game game;
 	
@@ -21,8 +23,10 @@ public class ResignInput implements IInput
 	public boolean process()
 	{
 		Player currentPlayer = getGame().getCurrentPlayer(); 
+		Player winner = currentPlayer.getOpponent();
 		getGame().getUI().resign(currentPlayer);
-		getGame().gameOver(currentPlayer.getOpponent());
+		getGame().gameOver(winner);
+		updateFollowersGameOver(winner);
 		return true;
 	}
 }

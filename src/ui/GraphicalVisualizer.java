@@ -7,11 +7,11 @@ import bvp.Figuren;
 import bvp.Figuur;
 import common.Configs;
 import common.Player;
-import domain.board.Board;
 import domain.board.BoardSize;
+import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
-import domain.piece.Piece;
-import domain.square.Square;
+import domain.piece.contracts.IPiece;
+import domain.square.contracts.IReadOnlySquare;
 
 public class GraphicalVisualizer implements IVisualizer {
 	private final Bord frame = new Bord("Checkers");
@@ -23,7 +23,7 @@ public class GraphicalVisualizer implements IVisualizer {
 	
 	public GraphicalVisualizer() { }
 
-	private Figuur getFigure(Figuren pieces, Piece piece) //50 x 50
+	private Figuur getFigure(Figuren pieces, IPiece piece) //50 x 50
 	{
 		if(!piece.canPromote())
 		{
@@ -50,7 +50,7 @@ public class GraphicalVisualizer implements IVisualizer {
 	}
 	
 	@Override
-	public void paint(Board board)
+	public void paint(IReadOnlyBoard board)
 	{
 		Bord frame = getFrame();
 		BoardSize size = board.getSize();
@@ -66,7 +66,7 @@ public class GraphicalVisualizer implements IVisualizer {
 			for (int col = 0; col < size.getCols(); col++)
 			{
 				Location location = new Location(row, col, size);
-				Square square = board.getSquare(location);
+				IReadOnlySquare square = board.getSquare(location);
 				if (location.isWhite())
 				{
 					background.plaatsFiguur(whiteSquare, col*Configs.SquareSizePx, row*Configs.SquareSizePx);
@@ -78,7 +78,7 @@ public class GraphicalVisualizer implements IVisualizer {
 					int vPixels = row*Configs.SquareSizePx;
 					if(square.hasPiece())
 					{
-						Piece piece = square.getPiece();
+						IPiece piece = square.getPiece();
 						Figuur figure = getFigure(pieces, piece);
 						background.plaatsFiguur(figure, hPixels, vPixels);
 					}
@@ -104,7 +104,12 @@ public class GraphicalVisualizer implements IVisualizer {
 	}
 
 	@Override
-	public void update(Board board) {
+	public void update(IReadOnlyBoard board) {
 		paint(board);
+	}
+
+	@Override
+	public void gameOver(Player winner) {
+		close();		
 	}
 }

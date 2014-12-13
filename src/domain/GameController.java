@@ -1,63 +1,46 @@
 package domain;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import common.Player;
-import domain.board.Board;
-import domain.input.IInput;
 import domain.input.InputProvider;
+import domain.input.contracts.IInput;
+import domain.updates.GameUpdatePropagator;
 
-public class GameController
+
+public class GameController extends GameUpdatePropagator
 {
 	private final Game game;
-	private final List<IGameFollower> followers = new ArrayList<IGameFollower>();
+	private final GameAnalyzer analyzer;
 	
 	private Game getGame()
 	{
 		return game;
 	}
 	
-	private List<IGameFollower> getFollowers()
+	private GameAnalyzer getGameAnalyzer()
 	{
-		return followers;
-	}
-
-	private void updateFollowers() {
-		Board board = getGame().getBoard();
-		for(IGameFollower follower : getFollowers())
-		{
-			follower.update(board);
-		}
+		return analyzer;
 	}
 	
-	public GameController(Game game)
+	public GameController(Game game, GameAnalyzer analyzer)
 	{
 		this.game = game;
+		this.analyzer = analyzer;
+		analyzer.subscribe(this);
 	}
 	
-	public void subscribe(IGameFollower follower)
-	{
-		followers.add(follower);
-	}
-	
-	public void unsubscribe(IGameFollower follower)
-	{
-		followers.remove(follower);
-	}
-	
-	public void play() throws IOException
+	public void play()
 	{
 		Game game = getGame();
-		updateFollowers();
-		InputProvider inputProvider = new InputProvider(game.getUI());
+		GameAnalyzer analyzer = getGameAnalyzer();
+		updateFollowers(game.getBoard().getReadOnlyBoard());
+		InputProvider inputProvider = new InputProvider();
+		inputProvider.subscribe(this);
 		while(!game.isOver())
 		{
-			if(game.isCurrentPlayerOutOfMoves()) //TODO check move priority
+			//TODO generate list of possible moves
+			//TODO check move priority (impose order on actions -> compareTo+sort)
+			if(analyzer.isCurrentPlayerOutOfMoves())
 			{
-				Player currentPlayer = game.getCurrentPlayer();
-				game.getUI().outOfMoves(currentPlayer);
-				game.gameOver(currentPlayer.getOpponent());
+				analyzer.processCurrentPlayerOutOfMoves();
 				break;
 			}
 			IInput input = inputProvider.askInput(game);
@@ -65,7 +48,8 @@ public class GameController
 			
 			if(success)
 			{
-				updateFollowers();
+				analyzer.findAndPerformPromotions();
+				game.switchCurrentPlayer();
 			}
 			else
 			{
@@ -74,6 +58,4 @@ public class GameController
 		}
 		game.getUI().close();
 	}
-	
-	//TODO implement Configs
 }

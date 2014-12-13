@@ -3,10 +3,10 @@ package domain.action;
 import java.util.List;
 
 import common.Player;
-import domain.board.Board;
+import domain.board.contracts.IBoard;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
-import domain.square.Square;
+import domain.square.contracts.ISquare;
 
 public class CompositeActionFly extends CompositeAction
 {
@@ -26,12 +26,12 @@ public class CompositeActionFly extends CompositeAction
 	}
 	
 	@Override
-	public boolean isValidOn(Board board, Player currentPlayer)
+	public boolean isValidOn(IBoard board, Player currentPlayer)
 	{		
 		if(super.isValidOn(board, currentPlayer))
 		{
 			Location from = getFrom();
-			Square fromSquare = board.getSquare(from);
+			ISquare fromSquare = board.getSquare(from);
 			return fromSquare.getPiece().canFly(); //square now surely hasPiece
 		}
 		else

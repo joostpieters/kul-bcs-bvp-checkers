@@ -1,9 +1,9 @@
 package ui;
 
-import domain.IGameFollower;
-import domain.board.Board;
+import domain.board.contracts.IReadOnlyBoard;
+import domain.updates.contracts.IGameFollower;
 
 public interface IVisualizer extends IGameFollower {
-	public void paint(Board board);
+	public void paint(IReadOnlyBoard board);
 	public void close();
 }

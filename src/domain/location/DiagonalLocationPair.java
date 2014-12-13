@@ -7,6 +7,9 @@ import java.util.Stack;
 
 import domain.board.BoardSize;
 
+/**
+ * @invariant super.isOnSameDiagonal()
+ */
 public class DiagonalLocationPair extends LocationPair
 {
 	

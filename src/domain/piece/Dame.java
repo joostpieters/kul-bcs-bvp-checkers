@@ -1,12 +1,19 @@
 package domain.piece;
 import common.Configs;
 import common.Player;
+import domain.piece.contracts.IPiece;
 
 
-public class Dame extends Piece {
-
+public class Dame implements IPiece {
+	private final Player player;
+	
+	@Override
+	public Player getPlayer() {
+		return player;
+	}
+	
 	public Dame(Player player) {
-		super(player);
+		this.player = player;
 	}
 	
 	@Override
@@ -18,7 +25,7 @@ public class Dame extends Piece {
 	}
 	
 	@Override
-	public boolean canMoveBackward() {
+	public boolean canStepBackward() {
 		return true;
 	}
 	
@@ -38,7 +45,7 @@ public class Dame extends Piece {
 	}
 	
 	@Override
-	public Piece getDeepClone() {
+	public IPiece getClone() {
 		return new Dame(getPlayer());
 	}
 	

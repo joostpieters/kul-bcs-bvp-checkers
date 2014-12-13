@@ -1,14 +1,15 @@
 package domain.action;
 
 import common.Player;
-import domain.board.Board;
+import domain.board.contracts.IBoard;
 import domain.location.Location;
+import domain.updates.GameUpdateSource;
 
-public abstract class Action
-{
-	public abstract boolean isValidOn(Board board, Player currentPlayer);
+public abstract class Action extends GameUpdateSource
+{	
+	public abstract boolean isValidOn(IBoard board, Player currentPlayer);
 	
-	public abstract void executeOn(Board board, Player currentPlayer);
+	public abstract void executeOn(IBoard board, Player currentPlayer);
 	
 	protected abstract Location getFrom();
 	

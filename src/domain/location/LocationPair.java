@@ -2,6 +2,15 @@ package domain.location;
 
 import domain.board.BoardSize;
 
+/**
+ * Represents a pair of Locations: from and to.
+ * 
+ * @invariant getFrom() != null
+ * @invariant getTo() != null
+ * @invariant !getFrom().equals(getTo())
+ * @invariant getFrom().getBoardSize().equals(getTo().getBoardSize())
+ * @invariant this.equals(this)
+ */
 public class LocationPair {
 	private final Location from;
 	private final Location to;
@@ -13,7 +22,23 @@ public class LocationPair {
 		return to;
 	}
 	
+	/**
+	 * @pre from != null
+	 * @pre to != null
+	 * @pre !from.equals(to)
+	 * @pre from.getBoardSize().equals(to.getBoardSize()
+	 * 
+	 * @post getFrom() == $pre(Location, from)
+	 * @post getTo() == $pre(Location, to)
+	 * 
+	 * @param from
+	 * @param to
+	 */
 	public LocationPair(Location from, Location to) {
+		if(from == null || to == null)
+		{
+			throw new NullPointerException("Locations from and to must not be null.");
+		}
 		if(from.equals(to))
 		{
 			throw new IllegalArgumentException("Locations from and to must not be equal.");
@@ -31,11 +56,21 @@ public class LocationPair {
 		this(new Location(fromIndex, size), new Location(toIndex, size));
 	}
 	
+	/**
+	 * Returns the distance in number of rows between this Pair.
+	 * 
+	 * @post $result == Math.abs(getFrom().getRow()-getTo().getRow())
+	 */
 	public int getRowDistance()
 	{
 		return Math.abs(getFrom().getRow()-getTo().getRow());
 	}
 	
+	/**
+	 * Returns the distance in number of rows between this Pair.
+	 * 
+	 * @post $result == Math.abs(getFrom().getCol()-getTo().getCol())
+	 */
 	public int getColumnDistance()
 	{
 		return Math.abs(getFrom().getCol()-getTo().getCol());
@@ -59,5 +94,29 @@ public class LocationPair {
 	@Override
 	public String toString() {
 		return String.format("from %s to %s", getFrom(), getTo());
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null)
+		{
+			return false;
+		}
+		if(this == obj) //same reference
+		{
+			return true;
+		}
+		if(obj instanceof LocationPair)
+		{
+			LocationPair casted = (LocationPair)obj;
+			return 	this.getFrom().equals(casted.getFrom()) &&
+					this.getTo().equals(casted.getTo());
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return getFrom().hashCode() ^ getTo().hashCode(); 
 	}
 }

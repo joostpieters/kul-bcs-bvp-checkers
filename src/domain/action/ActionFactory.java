@@ -3,15 +3,14 @@ package domain.action;
 import java.util.List;
 
 import common.Player;
-
-import domain.board.Board;
 import domain.board.BoardSize;
+import domain.board.contracts.IBoard;
 import domain.location.DiagonalLocationPair;
 
 public class ActionFactory {
 	private ActionFactory() { }
 	
-	public static Action create(ActionRequest request, Board board, Player currentPlayer) {
+	public static Action create(ActionRequest request, IBoard board, Player currentPlayer) {
 		BoardSize size = board.getSize();
 		List<Integer> indices = request.getIndices();
 		if(!request.isCatch())
@@ -60,7 +59,7 @@ public class ActionFactory {
 		}
 	}
 
-	private static Action createActionCatch(Board board, Player currentPlayer, DiagonalLocationPair pair) {
+	private static Action createActionCatch(IBoard board, Player currentPlayer, DiagonalLocationPair pair) {
 		if(pair.getDiagonalDistance() == 2)
 		{
 			return new AtomicActionCatch(pair);

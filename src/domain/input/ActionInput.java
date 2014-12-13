@@ -1,17 +1,15 @@
 package domain.input;
 
-import java.util.HashMap;
-
 import common.Player;
 import domain.Game;
 import domain.action.Action;
 import domain.action.ActionFactory;
 import domain.action.ActionRequest;
 import domain.board.Board;
-import domain.location.Location;
-import domain.piece.Piece;
+import domain.input.contracts.IInput;
+import domain.updates.GameUpdatePropagator;
 
-public class ActionInput implements IInput
+public class ActionInput extends GameUpdatePropagator implements IInput
 {
 	private final String move;
 	private final Game game;
@@ -43,11 +41,10 @@ public class ActionInput implements IInput
 		{
 			ActionRequest request = analyzeAction();
 			Action action = ActionFactory.create(request, board, currentPlayer);
+			action.subscribe(this);
 			if(action.isValidOn(board, currentPlayer))
 			{
 				action.executeOn(board, currentPlayer);
-				checkForPromotions(currentPlayer);
-				game.switchCurrentPlayer();
 				return true;
 			}
 			else
@@ -59,23 +56,6 @@ public class ActionInput implements IInput
 		{
 			game.getUI().showWarning(ex.getMessage());
 			return false;
-		}
-	}
-	
-	private void checkForPromotions(Player player) //TODO find better place
-	{
-		Board board = getGame().getBoard();
-		HashMap<Location, Piece> playerPieces = board.getPlayerPieces(player);
-		for(Location location : playerPieces.keySet())
-		{
-			if(location.isPromotionRow(player))
-			{
-				Piece piece = playerPieces.get(location);
-				if(piece.canPromote())
-				{
-					board.promotePiece(location);
-				}
-			}
 		}
 	}
 	

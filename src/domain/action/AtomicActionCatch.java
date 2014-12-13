@@ -1,10 +1,11 @@
 package domain.action;
 
 import common.Player;
-import domain.board.Board;
+import domain.board.contracts.IBoard;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
-import domain.square.Square;
+import domain.piece.contracts.IPiece;
+import domain.square.contracts.ISquare;
 
 public class AtomicActionCatch extends AtomicAction
 {
@@ -19,27 +20,43 @@ public class AtomicActionCatch extends AtomicAction
 //	}
 	
 	@Override
-	public boolean isValidOn(Board board, Player currentPlayer)
+	public boolean isValidOn(IBoard board, Player currentPlayer)
 	{
 		DiagonalLocationPair pair = getPair();
-		Location from = pair.getFrom();
-		Location to = pair.getTo();
-		
-		if(pair.getDiagonalDistance() != 2) //TODO !to.isInFrontOf(from, currentPlayer)
+		if(!board.isValidMove(pair))
 		{
 			return false;
 		}
 		
-		Location center = pair.getCenterBetween();
-		Square fromSquare = board.getSquare(from);
-		Square toSquare = board.getSquare(to);
-		Square centerSquare = board.getSquare(center);
+		if(pair.getDiagonalDistance() != 2)
+		{
+			return false;
+		}
 		
-		if(	!fromSquare.hasPiece() || 
-			!centerSquare.hasPiece() ||
-			toSquare.hasPiece() ||
-			fromSquare.getPiece().getPlayer() != currentPlayer || 
-			centerSquare.getPiece().getPlayer()  == currentPlayer)
+		Location from = pair.getFrom();
+		Location center = pair.getCenterBetween();
+		Location to = pair.getTo();
+		
+		ISquare fromSquare = board.getSquare(from);
+		ISquare centerSquare = board.getSquare(center);
+		
+		if(!centerSquare.hasPiece())
+		{
+			return false;
+		}
+
+		IPiece fromPiece = fromSquare.getPiece();
+		IPiece centerPiece = centerSquare.getPiece();
+		
+		
+		if(	fromPiece.getPlayer() != currentPlayer || 
+			centerPiece.getPlayer()  == currentPlayer)
+		{
+			return false;
+		}
+		
+		if(	to.isBehind(from, currentPlayer) &&
+			!fromPiece.canCatchBackward())
 		{
 			return false;
 		}
@@ -48,7 +65,7 @@ public class AtomicActionCatch extends AtomicAction
 	}
 
 	@Override
-	public void executeOn(Board board, Player currentPlayer)
+	public void executeOn(IBoard board, Player currentPlayer)
 	{
 		if(!isValidOn(board, currentPlayer))
 		{
@@ -59,6 +76,7 @@ public class AtomicActionCatch extends AtomicAction
 		Location center = pair.getCenterBetween();
 		board.removePiece(center);
 		board.movePiece(pair);
+		updateFollowers(board.getReadOnlyBoard());
 	}
 	
 	@Override

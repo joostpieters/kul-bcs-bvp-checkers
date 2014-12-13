@@ -1,11 +1,12 @@
 package ui;
 
-import domain.board.Board;
+import common.Player;
+import domain.board.contracts.IReadOnlyBoard;
 
 public class TextualVisualizer implements IVisualizer {
 
 	@Override
-	public void paint(Board board) {
+	public void paint(IReadOnlyBoard board) {
 		System.out.println(board);
 	}
 
@@ -15,8 +16,13 @@ public class TextualVisualizer implements IVisualizer {
 	}
 
 	@Override
-	public void update(Board board) {
+	public void update(IReadOnlyBoard board) {
 		paint(board);
+	}
+
+	@Override
+	public void gameOver(Player winner) {
+		close();		
 	}
 
 }

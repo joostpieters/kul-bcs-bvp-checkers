@@ -3,8 +3,10 @@ package domain.input;
 import ui.UserInterface;
 import common.Player;
 import domain.Game;
+import domain.input.contracts.IInput;
+import domain.updates.GameUpdateSource;
 
-public class RemiseInput implements IInput
+public class RemiseInput extends GameUpdateSource implements IInput
 {
 	private final Game game;
 	
@@ -29,6 +31,7 @@ public class RemiseInput implements IInput
 		{
 			ui.agreeRemise();
 			game.remise();
+			updateFollowersGameOver(null);
 			return true;
 		}
 		else

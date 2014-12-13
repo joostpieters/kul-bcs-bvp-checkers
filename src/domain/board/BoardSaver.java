@@ -8,7 +8,9 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import domain.IGameFollower;
+import common.Player;
+import domain.board.contracts.IReadOnlyBoard;
+import domain.updates.contracts.IGameFollower;
 
 public class BoardSaver implements IGameFollower {
 	private final Path outputDirectory;
@@ -21,7 +23,7 @@ public class BoardSaver implements IGameFollower {
 		this.outputDirectory = outputDirectory;
 	}
 
-	public void save(Board board, Path filename) throws IOException
+	public void save(IReadOnlyBoard board, Path filename) throws IOException
 	{
 		Path output = getOutputDirectory().resolve(filename);
 		BufferedWriter writer = Files.newBufferedWriter(output);
@@ -29,7 +31,7 @@ public class BoardSaver implements IGameFollower {
 		writer.close();
 	}
 	
-	public void saveBoardByDateTime(Board board) throws IOException
+	public void saveBoardByDateTime(IReadOnlyBoard board) throws IOException
 	{
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
 		String timestamp = format.format(Calendar.getInstance().getTime());
@@ -38,7 +40,7 @@ public class BoardSaver implements IGameFollower {
 	}
 	
 	@Override
-	public void update(Board board) {
+	public void update(IReadOnlyBoard board) {
 		try {
 			saveBoardByDateTime(board);
 		} catch (IOException e) {
@@ -46,4 +48,6 @@ public class BoardSaver implements IGameFollower {
 		}
 	}
 
+	@Override
+	public void gameOver(Player winner) { }
 }

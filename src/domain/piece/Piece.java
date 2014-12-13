@@ -1,23 +1,22 @@
 package domain.piece;
 import common.Configs;
 import common.Player;
+import domain.piece.contracts.IPiece;
 
 
-public class Piece {
-	private Player player;
+public class Piece implements IPiece {
+	private final Player player;
 
 	public Piece(Player player) {
 		this.player = player;
 	}
 	
+	@Override
 	public Player getPlayer() {
 		return player;
 	}
 	
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-	
+	@Override
 	public char getPieceCode()
 	{
 		return getPlayer() == Player.Black ?
@@ -25,27 +24,32 @@ public class Piece {
 				'w';
 	}
 	
-	public boolean canMoveBackward()
+	@Override
+	public boolean canStepBackward()
 	{
 		return false;
 	}
 	
+	@Override
 	public boolean canCatchBackward()
 	{
 		return Configs.BackwardCatchingAllowed;
 	}
 	
+	@Override
 	public boolean canFly()
 	{
 		return false;
 	}
 	
+	@Override
 	public boolean canPromote()
 	{
 		return true;
 	}
 	
-	public Piece getDeepClone()
+	@Override
+	public Piece getClone()
 	{
 		return new Piece(getPlayer());
 	}

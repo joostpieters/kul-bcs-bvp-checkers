@@ -1,10 +1,11 @@
 package domain.action;
 
 import common.Player;
-import domain.board.Board;
+import domain.board.contracts.IBoard;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
-import domain.square.Square;
+import domain.piece.contracts.IPiece;
+import domain.square.contracts.ISquare;
 
 public class AtomicActionStep extends AtomicAction
 {
@@ -14,33 +15,36 @@ public class AtomicActionStep extends AtomicAction
 	}
 	
 	@Override
-	public boolean isValidOn(Board board, Player currentPlayer)
+	public boolean isValidOn(IBoard board, Player currentPlayer)
 	{
 		DiagonalLocationPair pair = getPair();
+		if(!board.isValidMove(pair))
+		{
+			return false;
+		}
+		
+		if(	pair.getDiagonalDistance() != 1) 
+		{
+			return false;
+		}
+		
 		Location from = pair.getFrom();
 		Location to = pair.getTo();
+		ISquare fromSquare = board.getSquare(from);
+		IPiece fromPiece = fromSquare.getPiece();
 		
-		if(	pair.getDiagonalDistance() != 1 ||
-			!to.isInFrontOf(from, currentPlayer))
+		if(	to.isBehind(from, currentPlayer) &&
+			!fromPiece.canStepBackward())
 		{
 			return false;
 		}
 		
-		Square fromSquare = board.getSquare(from);
-		Square toSquare = board.getSquare(to);
 		
-		if(	!fromSquare.hasPiece() || 
-			toSquare.hasPiece() ||
-			fromSquare.getPiece().getPlayer() != currentPlayer)
-		{
-			return false;
-		}
-		
-		return true;
+		return fromPiece.getPlayer() == currentPlayer;
 	}
 	
 	@Override
-	public void executeOn(Board board, Player currentPlayer)
+	public void executeOn(IBoard board, Player currentPlayer)
 	{
 		if(!isValidOn(board, currentPlayer))
 		{
@@ -48,6 +52,7 @@ public class AtomicActionStep extends AtomicAction
 		}
 		
 		board.movePiece(getPair());
+		updateFollowers(board.getReadOnlyBoard());
 	}
 	
 	@Override

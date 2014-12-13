@@ -1,28 +1,35 @@
 package domain.action;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import common.Player;
-import domain.board.Board;
+import domain.board.contracts.IBoard;
+import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
+import domain.updates.contracts.IGameFollower;
 
-public class CompositeAction extends Action {
-	private final List<Action> actions;
+public class CompositeAction extends Action implements IGameFollower {
+	private final List<Action> actions = new ArrayList<Action>();
 	
-	public CompositeAction(Action... actions) {
-		this.actions = Arrays.asList(actions);
+	public CompositeAction(Action... actions)
+	{
+		for(Action action : actions)
+		{
+			addAction(action);
+		}
 	}
 	
-	public CompositeAction(List<Action> actions) {
-		this.actions = new ArrayList<Action>(actions);
-	}
+//	public CompositeAction(List<Action> actions)
+//	{
+//		for(Action action : actions)
+//		{
+//			addAction(action);
+//		}
+//	}
 	
-	public CompositeAction() {
-		this.actions = new ArrayList<Action>();
-	}
+	public CompositeAction() { }
 	
 	protected List<Action> getActions()
 	{
@@ -32,28 +39,33 @@ public class CompositeAction extends Action {
 	protected void addAction(Action action)
 	{
 		getActions().add(action);
+		action.subscribe(this);
 	}
 	
 	@Override
-	public boolean isValidOn(Board board, Player currentPlayer) {
+	public boolean isValidOn(IBoard board, Player currentPlayer)
+	{
 		if(getActions().size() == 0)
 		{
 			throw new IllegalStateException("CompositeAction is empty.");
 		}
-		Board testBoard = (Board)board.getDeepClone();
+		IBoard testBoard = (IBoard)board.getDeepClone();
 		for(Action action : getActions())
 		{
 			if(!action.isValidOn(testBoard, currentPlayer))
 			{
 				return false;
 			}
+			disableUpdateFollowers();
 			action.executeOn(testBoard, currentPlayer);
+			enableUpdateFollowers();
 		}
 		return true;
 	}
 	
 	@Override
-	public void executeOn(Board board, Player currentPlayer) {
+	public void executeOn(IBoard board, Player currentPlayer)
+	{
 		if(!isValidOn(board, currentPlayer))
 		{
 			throw new IllegalStateException(String.format("%s is invalid.", this));
@@ -67,14 +79,27 @@ public class CompositeAction extends Action {
 	}
 	
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		List<String> list = getActions().stream().map(e -> e.toString()).collect(Collectors.toList());
 		String[] strings = (String[]) list.toArray(new String[list.size()]);
 		return "(" + String.join(" + ", strings) + ")";
 	}
 
 	@Override
-	protected Location getFrom() {
+	protected Location getFrom()
+	{
 		return getActions().get(0).getFrom();
+	}
+
+	@Override
+	public void update(IReadOnlyBoard board) //propagate updates from actions to own followers
+	{
+		updateFollowers(board);		
+	}
+
+	@Override
+	public void gameOver(Player winner) {
+		updateFollowersGameOver(winner);
 	}
 }

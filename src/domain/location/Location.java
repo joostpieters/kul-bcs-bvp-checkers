@@ -3,7 +3,6 @@ package domain.location;
 import java.util.Arrays;
 
 import common.Player;
-
 import domain.board.BoardSize;
 
 public class Location
@@ -100,6 +99,11 @@ public class Location
 		{
 			return false;
 		}
+	}
+	
+	@Override
+	public int hashCode() {
+		return getRow() ^ getCol(); 
 	}
 	
 	public boolean isPromotionRow(Player player)

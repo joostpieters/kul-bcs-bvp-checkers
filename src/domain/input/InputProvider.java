@@ -1,39 +1,35 @@
 package domain.input;
 
-import ui.UserInterface;
 import common.Configs;
 import common.Player;
 import domain.Game;
+import domain.input.contracts.IInput;
+import domain.updates.GameUpdatePropagator;
 
 
-public class InputProvider
+public class InputProvider extends GameUpdatePropagator
 {
-	private final UserInterface ui;
-	
-	private UserInterface getUI() {
-		return ui;
-	}
-	
-	public InputProvider(UserInterface ui)
-	{
-		this.ui = ui;
-	}
-	
 	public IInput askInput(Game game)
 	{
 		Player player = game.getCurrentPlayer();
-		String move = getUI().askMoveInput(player);
+		String move = game.getUI().askMoveInput(player);
 		if(move.equals(Configs.ResignInput))
 		{
-			return new ResignInput(game);
+			ResignInput input = new ResignInput(game);
+			input.subscribe(this);
+			return input;
 		}
 		else if(move.equals(Configs.RemiseInput))
 		{
-			return new RemiseInput(game);
+			RemiseInput input = new RemiseInput(game);
+			input.subscribe(this);
+			return input;
 		}
 		else
 		{
-			return new ActionInput(move, game);
+			ActionInput input = new ActionInput(move, game);
+			input.subscribe(this);
+			return input;
 		}
 	}
 }

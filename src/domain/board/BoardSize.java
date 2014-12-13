@@ -11,6 +11,16 @@ public class BoardSize {
 		return cols;
 	}
 	
+	/**
+	 * Constructs a new BoardSize using the given dimensions.
+	 * 
+	 * @pre isValidSize(rows, cols)
+	 * 
+	 * @param 	rows
+	 * 			The number of rows of the Board.
+	 * @param 	cols
+	 * 			The number of columns of the Board.
+	 */
 	public BoardSize(int rows, int cols) {
 		if(!isValidSize(rows, cols))
 		{
@@ -25,9 +35,24 @@ public class BoardSize {
 		return index >= 1 && index <= getRows()*getCols()/2;
 	}
 	
+	/**
+	 * Checks whether the given dimensions form a valid BoardSize.
+	 * Both the number of rows and columns should be even and greater than zero.
+	 * 
+	 * @post $result == rows > 0 && cols > 0 && rows % 2 == 0 && cols % 2 == 0
+	 * 
+	 * @param 	rows
+	 * 			The number of rows of the Board.
+	 * @param 	cols
+	 * 			The number of columns of the Board.
+	 * 
+	 * @return	True if the given dimensions form a valid BoardSize.
+	 */
 	public static boolean isValidSize(int rows, int cols)
 	{
-		return 	rows % 2 == 0 &&
+		return 	rows > 0 &&
+				cols > 0 &&
+				rows % 2 == 0 &&
 				cols % 2 == 0;
 	}
 	
