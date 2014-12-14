@@ -1,11 +1,15 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import common.Configs;
 import common.Player;
+import domain.action.ActionPriorityComparator;
+import domain.action.ActionRequest;
 import domain.board.contracts.IBoard;
 import domain.location.DiagonalLocationPair;
 import domain.location.Direction;
@@ -14,6 +18,7 @@ import domain.piece.contracts.IPiece;
 import domain.updates.GameUpdateSource;
 
 public class GameAnalyzer extends GameUpdateSource {
+	private static final ActionPriorityComparator ActionPriorityComparator = new ActionPriorityComparator();
 	private final Game game;
 	
 	private Game getGame() {
@@ -42,20 +47,42 @@ public class GameAnalyzer extends GameUpdateSource {
 			}
 		}
 	}
-
-	public boolean isCurrentPlayerOutOfMoves()
+	
+	public boolean isActionAllowed(ActionRequest request)
 	{
+		return !Configs.MandatoryMaximalCatching || getAllowedActions().contains(request);
+	}
+	
+	public List<ActionRequest> getAllowedActions()
+	{
+		List<ActionRequest> actions = getPossibleActions();
+		Collections.sort(actions, ActionPriorityComparator.reversed());
+		int highest = actions.get(0).getNumberOfCatches();
+		List<ActionRequest> possible = actions.stream().filter(a -> a.getNumberOfCatches() == highest).collect(Collectors.toList());
+		
+		return possible;
+	}
+	
+	public List<ActionRequest> getPossibleActions() //TODO include multi-range (recursive on actionable pieces -- but enforce flying straight!)
+	{
+		List<ActionRequest> actions = new ArrayList<ActionRequest>();
 		Player player = getGame().getCurrentPlayer();
 		HashMap<Location, IPiece> playerPieces = getGame().getBoard().getPlayerPieces(player);
 		for(Location location : playerPieces.keySet())
 		{
-			boolean includeBackwards = playerPieces.get(location).canStepBackward();
-			if(canMoveFromLocation(location, includeBackwards) || canCatchFromLocation(location))
-			{
-				return false;
-			}
+			IPiece piece = playerPieces.get(location);
+			List<ActionRequest> possibleSteps = getStepsFromLocation(location, piece.canStepBackward());
+			List<ActionRequest> possibleCatches = getCatchesFromLocation(location, piece.canCatchBackward());
+			actions.addAll(possibleSteps);
+			actions.addAll(possibleCatches);
 		}
-		return true; //true by default when player has no more pieces
+		
+		return actions;
+	}
+
+	public boolean isCurrentPlayerOutOfMoves()
+	{
+		return getPossibleActions().size() == 0;
 	}
 	
 	public void processCurrentPlayerOutOfMoves()
@@ -72,14 +99,15 @@ public class GameAnalyzer extends GameUpdateSource {
 		updateFollowersGameOver(winner);
 	}
 
-	private boolean canCatchFromLocation(Location location)
+	private List<ActionRequest> getCatchesFromLocation(Location location, boolean includeBackwards)
 	{
+		List<ActionRequest> requests = new ArrayList<ActionRequest>();
 		IBoard board = getGame().getBoard();
 		Player player = getGame().getCurrentPlayer();
 		List<Location> targets = new ArrayList<Location>();
 		try { targets.add(location.getRelativeLocation(player, Direction.Front, Direction.Front, Direction.Right, Direction.Right)); } catch(IllegalArgumentException outOfRange) {}
 		try { targets.add(location.getRelativeLocation(player, Direction.Front, Direction.Front, Direction.Left, Direction.Left)); } catch(IllegalArgumentException outOfRange) {}
-		if(Configs.BackwardCatchingAllowed)
+		if(includeBackwards)
 		{
 			try { targets.add(location.getRelativeLocation(player, Direction.Back, Direction.Back, Direction.Right, Direction.Right)); } catch(IllegalArgumentException outOfRange) {}
 			try { targets.add(location.getRelativeLocation(player, Direction.Back, Direction.Back, Direction.Left, Direction.Left)); } catch(IllegalArgumentException outOfRange) {}
@@ -90,14 +118,15 @@ public class GameAnalyzer extends GameUpdateSource {
 			DiagonalLocationPair pair = new DiagonalLocationPair(location, target);
 			if(board.isLocationFree(target) && board.isLocationOccupiedBy(player.getOpponent(), pair.getCenterBetween()))
 			{
-				return true;
+				requests.add(new ActionRequest(true, location.getIndex(), target.getIndex()));
 			}
 		}
-		return false;
+		return requests;
 	}
-
-	private boolean canMoveFromLocation(Location location, boolean includeBackwards)
+	
+	private List<ActionRequest> getStepsFromLocation(Location location, boolean includeBackwards)
 	{
+		List<ActionRequest> requests = new ArrayList<ActionRequest>();
 		IBoard board = getGame().getBoard();
 		Player player = getGame().getCurrentPlayer();
 		List<Location> targets = new ArrayList<Location>();
@@ -112,9 +141,9 @@ public class GameAnalyzer extends GameUpdateSource {
 		{
 			if(board.isLocationFree(target))
 			{
-				return true;
+				requests.add(new ActionRequest(false, location.getIndex(), target.getIndex()));
 			}
 		}
-		return false;
+		return requests;
 	}
 }

@@ -8,7 +8,7 @@ import domain.updates.GameUpdatePropagator;
 public class GameController extends GameUpdatePropagator
 {
 	private final Game game;
-	private final GameAnalyzer analyzer;
+	private final GameAnalyzer analyzer; //TODO put in Game?
 	
 	private Game getGame()
 	{
@@ -36,14 +36,13 @@ public class GameController extends GameUpdatePropagator
 		inputProvider.subscribe(this);
 		while(!game.isOver())
 		{
-			//TODO generate list of possible moves
-			//TODO check move priority (impose order on actions -> compareTo+sort)
+			
 			if(analyzer.isCurrentPlayerOutOfMoves())
 			{
 				analyzer.processCurrentPlayerOutOfMoves();
 				break;
 			}
-			IInput input = inputProvider.askInput(game);
+			IInput input = inputProvider.askInput(game, analyzer);
 			boolean success = input.process();
 			
 			if(success)

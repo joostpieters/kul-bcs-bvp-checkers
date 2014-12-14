@@ -11,7 +11,8 @@ import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.BoardSaver;
 
-
+//TODO testing
+//TODO documentation
 public class Main {
 	public static void main(String[] args) throws IOException {
 		Path file = Paths.get("data", "input", "testPromotion.txt");

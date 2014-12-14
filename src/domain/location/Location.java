@@ -5,7 +5,10 @@ import java.util.Arrays;
 import common.Player;
 import domain.board.BoardSize;
 
-public class Location
+/**
+ * An immutable class representing a Location on a Board with a given size, specified by a given row and column index.
+ */
+public final class Location
 {
 	private final int row;
 	private final int col;
@@ -88,17 +91,18 @@ public class Location
 		{
 			return false;
 		}
-		try
+		if(this == obj) //same reference
+		{
+			return true;
+		}
+		if(obj instanceof Location)
 		{
 			Location casted = (Location)obj;
 			return 	this.getRow() == casted.getRow() && 
 					this.getCol() == casted.getCol() &&
 					this.getBoardSize().equals(casted.getBoardSize());
 		}
-		catch(ClassCastException ex)
-		{
-			return false;
-		}
+		return false;
 	}
 	
 	@Override

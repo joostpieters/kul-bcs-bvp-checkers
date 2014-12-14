@@ -2,6 +2,7 @@ package domain.input;
 
 import common.Player;
 import domain.Game;
+import domain.GameAnalyzer;
 import domain.action.Action;
 import domain.action.ActionFactory;
 import domain.action.ActionRequest;
@@ -13,7 +14,8 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 {
 	private final String move;
 	private final Game game;
-	
+	private final GameAnalyzer analyzer;
+
 	private String getMove()
 	{
 		return move;
@@ -24,10 +26,15 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 		return game;
 	}
 	
-	public ActionInput(String move, Game game)
+	private GameAnalyzer getAnalyzer() {
+		return analyzer;
+	}
+	
+	public ActionInput(String move, Game game, GameAnalyzer analyzer)
 	{
 		this.move = move;
 		this.game = game;
+		this.analyzer = analyzer;
 	}
 
 	@Override
@@ -40,6 +47,10 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 		try
 		{
 			ActionRequest request = analyzeAction();
+			if(!getAnalyzer().isActionAllowed(request))
+			{
+				return false;
+			}
 			Action action = ActionFactory.create(request, board, currentPlayer);
 			action.subscribe(this);
 			if(action.isValidOn(board, currentPlayer))

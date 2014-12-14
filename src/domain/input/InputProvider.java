@@ -3,13 +3,14 @@ package domain.input;
 import common.Configs;
 import common.Player;
 import domain.Game;
+import domain.GameAnalyzer;
 import domain.input.contracts.IInput;
 import domain.updates.GameUpdatePropagator;
 
 
 public class InputProvider extends GameUpdatePropagator
 {
-	public IInput askInput(Game game)
+	public IInput askInput(Game game, GameAnalyzer analyzer)
 	{
 		Player player = game.getCurrentPlayer();
 		String move = game.getUI().askMoveInput(player);
@@ -27,7 +28,7 @@ public class InputProvider extends GameUpdatePropagator
 		}
 		else
 		{
-			ActionInput input = new ActionInput(move, game);
+			ActionInput input = new ActionInput(move, game, analyzer);
 			input.subscribe(this);
 			return input;
 		}

@@ -5,8 +5,7 @@ import domain.board.BoardSize;
 
 public class Configs {
 	public final static BoardSize Size = new BoardSize(10,10);
-	public final static boolean MandatoryCatching = true; //TODO implement
-	public final static boolean MandatoryMaximalCatching = true; //TODO implement
+	public final static boolean MandatoryMaximalCatching = true;
 	public final static boolean BackwardCatchingAllowed = true;
 	public final static Player FirstPlayer = Player.White;
 	public final static boolean FlyingDame = true;
