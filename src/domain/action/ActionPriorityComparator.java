@@ -2,6 +2,8 @@ package domain.action;
 
 import java.util.Comparator;
 
+import domain.action.request.ActionRequest;
+
 /**
  * This comparator imposes a priority-based ordering on {@link ActionRequest}s.
  * 

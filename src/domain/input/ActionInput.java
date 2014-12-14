@@ -5,7 +5,10 @@ import domain.Game;
 import domain.GameAnalyzer;
 import domain.action.Action;
 import domain.action.ActionFactory;
-import domain.action.ActionRequest;
+import domain.action.request.ActionRequest;
+import domain.action.request.AtomicCatchActionRequest;
+import domain.action.request.CatchActionRequest;
+import domain.action.request.MoveActionRequest;
 import domain.board.Board;
 import domain.input.contracts.IInput;
 import domain.updates.GameUpdatePropagator;
@@ -47,10 +50,10 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 		try
 		{
 			ActionRequest request = analyzeAction();
-			if(!getAnalyzer().isActionAllowed(request))
-			{
-				return false;
-			}
+//			if(!getAnalyzer().isActionAllowed(request)) //TODO re-enable
+//			{
+//				return false;
+//			}
 			Action action = ActionFactory.create(request, board, currentPlayer);
 			action.subscribe(this);
 			if(action.isValidOn(board, currentPlayer))
@@ -84,18 +87,26 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 			String parts[] = move.split("\\s*-\\s*");
 			int fromIndex = Integer.parseInt(parts[0]);
 			int toIndex = Integer.parseInt(parts[1]);
-			return new ActionRequest(false, fromIndex, toIndex);
+			return new MoveActionRequest(fromIndex, toIndex);
 		}
 		else if(move.matches("\\d+(\\s*x\\s*\\d+)+")) //(multi-)(fly-)catch
 		{
 			String[] parts = move.split("\\s*x\\s*");
-			ActionRequest result = new ActionRequest(true);
-			for(int i=0; i < parts.length; i++)
+			if(parts.length == 2)
 			{
-				int index = Integer.parseInt(parts[i]);
-				result.addIndex(index);
+				int fromIndex = Integer.parseInt(parts[0]);
+				int toIndex = Integer.parseInt(parts[1]);
+				return new AtomicCatchActionRequest(fromIndex, toIndex);
 			}
-			return result;
+			else
+			{
+				int[] indices = new int[parts.length];
+				for(int i=0; i < parts.length; i++)
+				{
+					indices[i] = Integer.parseInt(parts[i]);
+				}
+				return new CatchActionRequest(indices);
+			}
 		}
 		throw new IllegalArgumentException("Invalid pattern");
 	}

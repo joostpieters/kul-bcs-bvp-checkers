@@ -1,5 +1,8 @@
 package domain.location;
 
+import java.util.Collection;
+import java.util.Stack;
+
 import domain.board.BoardSize;
 
 /**
@@ -89,6 +92,32 @@ public class LocationPair {
 	public boolean isOnSameColumn()
 	{
 		return getFrom().getCol() == getTo().getCol();
+	}
+	
+	public Collection<Direction> getUnitDirection()
+	{
+		Location from = getFrom();
+		Location to = getTo();
+		Stack<Direction> directions = new Stack<>();
+		
+		if(to.isAbove(from))
+		{
+			directions.push(Direction.Above);
+		}
+		else if(to.isBelow(from))
+		{
+			directions.push(Direction.Below);
+		}
+		
+		if(to.isLeftFrom(from))
+		{
+			directions.push(Direction.Left);
+		}
+		else if(to.isRightFrom(from))
+		{
+			directions.push(Direction.Right);
+		}
+		return directions;
 	}
 	
 	@Override

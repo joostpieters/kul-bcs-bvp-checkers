@@ -52,32 +52,6 @@ public class DiagonalLocationPair extends LocationPair
 		return new Location(centerRow, centerCol, getFrom().getBoardSize());
 	}
 	
-	public Collection<Direction> getUnitDirection()
-	{
-		Location from = getFrom();
-		Location to = getTo();
-		Stack<Direction> directions = new Stack<>();
-		
-		if(to.isAbove(from))
-		{
-			directions.push(Direction.Above);
-		}
-		else if(to.isBelow(from))
-		{
-			directions.push(Direction.Below);
-		}
-		
-		if(to.isLeftFrom(from))
-		{
-			directions.push(Direction.Left);
-		}
-		else if(to.isRightFrom(from))
-		{
-			directions.push(Direction.Right);
-		}
-		return directions;
-	}
-	
 	public List<Location> getStepsBetweenExclusive()
 	{
 		Collection<Direction> direction = getUnitDirection();

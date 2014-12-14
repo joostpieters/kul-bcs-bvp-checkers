@@ -3,6 +3,7 @@ package domain.action;
 import java.util.List;
 
 import common.Player;
+import domain.action.request.ActionRequest;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoard;
 import domain.location.DiagonalLocationPair;
