@@ -15,7 +15,7 @@ import domain.board.BoardSaver;
 //TODO documentation
 public class Main {
 	public static void main(String[] args) throws IOException {
-		Path file = Paths.get("data", "input", "testPromotion.txt");
+		Path file = Paths.get("data", "input", "testCatchPriority.txt");
 		Board board = BoardFactory.create(file);
 		UserInterface ui = new UserInterface();
 		Game game = new Game(board, ui);

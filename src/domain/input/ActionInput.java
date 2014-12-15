@@ -1,5 +1,7 @@
 package domain.input;
 
+import java.util.List;
+
 import common.Player;
 import domain.Game;
 import domain.GameAnalyzer;
@@ -50,10 +52,10 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 		try
 		{
 			ActionRequest request = analyzeAction();
-//			if(!getAnalyzer().isActionAllowed(request)) //TODO re-enable
-//			{
-//				return false;
-//			}
+			if(!getAnalyzer().isActionAllowed(request))
+			{
+				return false;
+			}
 			Action action = ActionFactory.create(request, board, currentPlayer);
 			action.subscribe(this);
 			if(action.isValidOn(board, currentPlayer))

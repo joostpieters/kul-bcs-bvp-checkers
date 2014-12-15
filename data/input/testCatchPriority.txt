@@ -1,0 +1,10 @@
+     1 z     2 z     3 z     4 z     5 z
+ 6 z     7 z     8 z     9 z    10 z    
+    11 z    12 z    13 z    14 z    15 z
+16 z    17 z    18 z    19 z    20 z    
+    21 o    22 o    23 o    24 o    25 o
+26 o    27 o    28 o    29 o    30 o
+    31 z    32 z    33 z    34 z    35 o
+36 w    37 o    38 o    39 o    40 o    
+    41 z    42 z    43 o    44 z    45 o
+46 o    47 o    48 o    49 o    50 o    

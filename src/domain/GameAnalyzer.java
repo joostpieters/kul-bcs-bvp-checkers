@@ -58,96 +58,85 @@ public class GameAnalyzer extends GameUpdateSource {
 		}
 	}
 	
-//	public boolean isActionAllowed(ActionRequest request) //TODO move to Action.isValid?
-//	{
-//		return !Configs.MandatoryMaximalCatching || getAllowedActions().contains(request);
-//	}
-	
-//	public List<ActionRequest> getAllowedActions()
-//	{
-//		IBoard board = getGame().getBoard();
-//		List<ActionRequest> actions = getPossibleAtomicActions(board);
-//		Collections.sort(actions, ActionPriorityComparator.reversed());
-//		int highest = actions.get(0).getNumberOfCatches();
-//		List<ActionRequest> possible = actions.stream().filter(a -> a.getNumberOfCatches() == highest).collect(Collectors.toList());
-//		
-//		return possible;
-//	}
-	
-//	private List<ActionRequest> getPossibleActions()
-//	{
-//		IBoard testBoard = getGame().getBoard().getDeepClone();
-//		Player currentPlayer = getGame().getCurrentPlayer();
-//		List<ActionRequest> allActionRequests = new ArrayList<ActionRequest>();
-//		Set<Location> locations = getGame().getBoard().getPlayerPieces(currentPlayer).keySet();
-//		while(true)
-//		{
-//			List<ActionRequest> atomicActionRequests = getPossibleAtomicActions(testBoard, locations);
-//			if(atomicActionRequests.size() == 0)
-//			{
-//				break;
-//			}
-//			allActionRequests.addAll(atomicActionRequests);
-//			
-//			Set<Location> nextLocations = new HashSet<Location>();
-//			for(ActionRequest request : atomicActionRequests)
-//			{
-//				int fromIndex =request.getIndices().get(0);
-//				int toIndex = request.getIndices().get(1);
-//				Location from = new Location(fromIndex, testBoard.getSize());
-//				Location to = new Location(toIndex, testBoard.getSize());
-//				nextLocations.add(to);
-//				DiagonalLocationPair pair = new DiagonalLocationPair(from, to);
-//				Collection<Direction> direction = pair.getUnitDirection();
-//				Predicate<DiagonalLocationPair> stepPredicate = p -> p.getUnitDirection().equals(direction);
-//			}
-//			
-////			List<Action> validAtomicActions = atomicActionRequests.stream()
-////					.map(request -> ActionFactory.create(request, testBoard, currentPlayer))
-////					.filter(action -> action.isValidOn(testBoard, currentPlayer))
-////					.collect(Collectors.toList());
-////			
-////			for(Action action : validAtomicActions)
-////			{
-////				action.executeOn(testBoard, currentPlayer);
-////			}
-//		}
-//		
-//		return allActionRequests;
-//	}
-	
-	private List<CatchActionRequest> getPossibleCatchActions()
+	public boolean isActionAllowed(ActionRequest request) //TODO move to Action.isValid?
 	{
+		List<ActionRequest> allowedCatchActions = getAllowedCatchActions();
+		if(allowedCatchActions.size() > 0) //there is a (maximal) catch
+		{
+			if(Configs.MandatoryMaximalCatching) //request must be one of the maximal catches
+			{
+				return allowedCatchActions.contains(request);
+			}
+			else //request can be any catch
+			{
+				return request.isCatch();
+			}
+		}
+		else //there are only valid move actions
+		{
+			if(request.isCatch())
+			{
+				throw new IllegalStateException("No catches possible, but CatchActionRequest given.");
+			}
+			return true;
+		}
+	}
+	
+	public List<ActionRequest> getAllowedCatchActions()
+	{
+		List<CatchActionRequest> actions = getPossibleCatchActions();
+		if(actions.size() > 0)
+		{
+			Collections.sort(actions, ActionPriorityComparator.reversed());
+			int highest = actions.get(0).getNumberOfCatches();
+			List<ActionRequest> possible = actions.stream().filter(a -> a.getNumberOfCatches() == highest).collect(Collectors.toList());
+			return possible;
+		}
+		return new ArrayList<ActionRequest>(0);
+	}
+	
+	private List<CatchActionRequest> getPossibleCatchActions() //TODO include flycatches
+	{
+		List<CatchActionRequest> result = new ArrayList<CatchActionRequest>();
 		IBoard board = getGame().getBoard();
 		Player currentPlayer = getGame().getCurrentPlayer();
 		Set<Location> locations = getGame().getBoard().getPlayerPieces(currentPlayer).keySet();
-		List<CatchActionRequest> result = new ArrayList<CatchActionRequest>();
 		for(Location location : locations)
 		{
-			List<CatchActionRequest> catchActionRequests = getCatchesFromLocation(board, location);
+			List<CatchActionRequest> catchActionRequests = getNextCatches(board, location);
 			result.addAll(catchActionRequests);
 		}
 		
 		return result;
 	}
-
-	private List<CatchActionRequest> getCatchesFromLocation(IBoard board, Location location) {
+	
+	private List<CatchActionRequest> getNextCatches(IBoard board, Location start)
+	{
 		List<CatchActionRequest> result = new ArrayList<CatchActionRequest>();
-		List<AtomicCatchActionRequest> atomicCatchRequests = getAtomicCatchesFromLocation(board, location);
+		Player currentPlayer = getGame().getCurrentPlayer();
+		List<AtomicCatchActionRequest> atomicCatchRequests = getAtomicCatchesFromLocation(board, start);
 		for(AtomicCatchActionRequest atomicCatchRequest : atomicCatchRequests)
 		{
-			Location to = atomicCatchRequest.getEnd(board.getSize());
-			List<CatchActionRequest> nextCatchRequests = getCatchesFromLocation(board, to);
-			if(nextCatchRequests.size() == 0)
+			IBoard testBoard = board.getDeepClone();
+			Action action = ActionFactory.create(atomicCatchRequest, testBoard, currentPlayer);
+			if(action.isValidOn(testBoard, currentPlayer))
 			{
-				//TODO return what? (work with indices instead of requests?)
-			}
-			for(CatchActionRequest nextCatchRequest : nextCatchRequests)
-			{
-				CatchActionRequest combined = new CatchActionRequest(atomicCatchRequest, nextCatchRequest);
-				result.add(combined);
+				action.executeOn(testBoard, currentPlayer);
+				List<CatchActionRequest> allNext = getNextCatches(testBoard, atomicCatchRequest.getEnd(testBoard.getSize()));
+				if(allNext.size() == 0)
+				{
+					result.add(atomicCatchRequest);
+				}
+				else
+				{
+					for(CatchActionRequest next : allNext)
+					{
+						result.add(new CatchActionRequest(atomicCatchRequest, next));
+					}
+				}
 			}
 		}
+		
 		return result;
 	}
 
@@ -173,7 +162,7 @@ public class GameAnalyzer extends GameUpdateSource {
 		updateFollowersGameOver(winner);
 	}
 	
-	private List<ActionRequest> getPossibleAtomicActions(IBoard board, Set<Location> locations) //TODO include multi-range (recursive on actionable pieces -- but enforce flying straight!)
+	private List<ActionRequest> getPossibleAtomicActions(IBoard board, Set<Location> locations)
 	{
 		List<ActionRequest> actionRequests = new ArrayList<ActionRequest>();
 		for(Location location : locations)
@@ -210,7 +199,7 @@ public class GameAnalyzer extends GameUpdateSource {
 		return requests;
 	}
 	
-	private List<MoveActionRequest> getAtomicStepsFromLocation(IBoard board, Location location) //TODO don't need to check steps -> always OK if no catches possible -> #steps > 0?
+	private List<MoveActionRequest> getAtomicStepsFromLocation(IBoard board, Location location)
 	{
 		List<MoveActionRequest> requests = new ArrayList<MoveActionRequest>();
 		Player player = getGame().getCurrentPlayer();

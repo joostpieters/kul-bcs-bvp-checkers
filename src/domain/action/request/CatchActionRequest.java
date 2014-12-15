@@ -1,5 +1,6 @@
 package domain.action.request;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class CatchActionRequest extends ActionRequest
@@ -18,8 +19,10 @@ public class CatchActionRequest extends ActionRequest
 		{
 			throw new IllegalArgumentException("Given addendum cannot be chained onto base.");
 		}
-		for(int index : addendum.getIndices())
+		List<Integer> indicesToAppend = addendum.getIndices();
+		for(int i=1; i < indicesToAppend.size(); i++) //skip firstExtraIndex
 		{
+			int index = indicesToAppend.get(i);
 			addIndex(index);
 		}
 	}
