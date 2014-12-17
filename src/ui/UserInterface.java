@@ -45,7 +45,7 @@ public class UserInterface { //TODO localize strings
 		return askYesNo(message);
 	}
 	
-	public void agreeRemise()
+	public void agreeRemise() //TODO implement all as events?
 	{
 		showMessage("Remise.");
 	}

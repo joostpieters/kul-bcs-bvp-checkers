@@ -2,6 +2,7 @@ package domain.updates;
 
 import common.Player;
 import domain.board.contracts.IReadOnlyBoard;
+import domain.location.Location;
 import domain.updates.contracts.IGameFollower;
 
 /**
@@ -12,14 +13,26 @@ public abstract class GameUpdatePropagator extends GameUpdateSource implements I
 {
 
 	@Override
-	public void update(IReadOnlyBoard board)
+	public void update(IReadOnlyBoard board, Player performer)
 	{
-		updateFollowers(board);
+		updateFollowers(board, performer);
 	}
 
 	@Override
 	public void gameOver(Player winner)
 	{
 		updateFollowersGameOver(winner);		
+	}
+	
+	@Override
+	public void promotion(Location location)
+	{
+		updateFollowersPromotion(location);
+	}
+	
+	@Override
+	public void outOfMoves(Player player)
+	{
+		updateFollowersOutOfMoves(player);
 	}
 }

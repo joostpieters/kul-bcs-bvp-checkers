@@ -15,8 +15,6 @@ public interface IBoard extends IReadOnlyBoard {
 	public void movePiece(LocationPair pair);
 
 	public void promotePiece(Location location);
-
-	public IBoard getDeepClone();
 	
 	@Override
 	public ISquare getSquare(Location location);

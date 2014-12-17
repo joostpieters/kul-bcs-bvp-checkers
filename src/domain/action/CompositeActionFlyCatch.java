@@ -5,15 +5,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import common.Player;
-import domain.board.contracts.IBoard;
+import domain.board.contracts.IReadOnlyBoard;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
-import domain.square.contracts.ISquare;
+import domain.square.contracts.IReadOnlySquare;
 
 public class CompositeActionFlyCatch extends CompositeAction
 {
 	
-	public CompositeActionFlyCatch(IBoard board, Player currentPlayer, DiagonalLocationPair pair) //already requires board during construction 
+	public CompositeActionFlyCatch(IReadOnlyBoard board, Player currentPlayer, DiagonalLocationPair pair) //already requires board during construction 
 	{		
 		if(pair.getDiagonalDistance() < 2)
 		{
@@ -54,12 +54,12 @@ public class CompositeActionFlyCatch extends CompositeAction
 	}
 	
 	@Override
-	public boolean isValidOn(IBoard board, Player currentPlayer)
+	public boolean isValidOn(IReadOnlyBoard board, Player currentPlayer)
 	{		
 		if(super.isValidOn(board, currentPlayer))
 		{
 			Location from = getFrom();
-			ISquare fromSquare = board.getSquare(from);
+			IReadOnlySquare fromSquare = board.getSquare(from);
 			return fromSquare.getPiece().canFly(); //square now surely hasPiece
 		}
 		else

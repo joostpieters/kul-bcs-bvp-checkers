@@ -3,7 +3,9 @@ import common.Configs;
 import common.Player;
 import domain.piece.contracts.IPiece;
 
-
+/**
+ * An IPiece representing a basic Piece.  
+ */
 public class Piece implements IPiece {
 	private final Player player;
 

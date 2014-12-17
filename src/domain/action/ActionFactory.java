@@ -5,13 +5,13 @@ import java.util.List;
 import common.Player;
 import domain.action.request.ActionRequest;
 import domain.board.BoardSize;
-import domain.board.contracts.IBoard;
+import domain.board.contracts.IReadOnlyBoard;
 import domain.location.DiagonalLocationPair;
 
 public class ActionFactory {
 	private ActionFactory() { }
 	
-	public static Action create(ActionRequest request, IBoard board, Player currentPlayer) {
+	public static Action create(ActionRequest request, IReadOnlyBoard board, Player currentPlayer) {
 		BoardSize size = board.getSize();
 		List<Integer> indices = request.getIndices();
 		if(!request.isCatch())
@@ -60,7 +60,7 @@ public class ActionFactory {
 		}
 	}
 
-	private static Action createActionCatch(IBoard board, Player currentPlayer, DiagonalLocationPair pair) {
+	private static Action createActionCatch(IReadOnlyBoard board, Player currentPlayer, DiagonalLocationPair pair) {
 		if(pair.getDiagonalDistance() == 2)
 		{
 			return new AtomicActionCatch(pair);

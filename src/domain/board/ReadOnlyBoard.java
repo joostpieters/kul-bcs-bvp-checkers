@@ -66,4 +66,9 @@ public class ReadOnlyBoard implements IReadOnlyBoard
 	public String toString() {
 		return getBoard().toString();
 	}
+
+	@Override
+	public IBoard getDeepClone() {
+		return getBoard().getDeepClone();
+	}
 }

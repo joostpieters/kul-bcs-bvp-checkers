@@ -3,14 +3,14 @@ package domain.input;
 import common.Configs;
 import common.Player;
 import domain.Game;
-import domain.GameAnalyzer;
+import domain.LegalActionChecker;
 import domain.input.contracts.IInput;
 import domain.updates.GameUpdatePropagator;
 
 
 public class InputProvider extends GameUpdatePropagator
 {
-	public IInput askInput(Game game, GameAnalyzer analyzer)
+	public IInput askInput(Game game, LegalActionChecker analyzer)
 	{
 		Player player = game.getCurrentPlayer();
 		String move = game.getUI().askMoveInput(player);

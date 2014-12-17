@@ -3,7 +3,10 @@ import domain.piece.contracts.IPiece;
 import domain.square.contracts.IReadOnlySquare;
 import domain.square.contracts.ISquare;
 
-
+/**
+ * Represents a Black Square on a Board.
+ * Can contain {@link Piece}s.
+ */
 public class SquareBlack implements ISquare
 {
 	private IPiece piece;

@@ -5,7 +5,9 @@ import domain.square.contracts.IReadOnlySquare;
 import domain.square.contracts.ISquare;
 
 /**
- * Provides a read-only wrapper around Square that implements a limited interface.
+ * Represents a Square on a Board.
+ * Can possibly contain {@link IPiece}s.
+ * This Square does not allow its contents to be altered.
  */
 public class ReadOnlySquare implements IReadOnlySquare
 {

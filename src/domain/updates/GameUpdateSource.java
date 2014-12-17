@@ -5,6 +5,7 @@ import java.util.List;
 
 import common.Player;
 import domain.board.contracts.IReadOnlyBoard;
+import domain.location.Location;
 import domain.updates.contracts.IGameFollower;
 import domain.updates.contracts.IGameUpdateSource;
 
@@ -34,13 +35,13 @@ public abstract class GameUpdateSource implements IGameUpdateSource
 		this.disabled = true;
 	}
 	
-	protected void updateFollowers(IReadOnlyBoard board)
+	protected void updateFollowers(IReadOnlyBoard board, Player performer)
 	{
 		if(!isDisabled())
 		{
 			for(IGameFollower follower : getFollowers())
 			{
-				follower.update(board);
+				follower.update(board, performer);
 			}
 		}
 	}
@@ -56,15 +57,37 @@ public abstract class GameUpdateSource implements IGameUpdateSource
 		}
 	}
 	
+	protected void updateFollowersPromotion(Location location)
+	{
+		if(!isDisabled())
+		{
+			for(IGameFollower follower : getFollowers())
+			{
+				follower.promotion(location);
+			}
+		}
+	}
+	
+	protected void updateFollowersOutOfMoves(Player player)
+	{
+		if(!isDisabled())
+		{
+			for(IGameFollower follower : getFollowers())
+			{
+				follower.outOfMoves(player);
+			}
+		}
+	}
+	
 	@Override
 	public void subscribe(IGameFollower follower)
 	{
-		followers.add(follower);
+		getFollowers().add(follower);
 	}
 	
 	@Override
 	public void unsubscribe(IGameFollower follower)
 	{
-		followers.remove(follower);
+		getFollowers().remove(follower);
 	}
 }

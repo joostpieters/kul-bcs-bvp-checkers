@@ -2,10 +2,11 @@ package domain.action;
 
 import common.Player;
 import domain.board.contracts.IBoard;
+import domain.board.contracts.IReadOnlyBoard;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
 import domain.piece.contracts.IPiece;
-import domain.square.contracts.ISquare;
+import domain.square.contracts.IReadOnlySquare;
 
 public class AtomicActionStep extends AtomicAction
 {
@@ -15,7 +16,7 @@ public class AtomicActionStep extends AtomicAction
 	}
 	
 	@Override
-	public boolean isValidOn(IBoard board, Player currentPlayer)
+	public boolean isValidOn(IReadOnlyBoard board, Player currentPlayer)
 	{
 		DiagonalLocationPair pair = getPair();
 		if(!board.isValidMove(pair))
@@ -30,7 +31,7 @@ public class AtomicActionStep extends AtomicAction
 		
 		Location from = pair.getFrom();
 		Location to = pair.getTo();
-		ISquare fromSquare = board.getSquare(from);
+		IReadOnlySquare fromSquare = board.getSquare(from);
 		IPiece fromPiece = fromSquare.getPiece();
 		
 		if(	to.isBehind(from, currentPlayer) &&
@@ -52,7 +53,7 @@ public class AtomicActionStep extends AtomicAction
 		}
 		
 		board.movePiece(getPair());
-		updateFollowers(board.getReadOnlyBoard());
+		updateFollowers(board.getReadOnlyBoard(), currentPlayer);
 	}
 	
 	@Override

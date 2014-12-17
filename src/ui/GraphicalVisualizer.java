@@ -104,12 +104,25 @@ public class GraphicalVisualizer implements IVisualizer {
 	}
 
 	@Override
-	public void update(IReadOnlyBoard board) {
+	public void update(IReadOnlyBoard board, Player performer) {
+		getFrame().setTitle(performer + " just played");
 		paint(board);
 	}
 
 	@Override
 	public void gameOver(Player winner) {
 		close();		
+	}
+
+	@Override
+	public void promotion(Location location)
+	{
+		getFrame().setTitle("Promotion!");
+	}
+
+	@Override
+	public void outOfMoves(Player player)
+	{
+		getFrame().setTitle(player + " is out of moves");
 	}
 }

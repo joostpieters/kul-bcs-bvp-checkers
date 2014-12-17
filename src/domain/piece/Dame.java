@@ -3,7 +3,9 @@ import common.Configs;
 import common.Player;
 import domain.piece.contracts.IPiece;
 
-
+/**
+ * An IPiece representing a promoted Piece: a Dame.
+ */
 public class Dame implements IPiece {
 	private final Player player;
 	

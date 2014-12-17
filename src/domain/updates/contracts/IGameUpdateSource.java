@@ -1,7 +1,8 @@
 package domain.updates.contracts;
 
 /**
- * Provides a basic interface for every class that wants to accept {@link IGameFollower}s and send them updates.  
+ * Provides a basic interface for every class that wants to accept {@link IGameFollower}s and send them updates.
+ * This is the Subject in the Observer pattern.  
  */
 public interface IGameUpdateSource {
 

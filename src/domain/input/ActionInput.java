@@ -1,10 +1,8 @@
 package domain.input;
 
-import java.util.List;
-
 import common.Player;
 import domain.Game;
-import domain.GameAnalyzer;
+import domain.LegalActionChecker;
 import domain.action.Action;
 import domain.action.ActionFactory;
 import domain.action.request.ActionRequest;
@@ -19,7 +17,7 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 {
 	private final String move;
 	private final Game game;
-	private final GameAnalyzer analyzer;
+	private final LegalActionChecker analyzer;
 
 	private String getMove()
 	{
@@ -31,11 +29,11 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 		return game;
 	}
 	
-	private GameAnalyzer getAnalyzer() {
+	private LegalActionChecker getAnalyzer() {
 		return analyzer;
 	}
 	
-	public ActionInput(String move, Game game, GameAnalyzer analyzer)
+	public ActionInput(String move, Game game, LegalActionChecker analyzer)
 	{
 		this.move = move;
 		this.game = game;
@@ -52,7 +50,7 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 		try
 		{
 			ActionRequest request = analyzeAction();
-			if(!getAnalyzer().isActionAllowed(request))
+			if(!getAnalyzer().isActionLegal(request))
 			{
 				return false;
 			}

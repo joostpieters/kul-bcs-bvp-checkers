@@ -3,6 +3,10 @@ import domain.piece.contracts.IPiece;
 import domain.square.contracts.IReadOnlySquare;
 import domain.square.contracts.ISquare;
 
+/**
+ * Represents a White Square on a Board.
+ * Cannot contain {@link Piece}s.
+ */
 public class SquareWhite implements ISquare
 {
 	private final ReadOnlySquare readOnlySquare = new ReadOnlySquare(this);

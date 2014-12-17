@@ -21,14 +21,6 @@ public class CompositeAction extends Action implements IGameFollower {
 		}
 	}
 	
-//	public CompositeAction(List<Action> actions)
-//	{
-//		for(Action action : actions)
-//		{
-//			addAction(action);
-//		}
-//	}
-	
 	public CompositeAction() { }
 	
 	protected List<Action> getActions()
@@ -43,13 +35,13 @@ public class CompositeAction extends Action implements IGameFollower {
 	}
 	
 	@Override
-	public boolean isValidOn(IBoard board, Player currentPlayer)
+	public boolean isValidOn(IReadOnlyBoard board, Player currentPlayer)
 	{
 		if(getActions().size() == 0)
 		{
 			throw new IllegalStateException("CompositeAction is empty.");
 		}
-		IBoard testBoard = (IBoard)board.getDeepClone();
+		IBoard testBoard = board.getDeepClone();
 		for(Action action : getActions())
 		{
 			if(!action.isValidOn(testBoard, currentPlayer))
@@ -93,13 +85,26 @@ public class CompositeAction extends Action implements IGameFollower {
 	}
 
 	@Override
-	public void update(IReadOnlyBoard board) //propagate updates from actions to own followers
+	public void update(IReadOnlyBoard board, Player performer) //propagate updates from actions to own followers
 	{
-		updateFollowers(board);		
+		updateFollowers(board, performer);		
 	}
 
 	@Override
-	public void gameOver(Player winner) {
+	public void gameOver(Player winner)
+	{
 		updateFollowersGameOver(winner);
+	}
+
+	@Override
+	public void promotion(Location location)
+	{
+		updateFollowersPromotion(location);		
+	}
+
+	@Override
+	public void outOfMoves(Player player)
+	{
+		updateFollowersOutOfMoves(player);
 	}
 }

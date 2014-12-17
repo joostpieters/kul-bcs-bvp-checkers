@@ -2,10 +2,12 @@ package domain.updates.contracts;
 
 import common.Player;
 import domain.board.contracts.IReadOnlyBoard;
+import domain.location.Location;
 
 /**
- * This interface indicates that the implementer can receive updates about the Game. 
- * This can be done by subscribing to classes that implement {@link IGameUpdateSource}.   
+ * This interface indicates that the implementer can observe the Game by receiving Board and status updates. 
+ * Instances typically subscribe to classes that implement {@link IGameUpdateSource}.
+ * This is the Observer in the Observer pattern   
  */
 public interface IGameFollower
 {
@@ -15,8 +17,19 @@ public interface IGameFollower
 	 *  
 	 * @param 	board
 	 * 			The board that has been updated.
+	 * @param	performer
+	 * 			The Player that initiated the Action that caused this update.
 	 */
-	public void update(IReadOnlyBoard board);
+	public void update(IReadOnlyBoard board, Player performer);
+	
+	/**
+	 * This method is typically fired by an external source.
+	 * It indicates that a promotable Piece has reached its promotion row.
+	 * 
+	 * @param 	location
+	 * 			The location of the Piece to be promoted.
+	 */
+	public void promotion(Location location);
 	
 	/**
 	 * This method is typically fired by an external source.
@@ -26,4 +39,13 @@ public interface IGameFollower
 	 * 			The winner of the Game. Can be null in case of remise.
 	 */
 	public void gameOver(Player winner);
+	
+	/**
+	 * This method is typically fired by an external source.
+	 * It indicates that the given player is out of moves.
+	 *  
+	 * @param 	player
+	 * 			The Player who cannot perform any more valid Action.
+	 */
+	public void outOfMoves(Player player);
 }

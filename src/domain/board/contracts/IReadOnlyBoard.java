@@ -24,4 +24,6 @@ public interface IReadOnlyBoard {
 	public boolean isLocationFree(Location target);
 
 	public boolean isLocationOccupiedBy(Player occupant, Location target);
+	
+	public IBoard getDeepClone();
 }
