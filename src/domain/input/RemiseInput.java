@@ -24,19 +24,19 @@ public class RemiseInput extends GameUpdateSource implements IInput
 	public boolean process()
 	{
 		Game game = getGame();
-		Player player = game.getCurrentPlayer();
+		Player proposer = game.getCurrentPlayer();
 		UserInterface ui = game.getUI();
 		
-		if(ui.askRemise(player))
+		updateObserversProposeRemise(proposer);
+		
+		if(ui.askYesNo("Accept remise?"))
 		{
-			ui.agreeRemise();
-			game.remise();
-			updateFollowersGameOver(null);
+			updateObserversAgreeRemise();
 			return true;
 		}
 		else
 		{
-			ui.disagreeRemise();
+			updateObserversDisagreeRemise();
 			return false;
 		}
 	}		

@@ -17,7 +17,7 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 {
 	private final String move;
 	private final Game game;
-	private final LegalActionChecker analyzer;
+	private final LegalActionChecker legalActionChecker;
 
 	private String getMove()
 	{
@@ -29,15 +29,15 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 		return game;
 	}
 	
-	private LegalActionChecker getAnalyzer() {
-		return analyzer;
+	private LegalActionChecker getLegalActionChecker() {
+		return legalActionChecker;
 	}
 	
 	public ActionInput(String move, Game game, LegalActionChecker analyzer)
 	{
 		this.move = move;
 		this.game = game;
-		this.analyzer = analyzer;
+		this.legalActionChecker = analyzer;
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 		try
 		{
 			ActionRequest request = analyzeAction();
-			if(!getAnalyzer().isActionLegal(request))
+			if(!getLegalActionChecker().isActionLegal(request))
 			{
 				return false;
 			}
@@ -68,7 +68,7 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 		}
 		catch(IllegalArgumentException ex)
 		{
-			game.getUI().showWarning(ex.getMessage());
+			updateObserversWarning(ex.getMessage());
 			return false;
 		}
 	}

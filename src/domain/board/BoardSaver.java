@@ -10,17 +10,19 @@ import java.util.Calendar;
 
 import common.Player;
 import domain.board.contracts.IReadOnlyBoard;
-import domain.location.Location;
-import domain.updates.contracts.IGameFollower;
+import domain.updates.contracts.IBasicGameObserver;
 
-public class BoardSaver implements IGameFollower {
+public class BoardSaver implements IBasicGameObserver
+{
 	private final Path outputDirectory;
 	
-	private Path getOutputDirectory() {
+	private Path getOutputDirectory()
+	{
 		return outputDirectory;
 	}
 	
-	public BoardSaver(Path outputDirectory) {
+	public BoardSaver(Path outputDirectory)
+	{
 		this.outputDirectory = outputDirectory;
 	}
 
@@ -41,20 +43,15 @@ public class BoardSaver implements IGameFollower {
 	}
 	
 	@Override
-	public void update(IReadOnlyBoard board, Player performer) {
-		try {
+	public void updateBoard(IReadOnlyBoard board, Player performer)
+	{
+		try
+		{
 			saveBoardByDateTime(board);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	public void gameOver(Player winner) { }
-
-	@Override
-	public void promotion(Location location) { }
-
-	@Override
-	public void outOfMoves(Player player) { }
 }

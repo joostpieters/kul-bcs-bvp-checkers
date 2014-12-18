@@ -15,31 +15,18 @@ import domain.location.DiagonalLocationPair;
 import domain.location.Direction;
 import domain.location.Location;
 import domain.updates.GameUpdateSource;
-import domain.updates.contracts.IGameFollower;
+import domain.updates.contracts.IBasicGameObserver;
 
-public class OutOfMovesChecker extends GameUpdateSource implements IGameFollower
+public class OutOfMovesObserver extends GameUpdateSource implements IBasicGameObserver
 {
-	
 	@Override
-	public void update(IReadOnlyBoard board, Player performer)
+	public void updateBoard(IReadOnlyBoard board, Player performer)
 	{
 		Player nextPlayer = performer.getOpponent();
 		if(isCurrentPlayerOutOfMoves(nextPlayer, board))
 		{
-			updateFollowersOutOfMoves(nextPlayer);
+			updateObserversOutOfMoves(nextPlayer);
 		}
-	}
-	
-	@Override
-	public void promotion(Location location) { }
-	
-	@Override
-	public void gameOver(Player winner) { }
-	
-	@Override
-	public void outOfMoves(Player player)
-	{
-		//self-generated, ignore
 	}
 	
 	public static boolean isCurrentPlayerOutOfMoves(Player player, IReadOnlyBoard board)

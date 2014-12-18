@@ -23,11 +23,13 @@ public class Game {
 		return ui;
 	}
 
-	public Player getCurrentPlayer() {
+	public Player getCurrentPlayer()
+	{
 		return currentPlayer;
 	}
 
-	private void setCurrentPlayer(Player currentPlayer) {
+	private void setCurrentPlayer(Player currentPlayer)
+	{
 		this.currentPlayer = currentPlayer;
 	}
 	
@@ -78,10 +80,10 @@ public class Game {
 	{
 		setWinner(winner);
 		setGameState(GameState.Finished);
-		getUI().gameOver(winner);
 	}
 	
-	public Game(Board board, UserInterface ui) {
+	public Game(Board board, UserInterface ui)
+	{
 		this.board = board;
 		this.ui = ui;
 	}

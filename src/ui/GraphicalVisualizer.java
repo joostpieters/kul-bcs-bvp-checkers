@@ -96,33 +96,77 @@ public class GraphicalVisualizer implements IVisualizer {
 		frame.toon(background);
 	}
 	
-	@Override
-	public void close()
+	private void close()
 	{
 		Bord frame = getFrame();
 		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 	}
 
 	@Override
-	public void update(IReadOnlyBoard board, Player performer) {
+	public void updateBoard(IReadOnlyBoard board, Player performer)
+	{
 		getFrame().setTitle(performer + " just played");
 		paint(board);
 	}
 
 	@Override
-	public void gameOver(Player winner) {
+	public void gameOver(Player winner)
+	{
 		close();		
 	}
 
 	@Override
 	public void promotion(Location location)
 	{
-		getFrame().setTitle("Promotion!");
+		
 	}
 
 	@Override
 	public void outOfMoves(Player player)
 	{
-		getFrame().setTitle(player + " is out of moves");
+		
+	}
+
+	
+	@Override
+	public void proposeRemise(Player proposer)
+	{
+		
+	}
+
+	@Override
+	public void agreeRemise()
+	{
+		
+	}
+
+	@Override
+	public void disagreeRemise()
+	{
+		
+	}
+
+	@Override
+	public void resign(Player resignee)
+	{
+		
+	}
+
+	@Override
+	public void start(IReadOnlyBoard board, Player starter)
+	{
+		paint(board);
+	}
+
+	@Override
+	public void warning(String message)
+	{
+		
+	}
+
+	@Override
+	public void error(String message, Exception ex)
+	{
+		
 	}
 }

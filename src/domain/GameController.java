@@ -12,29 +12,29 @@ import domain.updates.GameUpdatePropagator;
 public class GameController extends GameUpdatePropagator
 {
 	private final Game game;
-	private final LegalActionChecker analyzer;
+	private final LegalActionChecker legalActionChecker;
 	
 	private Game getGame()
 	{
 		return game;
 	}
 	
-	private LegalActionChecker getGameAnalyzer()
+	private LegalActionChecker getLegalActionChecker()
 	{
-		return analyzer;
+		return legalActionChecker;
 	}
 	
 	public GameController(Game game, LegalActionChecker analyzer)
 	{
 		this.game = game;
-		this.analyzer = analyzer;
+		this.legalActionChecker = analyzer;
 	}
 	
 	public void play()
 	{
 		Game game = getGame();
-		LegalActionChecker analyzer = getGameAnalyzer();
-		updateFollowers(game.getBoard().getReadOnlyBoard(), game.getCurrentPlayer()); //TODO update without player switch = bad? or special init event?
+		LegalActionChecker analyzer = getLegalActionChecker();
+		updateObserversStart(game.getBoard().getReadOnlyBoard(), game.getCurrentPlayer());
 		InputProvider inputProvider = new InputProvider();
 		inputProvider.subscribe(this);
 		
@@ -50,7 +50,7 @@ public class GameController extends GameUpdatePropagator
 			}
 			else
 			{
-				game.getUI().showWarning("Could not process input, try again.");
+				updateObserversWarning("Try again.");
 			}
 		}
 		game.getUI().close();
@@ -62,17 +62,32 @@ public class GameController extends GameUpdatePropagator
 		IBoard board = getGame().getBoard();
 		board.promotePiece(location);
 		super.promotion(location); //disseminate update
-		updateFollowers(board.getDeepClone(), getGame().getCurrentPlayer());
+		updateObserversBoard(board.getDeepClone(), getGame().getCurrentPlayer());
 	}
 	
 	@Override
 	public void outOfMoves(Player player)
 	{
-		Game game = getGame();
-		Player winner = player.getOpponent();
-		game.getUI().outOfMoves(player);
-		game.gameOver(winner);
 		super.outOfMoves(player);
-		updateFollowersGameOver(winner);
+		Player winner = player.getOpponent();
+		getGame().gameOver(winner);
+		updateObserversGameOver(winner);
+	}
+	
+	@Override
+	protected void updateObserversResign(Player resignee)
+	{
+		super.updateObserversResign(resignee);
+		Player winner = resignee.getOpponent();
+		getGame().gameOver(winner);
+		updateObserversGameOver(winner);
+	}
+	
+	@Override
+	protected void updateObserversAgreeRemise()
+	{
+		super.updateObserversAgreeRemise();
+		getGame().remise();
+		updateObserversGameOver(null);
 	}
 }

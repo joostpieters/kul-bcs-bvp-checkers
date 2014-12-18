@@ -22,11 +22,8 @@ public class ResignInput extends GameUpdateSource implements IInput
 	@Override
 	public boolean process()
 	{
-		Player currentPlayer = getGame().getCurrentPlayer(); 
-		Player winner = currentPlayer.getOpponent();
-		getGame().getUI().resign(currentPlayer);
-		getGame().gameOver(winner);
-		updateFollowersGameOver(winner);
+		Player resignee = getGame().getCurrentPlayer(); 
+		updateObserversResign(resignee);
 		return true;
 	}
 }

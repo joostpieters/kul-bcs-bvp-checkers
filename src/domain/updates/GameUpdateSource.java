@@ -6,88 +6,175 @@ import java.util.List;
 import common.Player;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
-import domain.updates.contracts.IGameFollower;
+import domain.updates.contracts.IGameObserver;
 import domain.updates.contracts.IGameUpdateSource;
+import domain.updates.contracts.IUpdate;
 
 /**
  * A convenient, basic implementation of {@link IGameUpdateSource}.  
  */
-public abstract class GameUpdateSource implements IGameUpdateSource
+public abstract class GameUpdateSource extends BasicGameUpdateSource implements IGameUpdateSource
 {
-	private final List<IGameFollower> followers = new ArrayList<IGameFollower>(); 
-	private boolean disabled = false;
+	private final List<IGameObserver> observers = new ArrayList<IGameObserver>();
 	
-	protected List<IGameFollower> getFollowers()
+	protected List<IGameObserver> getObservers()
 	{
-		return followers;
+		return observers;
 	}
 	
-	protected boolean isDisabled()
-	{
-		return disabled;
-	}
-	
-	protected void enableUpdateFollowers() {
-		this.disabled = false;
-	}
-	
-	protected void disableUpdateFollowers() {
-		this.disabled = true;
-	}
-	
-	protected void updateFollowers(IReadOnlyBoard board, Player performer)
+	protected void sendToObservers(IUpdate update)
 	{
 		if(!isDisabled())
 		{
-			for(IGameFollower follower : getFollowers())
+			for(IGameObserver observer : getObservers())
 			{
-				follower.update(board, performer);
+				update.sendTo(observer);
 			}
 		}
 	}
 	
-	protected void updateFollowersGameOver(Player winner)
+	protected void updateObserversBoard(IReadOnlyBoard board, Player performer)
 	{
-		if(!isDisabled())
+		super.updateObserversBoard(board, performer); //update basic observers
+		sendToObservers(new IUpdate()
 		{
-			for(IGameFollower follower : getFollowers())
+			@Override
+			public void sendTo(IGameObserver observer)
 			{
-				follower.gameOver(winner);
+				observer.updateBoard(board, performer);
 			}
-		}
+		});
 	}
 	
-	protected void updateFollowersPromotion(Location location)
+	protected void updateObserversGameOver(Player winner)
 	{
-		if(!isDisabled())
+		sendToObservers(new IUpdate()
 		{
-			for(IGameFollower follower : getFollowers())
+			@Override
+			public void sendTo(IGameObserver observer)
 			{
-				follower.promotion(location);
+				observer.gameOver(winner);
 			}
-		}
+		});
 	}
 	
-	protected void updateFollowersOutOfMoves(Player player)
+	protected void updateObserversPromotion(Location location)
 	{
-		if(!isDisabled())
+		sendToObservers(new IUpdate()
 		{
-			for(IGameFollower follower : getFollowers())
+			@Override
+			public void sendTo(IGameObserver observer)
 			{
-				follower.outOfMoves(player);
+				observer.promotion(location);
 			}
-		}
+		});
+	}
+	
+	protected void updateObserversOutOfMoves(Player player)
+	{
+		sendToObservers(new IUpdate()
+		{
+			@Override
+			public void sendTo(IGameObserver observer)
+			{
+				observer.outOfMoves(player);
+			}
+		});
+	}
+	
+	protected void updateObserversProposeRemise(Player proposer)
+	{
+		sendToObservers(new IUpdate()
+		{
+			@Override
+			public void sendTo(IGameObserver observer)
+			{
+				observer.proposeRemise(proposer);
+			}
+		});
+	}
+	
+	protected void updateObserversAgreeRemise()
+	{
+		sendToObservers(new IUpdate()
+		{
+			@Override
+			public void sendTo(IGameObserver observer)
+			{
+				observer.agreeRemise();
+			}
+		});
+	}
+	
+	protected void updateObserversDisagreeRemise()
+	{
+		sendToObservers(new IUpdate()
+		{
+			@Override
+			public void sendTo(IGameObserver observer)
+			{
+				observer.disagreeRemise();
+			}
+		});
+	}
+	
+	protected void updateObserversResign(Player resignee)
+	{
+		sendToObservers(new IUpdate()
+		{
+			@Override
+			public void sendTo(IGameObserver observer)
+			{
+				observer.resign(resignee);
+			}
+		});
+	}
+	
+	protected void updateObserversStart(IReadOnlyBoard board, Player starter)
+	{
+		sendToObservers(new IUpdate()
+		{
+			@Override
+			public void sendTo(IGameObserver observer)
+			{
+				observer.start(board, starter);
+			}
+		});
+	}
+	
+	protected void updateObserversWarning(String message)
+	{
+		sendToObservers(new IUpdate()
+		{
+			@Override
+			public void sendTo(IGameObserver observer)
+			{
+				observer.warning(message);
+			}
+		});
+	}
+	
+	protected void updateObserversError(String message, Exception ex)
+	{
+		sendToObservers(new IUpdate()
+		{
+			@Override
+			public void sendTo(IGameObserver observer)
+			{
+				observer.error(message, ex);
+			}
+		});
 	}
 	
 	@Override
-	public void subscribe(IGameFollower follower)
+	public void subscribe(IGameObserver observer)
 	{
-		getFollowers().add(follower);
+		getObservers().add(observer);
 	}
 	
 	@Override
-	public void unsubscribe(IGameFollower follower)
+	public void unsubscribe(IGameObserver observer)
 	{
-		getFollowers().remove(follower);
+		getObservers().remove(observer);
 	}
 }

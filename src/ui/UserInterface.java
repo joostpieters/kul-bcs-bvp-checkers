@@ -4,17 +4,19 @@ import java.util.Scanner;
 
 import common.Player;
 
-public class UserInterface { //TODO localize strings
+public class UserInterface
+{
+	//TODO localize strings
+	//TODO restrict usage to Inputs?
 	private final static Scanner inputScanner = new Scanner(System.in);
 	
 	public boolean askYesNo(String message)
 	{
-		return askInput(message).toLowerCase().equals("y");
+		return askInput(message + " (Y/N)").toLowerCase().equals("y");
 	}
 	
 	public String askInput(String message)
 	{
-		//showMessage(message);
 		System.out.print(message);
 		return inputScanner.nextLine();
 	}
@@ -27,47 +29,6 @@ public class UserInterface { //TODO localize strings
 	public void showMessage(String message)
 	{
 		System.out.println(message);
-	}
-	
-	public void showWarning(String message)
-	{
-		System.out.println("Warning! " + message);
-	}
-	
-	public void showError(String message)
-	{
-		System.err.println(message);
-	}
-	
-	public boolean askRemise(Player player)
-	{
-		String message = player + " proposes remise. Accept (y/n)?";
-		return askYesNo(message);
-	}
-	
-	public void agreeRemise() //TODO implement all as events?
-	{
-		showMessage("Remise.");
-	}
-	
-	public void disagreeRemise()
-	{
-		showMessage("Remise denied.");
-	}
-	
-	public void resign(Player player)
-	{
-		showMessage(player + " resigns.");
-	}
-	
-	public void gameOver(Player winner)
-	{
-		showMessage(winner + " wins!");
-	}
-	
-	public void outOfMoves(Player player)
-	{
-		showMessage(player + " lost because there are no more possible moves.");
 	}
 	
 	public void close()

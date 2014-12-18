@@ -8,9 +8,10 @@ import common.Player;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
-import domain.updates.contracts.IGameFollower;
+import domain.updates.contracts.IBasicGameObserver;
 
-public class CompositeAction extends Action implements IGameFollower {
+public class CompositeAction extends Action implements IBasicGameObserver
+{
 	private final List<Action> actions = new ArrayList<Action>();
 	
 	public CompositeAction(Action... actions)
@@ -48,9 +49,9 @@ public class CompositeAction extends Action implements IGameFollower {
 			{
 				return false;
 			}
-			disableUpdateFollowers();
+			disableUpdateObservers();
 			action.executeOn(testBoard, currentPlayer);
-			enableUpdateFollowers();
+			enableUpdateObserverss();
 		}
 		return true;
 	}
@@ -85,26 +86,8 @@ public class CompositeAction extends Action implements IGameFollower {
 	}
 
 	@Override
-	public void update(IReadOnlyBoard board, Player performer) //propagate updates from actions to own followers
+	public void updateBoard(IReadOnlyBoard board, Player performer) //propagate updates from actions to own observers
 	{
-		updateFollowers(board, performer);		
-	}
-
-	@Override
-	public void gameOver(Player winner)
-	{
-		updateFollowersGameOver(winner);
-	}
-
-	@Override
-	public void promotion(Location location)
-	{
-		updateFollowersPromotion(location);		
-	}
-
-	@Override
-	public void outOfMoves(Player player)
-	{
-		updateFollowersOutOfMoves(player);
+		updateObserversBoard(board, performer);		
 	}
 }

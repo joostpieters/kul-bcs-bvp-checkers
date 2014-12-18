@@ -88,7 +88,7 @@ public class LegalActionChecker
 	{
 		List<CatchActionRequest> result = new ArrayList<CatchActionRequest>();
 		Player currentPlayer = getGame().getCurrentPlayer();
-		List<AtomicCatchActionRequest> atomicCatchRequests = OutOfMovesChecker.getAtomicCatchesFromLocation(currentPlayer, board, start); //TODO find better place
+		List<AtomicCatchActionRequest> atomicCatchRequests = OutOfMovesObserver.getAtomicCatchesFromLocation(currentPlayer, board, start); //TODO find better place
 		for(AtomicCatchActionRequest atomicCatchRequest : atomicCatchRequests)
 		{
 			IBoard testBoard = board.getDeepClone();

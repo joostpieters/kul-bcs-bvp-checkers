@@ -61,7 +61,14 @@ public final class Location
 	
 	@Override
 	public String toString() {
-		return String.format("%d:(%d, %d)", getIndex(), getRow(), getCol());
+		if(isBlack())
+		{
+			return String.format("%d:(%d, %d)", getIndex(), getRow(), getCol());
+		}
+		else
+		{
+			return String.format("(%d, %d)", getRow(), getCol());
+		}
 	}
 	
 	public boolean isWhite()
