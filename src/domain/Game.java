@@ -1,6 +1,5 @@
 package domain;
 
-import ui.UserInterface;
 import common.Configs;
 import common.Player;
 import domain.board.Board;
@@ -8,7 +7,6 @@ import domain.board.Board;
 
 public class Game {
 	private final Board board;
-	private final UserInterface ui;
 	private Player currentPlayer = Configs.FirstPlayer;
 	private Player winner = null;
 	private GameState state = GameState.Ongoing;
@@ -16,11 +14,6 @@ public class Game {
 	public Board getBoard()
 	{
 		return board;
-	}
-	
-	public UserInterface getUI()
-	{
-		return ui;
 	}
 
 	public Player getCurrentPlayer()
@@ -82,9 +75,8 @@ public class Game {
 		setGameState(GameState.Finished);
 	}
 	
-	public Game(Board board, UserInterface ui)
+	public Game(Board board)
 	{
 		this.board = board;
-		this.ui = ui;
 	}
 }

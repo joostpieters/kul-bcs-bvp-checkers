@@ -1,6 +1,7 @@
 package domain.updates;
 
 import common.Player;
+import domain.action.Action;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.updates.contracts.IGameObserver;
@@ -24,9 +25,9 @@ public abstract class GameUpdatePropagator extends GameUpdateSource implements I
 	}
 	
 	@Override
-	public void promotion(Location location)
+	public void promotion(IReadOnlyBoard board, Location location)
 	{
-		updateObserversPromotion(location);
+		updateObserversPromotion(board, location);
 	}
 	
 	@Override
@@ -36,15 +37,15 @@ public abstract class GameUpdatePropagator extends GameUpdateSource implements I
 	}
 	
 	@Override
-	public void agreeRemise()
+	public void acceptRemise()
 	{
-		updateObserversAgreeRemise();
+		updateObserversAcceptRemise();
 	}
 	
 	@Override
-	public void disagreeRemise()
+	public void declineRemise()
 	{
-		updateObserversDisagreeRemise();
+		updateObserversDeclineRemise();
 	}
 	
 	@Override
@@ -63,6 +64,18 @@ public abstract class GameUpdatePropagator extends GameUpdateSource implements I
 	public void start(IReadOnlyBoard board, Player starter)
 	{
 		updateObserversStart(board, starter);
+	}
+	
+	@Override
+	public void executeAction(Action action)
+	{
+		updateObserversExecuteAction(action);
+	}
+	
+	@Override
+	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
+	{
+		updateObserversSwitchPlayer(board, switchedIn);
 	}
 	
 	@Override

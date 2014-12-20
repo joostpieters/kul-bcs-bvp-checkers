@@ -1,4 +1,4 @@
-package ui;
+package ui.contracts;
 
 import domain.board.contracts.IReadOnlyBoard;
 import domain.updates.contracts.IGameObserver;

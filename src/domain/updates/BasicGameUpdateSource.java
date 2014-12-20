@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.Player;
+import domain.action.Action;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.updates.contracts.IBasicGameObserver;
 import domain.updates.contracts.IBasicGameUpdateSource;
@@ -56,6 +57,30 @@ public class BasicGameUpdateSource implements IBasicGameUpdateSource
 			public void sendTo(IBasicGameObserver observer)
 			{
 				observer.updateBoard(board, performer);
+			}
+		});
+	}
+	
+	protected void updateObserversSwitchPlayer(IReadOnlyBoard board, Player switchedIn)
+	{
+		sendToObservers(new IBasicUpdate()
+		{
+			@Override
+			public void sendTo(IBasicGameObserver observer)
+			{
+				observer.switchPlayer(board, switchedIn);
+			}
+		});
+	}
+
+	protected void updateObserversExecuteAction(Action action)
+	{
+		sendToObservers(new IBasicUpdate()
+		{
+			@Override
+			public void sendTo(IBasicGameObserver observer)
+			{
+				observer.executeAction(action);
 			}
 		});
 	}

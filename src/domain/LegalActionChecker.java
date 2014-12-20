@@ -10,12 +10,13 @@ import common.Configs;
 import common.Player;
 import domain.action.Action;
 import domain.action.ActionFactory;
-import domain.action.ActionRequestPriorityComparator;
 import domain.action.request.ActionRequest;
+import domain.action.request.ActionRequestPriorityComparator;
 import domain.action.request.AtomicCatchActionRequest;
 import domain.action.request.CatchActionRequest;
 import domain.board.contracts.IBoard;
 import domain.location.Location;
+import domain.observers.OutOfMovesObserver;
 
 public class LegalActionChecker
 {
@@ -88,7 +89,7 @@ public class LegalActionChecker
 	{
 		List<CatchActionRequest> result = new ArrayList<CatchActionRequest>();
 		Player currentPlayer = getGame().getCurrentPlayer();
-		List<AtomicCatchActionRequest> atomicCatchRequests = OutOfMovesObserver.getAtomicCatchesFromLocation(currentPlayer, board, start); //TODO find better place
+		List<AtomicCatchActionRequest> atomicCatchRequests = OutOfMovesObserver.getAtomicCatchesFromLocation(board, currentPlayer, start); //TODO find better place
 		for(AtomicCatchActionRequest atomicCatchRequest : atomicCatchRequests)
 		{
 			IBoard testBoard = board.getDeepClone();

@@ -1,6 +1,7 @@
 package domain.input;
 
-import ui.UserInterface;
+import ui.LocalizationManager;
+import ui.contracts.IUserInterface;
 import common.Player;
 import domain.Game;
 import domain.input.contracts.IInput;
@@ -9,15 +10,22 @@ import domain.updates.GameUpdateSource;
 public class RemiseInput extends GameUpdateSource implements IInput
 {
 	private final Game game;
+	private final IUserInterface ui;
 	
 	private Game getGame()
 	{
 		return game;
 	}
 	
-	public RemiseInput(Game game)
+	private IUserInterface getUI()
+	{
+		return ui;
+	}
+	
+	public RemiseInput(Game game, IUserInterface ui)
 	{
 		this.game = game;
+		this.ui = ui;
 	}
 	
 	@Override
@@ -25,18 +33,17 @@ public class RemiseInput extends GameUpdateSource implements IInput
 	{
 		Game game = getGame();
 		Player proposer = game.getCurrentPlayer();
-		UserInterface ui = game.getUI();
 		
 		updateObserversProposeRemise(proposer);
 		
-		if(ui.askYesNo("Accept remise?"))
+		if(getUI().askYesNo(LocalizationManager.getString("acceptRemise")))
 		{
-			updateObserversAgreeRemise();
+			updateObserversAcceptRemise();
 			return true;
 		}
 		else
 		{
-			updateObserversDisagreeRemise();
+			updateObserversDeclineRemise();
 			return false;
 		}
 	}		

@@ -77,6 +77,7 @@ public class AtomicActionCatch extends AtomicAction
 		Location center = pair.getCenterBetween();
 		board.removePiece(center);
 		board.movePiece(pair);
+		updateObserversExecuteAction(this);
 		updateObserversBoard(board.getReadOnlyBoard(), currentPlayer);
 	}
 	

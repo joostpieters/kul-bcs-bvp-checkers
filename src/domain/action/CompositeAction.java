@@ -8,8 +8,15 @@ import common.Player;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
+import domain.updates.GameUpdatePropagator;
 import domain.updates.contracts.IBasicGameObserver;
 
+/**
+ *
+ * Note: this class should ideally extend {@link GameUpdatePropagator}
+ * but already extends Action. Since java does not support multiple inheritance, 
+ * some code used to propagate events is duplicated within. 
+ */
 public class CompositeAction extends Action implements IBasicGameObserver
 {
 	private final List<Action> actions = new ArrayList<Action>();
@@ -89,5 +96,17 @@ public class CompositeAction extends Action implements IBasicGameObserver
 	public void updateBoard(IReadOnlyBoard board, Player performer) //propagate updates from actions to own observers
 	{
 		updateObserversBoard(board, performer);		
+	}
+
+	@Override
+	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
+	{
+		updateObserversSwitchPlayer(board, switchedIn);
+	}
+
+	@Override
+	public void executeAction(Action action)
+	{
+		updateObserversExecuteAction(action);
 	}
 }

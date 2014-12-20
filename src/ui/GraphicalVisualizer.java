@@ -2,11 +2,13 @@ package ui;
 
 import java.awt.event.WindowEvent;
 
+import ui.contracts.IVisualizer;
 import bvp.Bord;
 import bvp.Figuren;
 import bvp.Figuur;
 import common.Configs;
 import common.Player;
+import domain.action.Action;
 import domain.board.BoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
@@ -54,8 +56,8 @@ public class GraphicalVisualizer implements IVisualizer {
 	{
 		Bord frame = getFrame();
 		BoardSize size = board.getSize();
-		Figuren numbers = new Figuren("data\\cijfers32.fig");
-		Figuren pieces = new Figuren("data\\schijven.fig");
+		Figuren numbers = new Figuren(Configs.CijfersPath);
+		Figuren pieces = new Figuren(Configs.SchijvenPath);
 		Figuur background = new Figuur(size.getCols()*50, size.getRows()*50);
 		Figuur whiteSquare = new Figuur(Configs.SquareSizePx, Configs.SquareSizePx);
 		Figuur blackSquare = new Figuur(Configs.SquareSizePx, Configs.SquareSizePx);
@@ -105,7 +107,6 @@ public class GraphicalVisualizer implements IVisualizer {
 	@Override
 	public void updateBoard(IReadOnlyBoard board, Player performer)
 	{
-		getFrame().setTitle(performer + " just played");
 		paint(board);
 	}
 
@@ -116,40 +117,35 @@ public class GraphicalVisualizer implements IVisualizer {
 	}
 
 	@Override
-	public void promotion(Location location)
+	public void promotion(IReadOnlyBoard board, Location location)
 	{
-		
+		paint(board);
 	}
 
 	@Override
 	public void outOfMoves(Player player)
 	{
-		
 	}
 
 	
 	@Override
 	public void proposeRemise(Player proposer)
 	{
-		
 	}
 
 	@Override
-	public void agreeRemise()
+	public void acceptRemise()
 	{
-		
 	}
 
 	@Override
-	public void disagreeRemise()
+	public void declineRemise()
 	{
-		
 	}
 
 	@Override
 	public void resign(Player resignee)
 	{
-		
 	}
 
 	@Override
@@ -161,12 +157,20 @@ public class GraphicalVisualizer implements IVisualizer {
 	@Override
 	public void warning(String message)
 	{
-		
 	}
 
 	@Override
 	public void error(String message, Exception ex)
 	{
-		
+	}
+
+	@Override
+	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
+	{
+	}
+
+	@Override
+	public void executeAction(Action action)
+	{
 	}
 }

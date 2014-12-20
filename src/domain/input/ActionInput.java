@@ -1,5 +1,6 @@
 package domain.input;
 
+import ui.LocalizationManager;
 import common.Player;
 import domain.Game;
 import domain.LegalActionChecker;
@@ -75,12 +76,6 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 	
 	private ActionRequest analyzeAction()
 	{
-		//1-7: step
-		//1-45: fly = multi-step
-		//1x12: catch
-		//1x12x23: multi-catch
-		//1x23: fly-catch
-		//1x23x34: multi-fly-catch
 		String move = getMove();
 		if(move.matches("\\d+\\s*-\\s*\\d+")) //step or fly
 		{
@@ -108,6 +103,6 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 				return new CatchActionRequest(indices);
 			}
 		}
-		throw new IllegalArgumentException("Invalid pattern");
+		throw new IllegalArgumentException(LocalizationManager.getString("invalidPatternException"));
 	}
 }

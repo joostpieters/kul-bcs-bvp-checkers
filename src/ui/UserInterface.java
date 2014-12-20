@@ -2,37 +2,36 @@ package ui;
 
 import java.util.Scanner;
 
+import ui.contracts.IUserInterface;
 import common.Player;
 
-public class UserInterface
+public class UserInterface implements IUserInterface
 {
-	//TODO localize strings
-	//TODO restrict usage to Inputs?
-	private final static Scanner inputScanner = new Scanner(System.in);
+	private final static Scanner INPUT_SCANNER = new Scanner(System.in);
 	
+	@Override
 	public boolean askYesNo(String message)
 	{
 		return askInput(message + " (Y/N)").toLowerCase().equals("y");
 	}
 	
+	@Override
 	public String askInput(String message)
 	{
 		System.out.print(message);
-		return inputScanner.nextLine();
+		return INPUT_SCANNER.nextLine();
 	}
 	
-	public String askMoveInput(Player player)
+	@Override
+	public String askActionInput(Player player)
 	{
-		return askInput(player + "'s next move: ");
+		String message = LocalizationManager.getString("askActionInput");
+		return askInput(String.format(message, player));
 	}
 	
-	public void showMessage(String message)
-	{
-		System.out.println(message);
-	}
-	
+	@Override
 	public void close()
 	{
-		inputScanner.close();
+		INPUT_SCANNER.close();
 	}
 }

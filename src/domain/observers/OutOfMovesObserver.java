@@ -1,10 +1,11 @@
-package domain;
+package domain.observers;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import common.Player;
+import domain.Game;
 import domain.action.Action;
 import domain.action.ActionFactory;
 import domain.action.request.ActionRequest;
@@ -16,25 +17,22 @@ import domain.location.Direction;
 import domain.location.Location;
 import domain.updates.GameUpdateSource;
 import domain.updates.contracts.IBasicGameObserver;
+import domain.updates.contracts.IGameObserver;
 
+/**
+ * This {@link IGameObserver} monitors the {@link Game} 
+ * for possible out-of-moves occurrences every time the {@link Player}s switch turns.
+ * If it found such an occurrence, it signals this to its own observers 
+ * through the {@link IGameObserver#outOfMoves(Player) } event.
+ */
 public class OutOfMovesObserver extends GameUpdateSource implements IBasicGameObserver
 {
-	@Override
-	public void updateBoard(IReadOnlyBoard board, Player performer)
-	{
-		Player nextPlayer = performer.getOpponent();
-		if(isCurrentPlayerOutOfMoves(nextPlayer, board))
-		{
-			updateObserversOutOfMoves(nextPlayer);
-		}
-	}
-	
-	public static boolean isCurrentPlayerOutOfMoves(Player player, IReadOnlyBoard board)
+	private static boolean isCurrentPlayerOutOfMoves(IReadOnlyBoard board, Player player)
 	{
 		Set<Location> locations = board.getPlayerPieces(player).keySet();
 		for(Location location : locations)
 		{
-			if(canAct(player, board, location))
+			if(canAct(board, player, location))
 			{
 				return false;
 			}
@@ -42,7 +40,7 @@ public class OutOfMovesObserver extends GameUpdateSource implements IBasicGameOb
 		return true;
 	}
 	
-	private static <T extends ActionRequest> List<T> filterValidActionRequests(Player player, IReadOnlyBoard board, List<T> requests)
+	private static <T extends ActionRequest> List<T> filterValidActionRequests(IReadOnlyBoard board, Player player, List<T> requests)
 	{
 		List<T> filteredRequests = new ArrayList<T>();
 		for(T step : requests)
@@ -57,28 +55,28 @@ public class OutOfMovesObserver extends GameUpdateSource implements IBasicGameOb
 		return filteredRequests;
 	}
 	
-	private static boolean canMove(Player player, IReadOnlyBoard board, Location location)
+	private static boolean canMove(IReadOnlyBoard board, Player player, Location location)
 	{
-		List<MoveActionRequest> possibleAtomicSteps = getAtomicStepsFromLocation(player, board, location);		
-		List<MoveActionRequest> validAtomicSteps = filterValidActionRequests(player, board, possibleAtomicSteps);
+		List<MoveActionRequest> possibleAtomicSteps = getAtomicStepsFromLocation(board, player, location);		
+		List<MoveActionRequest> validAtomicSteps = filterValidActionRequests(board, player, possibleAtomicSteps);
 		
 		return validAtomicSteps.size() > 0;
 	}
 	
-	private static boolean canCatch(Player player, IReadOnlyBoard board, Location location)
+	private static boolean canCatch(IReadOnlyBoard board, Player player, Location location)
 	{
-		List<AtomicCatchActionRequest> possibleAtomicCatches = getAtomicCatchesFromLocation(player, board, location);		
-		List<AtomicCatchActionRequest> validAtomicCatches = filterValidActionRequests(player, board, possibleAtomicCatches);
+		List<AtomicCatchActionRequest> possibleAtomicCatches = getAtomicCatchesFromLocation(board, player, location);		
+		List<AtomicCatchActionRequest> validAtomicCatches = filterValidActionRequests(board, player, possibleAtomicCatches);
 		
 		return validAtomicCatches.size() > 0;
 	}
 
-	private static boolean canAct(Player player, IReadOnlyBoard board, Location location)
+	private static boolean canAct(IReadOnlyBoard board, Player player, Location location)
 	{
-		return canMove(player, board, location) || canCatch(player, board, location);
+		return canMove(board, player, location) || canCatch(board, player, location);
 	}
 	
-	public static List<MoveActionRequest> getAtomicStepsFromLocation(Player player, IReadOnlyBoard board, Location location)
+	public static List<MoveActionRequest> getAtomicStepsFromLocation(IReadOnlyBoard board, Player player, Location location)
 	{
 		List<MoveActionRequest> requests = new ArrayList<MoveActionRequest>();
 		List<Location> targets = new ArrayList<Location>();
@@ -97,7 +95,7 @@ public class OutOfMovesObserver extends GameUpdateSource implements IBasicGameOb
 		return requests;
 	}
 	
-	public static List<AtomicCatchActionRequest> getAtomicCatchesFromLocation(Player player, IReadOnlyBoard board, Location location)
+	public static List<AtomicCatchActionRequest> getAtomicCatchesFromLocation(IReadOnlyBoard board, Player player, Location location)
 	{
 		List<AtomicCatchActionRequest> requests = new ArrayList<AtomicCatchActionRequest>();
 		List<Location> targets = new ArrayList<Location>();
@@ -117,5 +115,24 @@ public class OutOfMovesObserver extends GameUpdateSource implements IBasicGameOb
 			}
 		}
 		return requests;
+	}
+	
+	@Override
+	public void updateBoard(IReadOnlyBoard board, Player performer)
+	{
+	}
+	
+	@Override
+	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
+	{
+		if(isCurrentPlayerOutOfMoves(board, switchedIn))
+		{
+			updateObserversOutOfMoves(switchedIn);
+		}
+	}
+
+	@Override
+	public void executeAction(Action action)
+	{
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.Player;
+import domain.action.Action;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.updates.contracts.IGameObserver;
@@ -58,14 +59,14 @@ public abstract class GameUpdateSource extends BasicGameUpdateSource implements 
 		});
 	}
 	
-	protected void updateObserversPromotion(Location location)
+	protected void updateObserversPromotion(IReadOnlyBoard board, Location location)
 	{
 		sendToObservers(new IUpdate()
 		{
 			@Override
 			public void sendTo(IGameObserver observer)
 			{
-				observer.promotion(location);
+				observer.promotion(board, location);
 			}
 		});
 	}
@@ -94,26 +95,26 @@ public abstract class GameUpdateSource extends BasicGameUpdateSource implements 
 		});
 	}
 	
-	protected void updateObserversAgreeRemise()
+	protected void updateObserversAcceptRemise()
 	{
 		sendToObservers(new IUpdate()
 		{
 			@Override
 			public void sendTo(IGameObserver observer)
 			{
-				observer.agreeRemise();
+				observer.acceptRemise();
 			}
 		});
 	}
 	
-	protected void updateObserversDisagreeRemise()
+	protected void updateObserversDeclineRemise()
 	{
 		sendToObservers(new IUpdate()
 		{
 			@Override
 			public void sendTo(IGameObserver observer)
 			{
-				observer.disagreeRemise();
+				observer.declineRemise();
 			}
 		});
 	}
@@ -138,6 +139,32 @@ public abstract class GameUpdateSource extends BasicGameUpdateSource implements 
 			public void sendTo(IGameObserver observer)
 			{
 				observer.start(board, starter);
+			}
+		});
+	}
+	
+	protected void updateObserversSwitchPlayer(IReadOnlyBoard board, Player performer)
+	{
+		super.updateObserversSwitchPlayer(board, performer); //update basic observers
+		sendToObservers(new IUpdate()
+		{
+			@Override
+			public void sendTo(IGameObserver observer)
+			{
+				observer.switchPlayer(board, performer);
+			}
+		});
+	}
+	
+	protected void updateObserversExecuteAction(Action action)
+	{
+		super.updateObserversExecuteAction(action); //update basic observers
+		sendToObservers(new IUpdate()
+		{
+			@Override
+			public void sendTo(IGameObserver observer)
+			{
+				observer.executeAction(action);
 			}
 		});
 	}

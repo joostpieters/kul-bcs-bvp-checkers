@@ -1,8 +1,9 @@
 package domain;
 
+import ui.LocalizationManager;
 import common.Player;
-
 import domain.board.contracts.IBoard;
+import domain.board.contracts.IReadOnlyBoard;
 import domain.input.InputProvider;
 import domain.input.contracts.IInput;
 import domain.location.Location;
@@ -12,57 +13,53 @@ import domain.updates.GameUpdatePropagator;
 public class GameController extends GameUpdatePropagator
 {
 	private final Game game;
-	private final LegalActionChecker legalActionChecker;
+	private final InputProvider inputProvider;
 	
 	private Game getGame()
 	{
 		return game;
 	}
 	
-	private LegalActionChecker getLegalActionChecker()
+	private InputProvider getInputProvider()
 	{
-		return legalActionChecker;
+		return inputProvider;
 	}
 	
-	public GameController(Game game, LegalActionChecker analyzer)
+	public GameController(Game game, InputProvider inputProvider)
 	{
 		this.game = game;
-		this.legalActionChecker = analyzer;
+		this.inputProvider = inputProvider;
 	}
 	
 	public void play()
 	{
 		Game game = getGame();
-		LegalActionChecker analyzer = getLegalActionChecker();
 		updateObserversStart(game.getBoard().getReadOnlyBoard(), game.getCurrentPlayer());
-		InputProvider inputProvider = new InputProvider();
-		inputProvider.subscribe(this);
 		
 		//main game loop
 		while(!game.isOver())
 		{
-			IInput input = inputProvider.askInput(game, analyzer);
+			IInput input = getInputProvider().askInput(game);
 			boolean success = input.process();
 			
 			if(success)
 			{
 				game.switchCurrentPlayer();
+				updateObserversSwitchPlayer(game.getBoard().getReadOnlyBoard(), game.getCurrentPlayer());
 			}
 			else
 			{
-				updateObserversWarning("Try again.");
+				updateObserversWarning(LocalizationManager.getString("failedInput"));
 			}
 		}
-		game.getUI().close();
 	}
 	
 	@Override
-	public void promotion(Location location)
+	public void promotion(IReadOnlyBoard readOnlyBoard, Location location) //augmented propagation
 	{
 		IBoard board = getGame().getBoard();
 		board.promotePiece(location);
-		super.promotion(location); //disseminate update
-		updateObserversBoard(board.getDeepClone(), getGame().getCurrentPlayer());
+		super.promotion(readOnlyBoard, location); //disseminate update
 	}
 	
 	@Override
@@ -84,9 +81,9 @@ public class GameController extends GameUpdatePropagator
 	}
 	
 	@Override
-	protected void updateObserversAgreeRemise()
+	protected void updateObserversAcceptRemise()
 	{
-		super.updateObserversAgreeRemise();
+		super.updateObserversAcceptRemise();
 		getGame().remise();
 		updateObserversGameOver(null);
 	}

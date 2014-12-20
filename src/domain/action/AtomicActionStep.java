@@ -53,6 +53,7 @@ public class AtomicActionStep extends AtomicAction
 		}
 		
 		board.movePiece(getPair());
+		updateObserversExecuteAction(this);
 		updateObserversBoard(board.getReadOnlyBoard(), currentPlayer);
 	}
 	

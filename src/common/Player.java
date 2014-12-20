@@ -1,6 +1,9 @@
 package common;
 
-public enum Player {
+import ui.LocalizationManager;
+
+public enum Player
+{
 	Black,
 	White;
 
@@ -10,7 +13,10 @@ public enum Player {
 	}
 	
 	@Override
-	public String toString() {
-		return "Player " + super.toString();
+	public String toString()
+	{
+		return this == Black
+				? LocalizationManager.getString("playerBlack")
+				: LocalizationManager.getString("playerWhite");
 	}
 }

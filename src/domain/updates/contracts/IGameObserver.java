@@ -7,7 +7,7 @@ import domain.location.Location;
 /**
  * This interface indicates that the implementer can observe the Game by receiving Board and status updates. 
  * Instances typically subscribe to classes that implement {@link IGameUpdateSource}.
- * This is the Observer in the Observer pattern   
+ * This is the Observer in the Observer pattern.
  */
 public interface IGameObserver extends IBasicGameObserver
 {	
@@ -15,10 +15,12 @@ public interface IGameObserver extends IBasicGameObserver
 	 * This method is typically fired by an external source.
 	 * It indicates that a promotable Piece has reached its promotion row.
 	 * 
+	 * @param	board
+	 * 			The current Board after promotion.
 	 * @param 	location
 	 * 			The location of the Piece to be promoted.
 	 */
-	public void promotion(Location location);
+	public void promotion(IReadOnlyBoard board, Location location);
 	
 	/**
 	 * This method is typically fired by an external source.
@@ -51,13 +53,13 @@ public interface IGameObserver extends IBasicGameObserver
 	 * This method is typically fired by an external source.
 	 * It indicates that both Players agreed on remise.
 	 */
-	public void agreeRemise();
+	public void acceptRemise();
 	
 	/**
 	 * This method is typically fired by an external source.
 	 * It indicates that no agreement on remise was reached.
 	 */
-	public void disagreeRemise();
+	public void declineRemise();
 	
 	/**
 	 * This method is typically fired by an external source.
