@@ -53,13 +53,19 @@ public class AtomicActionStep extends AtomicAction
 		}
 		
 		board.movePiece(getPair());
-		updateObserversExecuteAction(this);
-		updateObserversBoard(board.getReadOnlyBoard(), currentPlayer);
+		emitExecuteAction(this);
+		emitUpdateBoard(board.getReadOnlyBoard(), currentPlayer);
 	}
 	
 	@Override
 	public String toString()
 	{
 		return String.format("Step %s", getPair());
+	}
+
+	@Override
+	public boolean isCatch()
+	{
+		return false;
 	}
 }

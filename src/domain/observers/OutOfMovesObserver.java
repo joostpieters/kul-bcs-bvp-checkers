@@ -5,27 +5,27 @@ import java.util.List;
 import java.util.Set;
 
 import common.Player;
-import domain.Game;
 import domain.action.ActionFactory;
 import domain.action.contracts.IAction;
 import domain.action.request.ActionRequest;
 import domain.action.request.AtomicCatchActionRequest;
 import domain.action.request.MoveActionRequest;
 import domain.board.contracts.IReadOnlyBoard;
+import domain.game.Game;
 import domain.location.DiagonalLocationPair;
 import domain.location.Direction;
 import domain.location.Location;
-import domain.updates.GameUpdateSource;
-import domain.updates.contracts.IBasicGameObserver;
-import domain.updates.contracts.IGameObserver;
+import domain.updates.UpdateSource;
+import domain.updates.contracts.IBasicUpdateProcessor;
+import domain.updates.contracts.IObserver;
 
 /**
- * This {@link IGameObserver} monitors the {@link Game} 
+ * This {@link IObserver} monitors the {@link Game} 
  * for possible out-of-moves occurrences every time the {@link Player}s switch turns.
  * If it found such an occurrence, it signals this to its own observers 
- * through the {@link IGameObserver#outOfMoves(Player) } event.
+ * through the {@link IObserver#outOfMoves(Player) } event.
  */
-public class OutOfMovesObserver extends GameUpdateSource implements IBasicGameObserver
+public class OutOfMovesObserver extends UpdateSource implements IBasicUpdateProcessor
 {
 	private static boolean isCurrentPlayerOutOfMoves(IReadOnlyBoard board, Player player)
 	{
@@ -127,12 +127,19 @@ public class OutOfMovesObserver extends GameUpdateSource implements IBasicGameOb
 	{
 		if(isCurrentPlayerOutOfMoves(board, switchedIn))
 		{
-			updateObserversOutOfMoves(switchedIn);
+			emitOutOfMoves(switchedIn);
 		}
 	}
 
 	@Override
 	public void executeAction(IAction action)
 	{
+	}
+
+	@Override
+	public void subscribeBasicBothWays(IBasicUpdateProcessor propagator)
+	{
+		this.subscribeBasic(propagator);
+		propagator.subscribeBasic(this);
 	}
 }

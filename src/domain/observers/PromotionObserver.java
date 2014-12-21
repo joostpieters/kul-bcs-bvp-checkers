@@ -3,21 +3,21 @@ package domain.observers;
 import java.util.HashMap;
 
 import common.Player;
-import domain.Game;
 import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
+import domain.game.contracts.IGame;
 import domain.location.Location;
 import domain.piece.contracts.IPiece;
-import domain.updates.GameUpdateSource;
-import domain.updates.contracts.IBasicGameObserver;
+import domain.updates.UpdateSource;
+import domain.updates.contracts.IBasicUpdateProcessor;
 
 /**
- * This {@link IGameObserver} monitors the {@link Game} 
+ * This {@link IObserver} monitors the {@link IGame} 
  * for possible promotions every time the {@link Player}s switch turns.
  * If it found a promotion, it signals this to its own observers 
- * through the {@link IGameObserver#promotion(IReadOnlyBoard, Location)} event.
+ * through the {@link IObserver#promotion(IReadOnlyBoard, Location)} update.
  */
-public class PromotionObserver extends GameUpdateSource implements IBasicGameObserver
+public class PromotionObserver extends UpdateSource implements IBasicUpdateProcessor
 {
 	@Override
 	public void updateBoard(IReadOnlyBoard board, Player performer)
@@ -36,7 +36,7 @@ public class PromotionObserver extends GameUpdateSource implements IBasicGameObs
 				IPiece piece = playerPieces.get(location);
 				if(piece.canPromote())
 				{
-					updateObserversPromotion(board, location);
+					emitPromotion(board, location);
 				}
 			}
 		}
@@ -45,5 +45,12 @@ public class PromotionObserver extends GameUpdateSource implements IBasicGameObs
 	@Override
 	public void executeAction(IAction action)
 	{
+	}
+
+	@Override
+	public void subscribeBasicBothWays(IBasicUpdateProcessor propagator)
+	{
+		this.subscribeBasic(propagator);
+		propagator.subscribeBasic(this);
 	}
 }

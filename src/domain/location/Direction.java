@@ -1,5 +1,8 @@
 package domain.location;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Direction
 {
 	Above,
@@ -21,5 +24,15 @@ public enum Direction
 			case Right: return Left;
 			default: throw new IllegalStateException("Unknown Direction: " + this);
 		}
+	}
+	
+	public static List<Direction[]> getDiagonalDirections()
+	{
+		List<Direction[]> directions = new ArrayList<Direction[]>(4);
+		directions.add(new Direction[] {Direction.Front, Direction.Right});
+		directions.add(new Direction[] {Direction.Front, Direction.Left});
+		directions.add(new Direction[] {Direction.Back, Direction.Right});
+		directions.add(new Direction[] {Direction.Back, Direction.Left});
+		return directions;
 	}
 }

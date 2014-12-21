@@ -2,7 +2,6 @@ package domain.input;
 
 import ui.LocalizationManager;
 import common.Player;
-import domain.Game;
 import domain.LegalActionChecker;
 import domain.action.ActionFactory;
 import domain.action.contracts.IAction;
@@ -10,14 +9,15 @@ import domain.action.request.ActionRequest;
 import domain.action.request.AtomicCatchActionRequest;
 import domain.action.request.CatchActionRequest;
 import domain.action.request.MoveActionRequest;
-import domain.board.Board;
+import domain.board.contracts.IBoard;
+import domain.game.contracts.IGame;
 import domain.input.contracts.IInput;
-import domain.updates.GameUpdatePropagator;
+import domain.updates.UpdatePropagator;
 
-public class ActionInput extends GameUpdatePropagator implements IInput
+public class ActionInput extends UpdatePropagator implements IInput
 {
 	private final String move;
-	private final Game game;
+	private final IGame game;
 	private final LegalActionChecker legalActionChecker;
 
 	private String getMove()
@@ -25,7 +25,7 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 		return move;
 	}
 	
-	private Game getGame()
+	private IGame getGame()
 	{
 		return game;
 	}
@@ -35,7 +35,7 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 		return legalActionChecker;
 	}
 	
-	public ActionInput(String move, Game game, LegalActionChecker analyzer)
+	public ActionInput(String move, IGame game, LegalActionChecker analyzer)
 	{
 		this.move = move;
 		this.game = game;
@@ -45,8 +45,8 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 	@Override
 	public boolean process()
 	{
-		Game game = getGame();
-		Board board = game.getBoard();
+		IGame game = getGame();
+		IBoard board = game.getBoard();
 		Player currentPlayer = game.getCurrentPlayer();
 		
 		try
@@ -54,10 +54,11 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 			ActionRequest request = analyzeAction();
 			if(!getLegalActionChecker().isActionLegal(request))
 			{
+				emitWarning(LocalizationManager.getString("warningIllegalAction"));
 				return false;
 			}
 			IAction action = ActionFactory.create(request, board, currentPlayer);
-			action.subscribe(this);
+			action.subscribeBasic(this);
 			if(action.isValidOn(board, currentPlayer))
 			{
 				action.executeOn(board, currentPlayer);
@@ -65,12 +66,13 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 			}
 			else
 			{
+				emitWarning(LocalizationManager.getString("warningInvalidAction"));
 				return false;
 			}
 		}
 		catch(IllegalArgumentException ex)
 		{
-			updateObserversWarning(ex.getMessage());
+			emitWarning(ex.getMessage());
 			return false;
 		}
 	}

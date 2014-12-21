@@ -5,15 +5,14 @@ import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 
 /**
- * This interface indicates that the implementer can observe the Game by receiving Board updates. 
- * Instances typically subscribe to classes that implement {@link IBasicGameUpdateSource}.
- * This is the Observer in the Observer pattern.
+ * This interface indicates that the implementer can observe the Game by receiving Board updates.
+ * As such, the methods below are typically dispatched by an external source. 
+ * Instances typically subscribe to classes that implement {@link IBasicUpdateSource}.
  */
-public interface IBasicGameObserver
+public interface IBasicObserver
 {
 	/**
-	 * This method is typically fired by an external source.
-	 * It indicates that the Board has updated.
+	 * This method indicates that the Board has updated.
 	 *  
 	 * @param 	board
 	 * 			The board that has been updated.
@@ -23,8 +22,7 @@ public interface IBasicGameObserver
 	public void updateBoard(IReadOnlyBoard board, Player performer);
 
 	/**
-	 * This method is typically fired by an external source.
-	 * It indicates that it is now the given Player's turn.
+	 * This method indicates that it is now the given Player's turn.
 	 * 
 	 * @param	board
 	 * 			The current Baord.
@@ -34,8 +32,7 @@ public interface IBasicGameObserver
 	public void switchPlayer(IReadOnlyBoard board, Player switchedIn);
 	
 	/**
-	 * This method is typically fired by an external source.
-	 * It indicates that the given Action has been executed.
+	 * This method indicates that the given Action has been executed.
 	 * 
 	 * @param 	action
 	 * 			The action that has been executed. 

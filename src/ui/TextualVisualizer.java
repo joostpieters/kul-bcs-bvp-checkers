@@ -94,4 +94,10 @@ public class TextualVisualizer implements IVisualizer
 	{
 		System.out.println(action);
 	}
+
+	@Override
+	public void forcedRemise()
+	{
+		System.out.println(LocalizationManager.getString("forcedRemise"));
+	}
 }

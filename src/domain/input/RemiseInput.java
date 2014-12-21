@@ -3,16 +3,16 @@ package domain.input;
 import ui.LocalizationManager;
 import ui.contracts.IUserInterface;
 import common.Player;
-import domain.Game;
+import domain.game.contracts.IReadOnlyGame;
 import domain.input.contracts.IInput;
-import domain.updates.GameUpdateSource;
+import domain.updates.UpdateSource;
 
-public class RemiseInput extends GameUpdateSource implements IInput
+public class RemiseInput extends UpdateSource implements IInput
 {
-	private final Game game;
+	private final IReadOnlyGame game;
 	private final IUserInterface ui;
 	
-	private Game getGame()
+	private IReadOnlyGame getGame()
 	{
 		return game;
 	}
@@ -22,7 +22,7 @@ public class RemiseInput extends GameUpdateSource implements IInput
 		return ui;
 	}
 	
-	public RemiseInput(Game game, IUserInterface ui)
+	public RemiseInput(IReadOnlyGame game, IUserInterface ui)
 	{
 		this.game = game;
 		this.ui = ui;
@@ -31,19 +31,19 @@ public class RemiseInput extends GameUpdateSource implements IInput
 	@Override
 	public boolean process()
 	{
-		Game game = getGame();
+		IReadOnlyGame game = getGame();
 		Player proposer = game.getCurrentPlayer();
 		
-		updateObserversProposeRemise(proposer);
+		emitProposeRemise(proposer);
 		
 		if(getUI().askYesNo(LocalizationManager.getString("acceptRemise")))
 		{
-			updateObserversAcceptRemise();
+			emitAcceptRemise();
 			return true;
 		}
 		else
 		{
-			updateObserversDeclineRemise();
+			emitDeclineRemise();
 			return false;
 		}
 	}		

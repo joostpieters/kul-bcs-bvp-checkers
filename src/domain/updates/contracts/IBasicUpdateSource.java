@@ -1,10 +1,9 @@
 package domain.updates.contracts;
 
 /**
- * Provides a basic interface for every class that wants to accept {@link IBasicGameObserver}s and send them updates.
- * This is the Subject in the Observer pattern.  
+ * Provides a basic interface for every class that wants to accept {@link IBasicObserver}s and send them updates.
  */
-public interface IBasicGameUpdateSource
+public interface IBasicUpdateSource
 {
 	/**
 	 * Subscribe an observer to receive future updates about the game.
@@ -12,7 +11,7 @@ public interface IBasicGameUpdateSource
 	 * @param 	observer
 	 * 			The observer that will receive updates.
 	 */
-	public void subscribe(IBasicGameObserver observer);
+	public void subscribeBasic(IBasicObserver observer);
 	
 	/**
 	 * Unsubscribe an observer to stop receiving updates about the game.
@@ -20,5 +19,5 @@ public interface IBasicGameUpdateSource
 	 * @param 	observer
 	 * 			The observer to unsubscribe.
 	 */
-	public void unsubscribe(IBasicGameObserver observer);
+	public void unsubscribeBasic(IBasicObserver observer);
 }

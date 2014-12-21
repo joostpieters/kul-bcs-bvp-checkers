@@ -3,13 +3,13 @@ package domain.input;
 import ui.LocalizationManager;
 import ui.contracts.IUserInterface;
 import common.Player;
-import domain.Game;
 import domain.LegalActionChecker;
+import domain.game.contracts.IGame;
 import domain.input.contracts.IInput;
-import domain.updates.GameUpdatePropagator;
+import domain.updates.UpdatePropagator;
 
 
-public class InputProvider extends GameUpdatePropagator implements AutoCloseable
+public class InputProvider extends UpdatePropagator implements AutoCloseable
 {
 	private final IUserInterface ui;
 	private final LegalActionChecker legalActionChecker;
@@ -43,7 +43,7 @@ public class InputProvider extends GameUpdatePropagator implements AutoCloseable
 		this.legalActionChecker = legalActionChecker;
 	}
 	
-	public IInput askInput(Game game)
+	public IInput askInput(IGame game)
 	{
 		if(isClosed())
 		{
@@ -53,13 +53,13 @@ public class InputProvider extends GameUpdatePropagator implements AutoCloseable
 		String move = getUI().askActionInput(player);
 		if(move.equals(LocalizationManager.getString("resignInput")))
 		{
-			ResignInput input = new ResignInput(game);
+			ResignInput input = new ResignInput(game.getReadOnlyGame());
 			input.subscribe(this);
 			return input;
 		}
 		else if(move.equals(LocalizationManager.getString("remiseInput")))
 		{
-			RemiseInput input = new RemiseInput(game, getUI());
+			RemiseInput input = new RemiseInput(game.getReadOnlyGame(), getUI());
 			input.subscribe(this);
 			return input;
 		}

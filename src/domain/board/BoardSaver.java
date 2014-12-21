@@ -11,9 +11,9 @@ import java.util.Calendar;
 import common.Player;
 import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
-import domain.updates.contracts.IBasicGameObserver;
+import domain.updates.contracts.IBasicObserver;
 
-public class BoardSaver implements IBasicGameObserver
+public class BoardSaver implements IBasicObserver
 {
 	private final Path outputDirectory;
 	

@@ -11,6 +11,7 @@ public class Configs
 	public final static boolean BackwardCatchingAllowed = true;
 	public final static Player FirstPlayer = Player.White;
 	public final static boolean FlyingDame = true;
+	public final static int RemiseThreshold = 25;
 
 	// GUI
 	public final static Color DarkColor = Color.GRAY;
@@ -18,6 +19,7 @@ public class Configs
 	public final static int SquareSizePx = 50;
 	public final static String CijfersPath = "data\\cijfers32.fig";
 	public final static String SchijvenPath = "data\\schijven.fig";
+	public final static int PaintDelayMs = 100; 
 
 	// Locale
 	public final static String Language = "nl";

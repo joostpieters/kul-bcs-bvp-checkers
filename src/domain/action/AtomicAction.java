@@ -3,9 +3,9 @@ package domain.action;
 import domain.action.contracts.IAction;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
-import domain.updates.BasicGameUpdateSource;
+import domain.updates.BasicUpdateSource;
 
-public abstract class AtomicAction extends BasicGameUpdateSource implements IAction
+public abstract class AtomicAction extends BasicUpdateSource implements IAction
 {
 	private final DiagonalLocationPair pair;
 	

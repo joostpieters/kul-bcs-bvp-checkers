@@ -97,6 +97,7 @@ public class GraphicalVisualizer implements IVisualizer
 			}
 		}
 		frame.toon(background);
+		try {Thread.sleep(Configs.PaintDelayMs);} catch (InterruptedException e) { }
 	}
 	
 	private void close()
@@ -172,6 +173,11 @@ public class GraphicalVisualizer implements IVisualizer
 
 	@Override
 	public void executeAction(IAction action)
+	{
+	}
+
+	@Override
+	public void forcedRemise()
 	{
 	}
 }

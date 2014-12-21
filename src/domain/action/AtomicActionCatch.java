@@ -72,12 +72,18 @@ public class AtomicActionCatch extends AtomicAction
 		Location center = pair.getCenterBetween();
 		board.removePiece(center);
 		board.movePiece(pair);
-		updateObserversExecuteAction(this);
-		updateObserversBoard(board.getReadOnlyBoard(), currentPlayer);
+		emitExecuteAction(this);
+		emitUpdateBoard(board.getReadOnlyBoard(), currentPlayer);
 	}
 	
 	@Override
 	public String toString() {
 		return String.format("Catch %s", getPair());
+	}
+
+	@Override
+	public boolean isCatch()
+	{
+		return true;
 	}
 }

@@ -9,9 +9,9 @@ import domain.action.contracts.IAction;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
-import domain.updates.GameUpdatePropagator;
+import domain.updates.UpdatePropagator;
 
-public class CompositeAction extends GameUpdatePropagator implements IAction
+public class CompositeAction extends UpdatePropagator implements IAction
 {
 	private final List<IAction> actions = new ArrayList<IAction>();
 	
@@ -33,7 +33,7 @@ public class CompositeAction extends GameUpdatePropagator implements IAction
 	protected void addAction(IAction action)
 	{
 		getActions().add(action);
-		action.subscribe(this);
+		action.subscribeBasic(this);
 	}
 	
 	@Override
@@ -89,18 +89,24 @@ public class CompositeAction extends GameUpdatePropagator implements IAction
 	@Override
 	public void updateBoard(IReadOnlyBoard board, Player performer) //propagate updates from actions to own observers
 	{
-		updateObserversBoard(board, performer);		
+		emitUpdateBoard(board, performer);		
 	}
 
 	@Override
 	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
 	{
-		updateObserversSwitchPlayer(board, switchedIn);
+		emitSwitchPlayer(board, switchedIn);
 	}
 
 	@Override
 	public void executeAction(IAction action)
 	{
-		updateObserversExecuteAction(action);
+		emitExecuteAction(action);
+	}
+
+	@Override
+	public boolean isCatch()
+	{
+		return getActions().stream().anyMatch(a -> a.isCatch());
 	}
 }

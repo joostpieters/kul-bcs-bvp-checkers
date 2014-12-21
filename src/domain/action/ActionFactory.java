@@ -2,6 +2,7 @@ package domain.action;
 
 import java.util.List;
 
+import ui.LocalizationManager;
 import common.Player;
 import domain.action.contracts.IAction;
 import domain.action.request.ActionRequest;
@@ -76,7 +77,7 @@ public class ActionFactory
 		}
 		else //dist == 1
 		{
-			throw new IllegalArgumentException("Pair too close to be a catch");
+			throw new IllegalArgumentException(LocalizationManager.getString("errorPairTooClose"));
 		}
 	}
 }

@@ -1,20 +1,20 @@
 package domain.input;
 
 import common.Player;
-import domain.Game;
+import domain.game.contracts.IReadOnlyGame;
 import domain.input.contracts.IInput;
-import domain.updates.GameUpdateSource;
+import domain.updates.UpdateSource;
 
-public class ResignInput extends GameUpdateSource implements IInput
+public class ResignInput extends UpdateSource implements IInput
 {
-	private final Game game;
+	private final IReadOnlyGame game;
 	
-	private Game getGame()
+	private IReadOnlyGame getGame()
 	{
 		return game;
 	}
 	
-	public ResignInput(Game game)
+	public ResignInput(IReadOnlyGame game)
 	{
 		this.game = game;
 	}
@@ -23,7 +23,7 @@ public class ResignInput extends GameUpdateSource implements IInput
 	public boolean process()
 	{
 		Player resignee = getGame().getCurrentPlayer(); 
-		updateObserversResign(resignee);
+		emitResign(resignee);
 		return true;
 	}
 }

@@ -1,21 +1,25 @@
-package domain;
+package domain.game;
 
 import common.Configs;
 import common.Player;
-import domain.board.Board;
+import domain.board.contracts.IBoard;
+import domain.game.contracts.IGame;
+import domain.game.contracts.IReadOnlyGame;
 
-public class Game
+public class Game implements IGame
 {
-	private final Board board;
+	private final IBoard board;
 	private Player currentPlayer = Configs.FirstPlayer;
 	private Player winner = null;
 	private GameState state = GameState.Ongoing;
 
-	public Board getBoard()
+	@Override
+	public IBoard getBoard()
 	{
 		return board;
 	}
 
+	@Override
 	public Player getCurrentPlayer()
 	{
 		return currentPlayer;
@@ -26,16 +30,19 @@ public class Game
 		this.currentPlayer = currentPlayer;
 	}
 
+	@Override
 	public void switchCurrentPlayer()
 	{
 		setCurrentPlayer(getCurrentPlayer().getOpponent());
 	}
 
+	@Override
 	public boolean isOver()
 	{
 		return getGameState() != GameState.Ongoing;
 	}
 
+	@Override
 	public Player getWinner()
 	{
 		if (!isOver())
@@ -54,6 +61,7 @@ public class Game
 		this.winner = winner;
 	}
 
+	@Override
 	public GameState getGameState()
 	{
 		return state;
@@ -64,19 +72,27 @@ public class Game
 		this.state = state;
 	}
 
+	@Override
 	public void remise()
 	{
 		setGameState(GameState.Remise);
 	}
 
+	@Override
 	public void gameOver(Player winner)
 	{
 		setWinner(winner);
 		setGameState(GameState.Finished);
 	}
 
-	public Game(Board board)
+	public Game(IBoard board)
 	{
 		this.board = board;
+	}
+
+	@Override
+	public IReadOnlyGame getReadOnlyGame()
+	{
+		return new ReadOnlyGame(this);
 	}
 }
