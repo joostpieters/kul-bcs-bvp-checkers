@@ -12,7 +12,8 @@ import domain.updates.contracts.IGameUpdateSource;
 import domain.updates.contracts.IUpdate;
 
 /**
- * A convenient, basic implementation of {@link IGameUpdateSource}.  
+ * A convenient, basic implementation of {@link IGameUpdateSource}.
+ * This class is fully backwards compatible with {@link BasicGameUpdateSource}.
  */
 public abstract class GameUpdateSource extends BasicGameUpdateSource implements IGameUpdateSource
 {
@@ -23,7 +24,7 @@ public abstract class GameUpdateSource extends BasicGameUpdateSource implements 
 		return observers;
 	}
 	
-	protected void sendToObservers(IUpdate update)
+	private void sendToObservers(IUpdate update)
 	{
 		if(!isDisabled())
 		{
@@ -34,163 +35,78 @@ public abstract class GameUpdateSource extends BasicGameUpdateSource implements 
 		}
 	}
 	
+	// Basic updates
+	@Override
 	protected void updateObserversBoard(IReadOnlyBoard board, Player performer)
 	{
 		super.updateObserversBoard(board, performer); //update basic observers
-		sendToObservers(new IUpdate()
-		{
-			@Override
-			public void sendTo(IGameObserver observer)
-			{
-				observer.updateBoard(board, performer);
-			}
-		});
+		sendToObservers(observer -> observer.updateBoard(board, performer));
 	}
 	
+	@Override
+	protected void updateObserversSwitchPlayer(IReadOnlyBoard board, Player switchedIn)
+	{
+		super.updateObserversSwitchPlayer(board, switchedIn); //update basic observers
+		sendToObservers(observer -> observer.switchPlayer(board, switchedIn));
+	}
+	
+	@Override
+	protected void updateObserversExecuteAction(Action action)
+	{
+		super.updateObserversExecuteAction(action); //update basic observers
+		sendToObservers(observer -> observer.executeAction(action));
+	}
+	
+	
+	//Other updates
 	protected void updateObserversGameOver(Player winner)
 	{
-		sendToObservers(new IUpdate()
-		{
-			@Override
-			public void sendTo(IGameObserver observer)
-			{
-				observer.gameOver(winner);
-			}
-		});
+		sendToObservers(observer -> observer.gameOver(winner));
 	}
 	
 	protected void updateObserversPromotion(IReadOnlyBoard board, Location location)
 	{
-		sendToObservers(new IUpdate()
-		{
-			@Override
-			public void sendTo(IGameObserver observer)
-			{
-				observer.promotion(board, location);
-			}
-		});
+		sendToObservers(observer -> observer.promotion(board, location));
 	}
 	
 	protected void updateObserversOutOfMoves(Player player)
 	{
-		sendToObservers(new IUpdate()
-		{
-			@Override
-			public void sendTo(IGameObserver observer)
-			{
-				observer.outOfMoves(player);
-			}
-		});
+		sendToObservers(observer -> observer.outOfMoves(player));
 	}
 	
 	protected void updateObserversProposeRemise(Player proposer)
 	{
-		sendToObservers(new IUpdate()
-		{
-			@Override
-			public void sendTo(IGameObserver observer)
-			{
-				observer.proposeRemise(proposer);
-			}
-		});
+		sendToObservers(observer -> observer.proposeRemise(proposer));
 	}
 	
 	protected void updateObserversAcceptRemise()
 	{
-		sendToObservers(new IUpdate()
-		{
-			@Override
-			public void sendTo(IGameObserver observer)
-			{
-				observer.acceptRemise();
-			}
-		});
+		sendToObservers(observer -> observer.acceptRemise());
 	}
 	
 	protected void updateObserversDeclineRemise()
 	{
-		sendToObservers(new IUpdate()
-		{
-			@Override
-			public void sendTo(IGameObserver observer)
-			{
-				observer.declineRemise();
-			}
-		});
+		sendToObservers(observer -> observer.declineRemise());
 	}
 	
 	protected void updateObserversResign(Player resignee)
 	{
-		sendToObservers(new IUpdate()
-		{
-			@Override
-			public void sendTo(IGameObserver observer)
-			{
-				observer.resign(resignee);
-			}
-		});
+		sendToObservers(observer -> observer.resign(resignee));
 	}
 	
 	protected void updateObserversStart(IReadOnlyBoard board, Player starter)
 	{
-		sendToObservers(new IUpdate()
-		{
-			@Override
-			public void sendTo(IGameObserver observer)
-			{
-				observer.start(board, starter);
-			}
-		});
-	}
-	
-	protected void updateObserversSwitchPlayer(IReadOnlyBoard board, Player performer)
-	{
-		super.updateObserversSwitchPlayer(board, performer); //update basic observers
-		sendToObservers(new IUpdate()
-		{
-			@Override
-			public void sendTo(IGameObserver observer)
-			{
-				observer.switchPlayer(board, performer);
-			}
-		});
-	}
-	
-	protected void updateObserversExecuteAction(Action action)
-	{
-		super.updateObserversExecuteAction(action); //update basic observers
-		sendToObservers(new IUpdate()
-		{
-			@Override
-			public void sendTo(IGameObserver observer)
-			{
-				observer.executeAction(action);
-			}
-		});
+		sendToObservers(observer -> observer.start(board, starter));
 	}
 	
 	protected void updateObserversWarning(String message)
 	{
-		sendToObservers(new IUpdate()
-		{
-			@Override
-			public void sendTo(IGameObserver observer)
-			{
-				observer.warning(message);
-			}
-		});
+		sendToObservers(observer -> observer.warning(message));
 	}
 	
 	protected void updateObserversError(String message, Exception ex)
 	{
-		sendToObservers(new IUpdate()
-		{
-			@Override
-			public void sendTo(IGameObserver observer)
-			{
-				observer.error(message, ex);
-			}
-		});
+		sendToObservers(observer -> observer.error(message, ex));
 	}
 	
 	@Override

@@ -38,7 +38,7 @@ public class BasicGameUpdateSource implements IBasicGameUpdateSource
 		return basicObservers;
 	}
 	
-	protected void sendToObservers(IBasicUpdate update)
+	private void sendToObservers(IBasicUpdate update)
 	{
 		if(!isDisabled())
 		{
@@ -51,38 +51,17 @@ public class BasicGameUpdateSource implements IBasicGameUpdateSource
 	
 	protected void updateObserversBoard(IReadOnlyBoard board, Player performer)
 	{
-		sendToObservers(new IBasicUpdate()
-		{
-			@Override
-			public void sendTo(IBasicGameObserver observer)
-			{
-				observer.updateBoard(board, performer);
-			}
-		});
+		sendToObservers(observer -> observer.updateBoard(board, performer));
 	}
 	
 	protected void updateObserversSwitchPlayer(IReadOnlyBoard board, Player switchedIn)
 	{
-		sendToObservers(new IBasicUpdate()
-		{
-			@Override
-			public void sendTo(IBasicGameObserver observer)
-			{
-				observer.switchPlayer(board, switchedIn);
-			}
-		});
+		sendToObservers(observer -> observer.switchPlayer(board, switchedIn));
 	}
 
 	protected void updateObserversExecuteAction(Action action)
 	{
-		sendToObservers(new IBasicUpdate()
-		{
-			@Override
-			public void sendTo(IBasicGameObserver observer)
-			{
-				observer.executeAction(action);
-			}
-		});
+		sendToObservers(observer -> observer.executeAction(action));
 	}
 
 	@Override
