@@ -11,7 +11,8 @@ public abstract class ActionRequest
 {
 	protected final List<Integer> indices = new ArrayList<Integer>();
 	
-	public ActionRequest(int... indices) {
+	public ActionRequest(int... indices)
+	{
 		for(int index : indices)
 		{
 			addIndex(index);
@@ -28,7 +29,8 @@ public abstract class ActionRequest
 
 	public abstract boolean isCatch();
 
-	public List<Integer> getIndices() {
+	public List<Integer> getIndices()
+	{
 		return Collections.unmodifiableList(indices);
 	}
 	
@@ -60,7 +62,8 @@ public abstract class ActionRequest
 	public abstract int getNumberOfCatches();
 	
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if(obj == null)
 		{
 			return false;
@@ -79,7 +82,8 @@ public abstract class ActionRequest
 	}
 	
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return Boolean.hashCode(isCatch()) ^ indices.hashCode();
 	}
 }

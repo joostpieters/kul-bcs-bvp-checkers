@@ -43,7 +43,8 @@ public class SquareBlack implements ISquare
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if(hasPiece())
 		{
 			return "Black Square containing " + getPiece();
@@ -52,7 +53,8 @@ public class SquareBlack implements ISquare
 	}
 
 	@Override
-	public IReadOnlySquare getReadOnlySquare() {
+	public IReadOnlySquare getReadOnlySquare()
+	{
 		return readOnlySquare;
 	}
 }

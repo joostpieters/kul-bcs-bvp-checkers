@@ -6,7 +6,8 @@ import domain.piece.contracts.IPiece;
 /**
  * This class contains a Factory Method for creating {@link Piece}s from their respective character codes.
  */
-public class PieceFactory {
+public class PieceFactory
+{
 	/**
 	 * Creates a Piece based on the given character code and returns it.
 	 * 

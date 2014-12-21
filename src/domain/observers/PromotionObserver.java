@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import common.Player;
 import domain.Game;
-import domain.action.Action;
+import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.piece.contracts.IPiece;
@@ -43,7 +43,7 @@ public class PromotionObserver extends GameUpdateSource implements IBasicGameObs
 	}
 
 	@Override
-	public void executeAction(Action action)
+	public void executeAction(IAction action)
 	{
 	}
 }

@@ -1,7 +1,7 @@
 package domain.updates.contracts;
 
 import common.Player;
-import domain.action.Action;
+import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 
 /**
@@ -40,5 +40,5 @@ public interface IBasicGameObserver
 	 * @param 	action
 	 * 			The action that has been executed. 
 	 */
-	public void executeAction(Action action);
+	public void executeAction(IAction action);
 }

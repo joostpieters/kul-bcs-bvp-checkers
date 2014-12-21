@@ -1,6 +1,7 @@
 package domain;
 
-public enum GameState {
+public enum GameState
+{
 	Ongoing,
 	Remise,
 	Finished

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.Player;
-import domain.action.Action;
+import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.updates.contracts.IGameObserver;
@@ -51,7 +51,7 @@ public abstract class GameUpdateSource extends BasicGameUpdateSource implements 
 	}
 	
 	@Override
-	protected void updateObserversExecuteAction(Action action)
+	protected void updateObserversExecuteAction(IAction action)
 	{
 		super.updateObserversExecuteAction(action); //update basic observers
 		sendToObservers(observer -> observer.executeAction(action));

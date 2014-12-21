@@ -18,17 +18,20 @@ public class ReadOnlySquare implements IReadOnlySquare
 		return square;
 	}
 	
-	public ReadOnlySquare(ISquare square) {
+	public ReadOnlySquare(ISquare square)
+	{
 		this.square = square;
 	}
 
 	@Override
-	public boolean hasPiece() {
+	public boolean hasPiece()
+	{
 		return getSquare().hasPiece();
 	}
 
 	@Override
-	public IPiece getPiece() throws IllegalStateException {
+	public IPiece getPiece() throws IllegalStateException
+	{
 		return getSquare().getPiece();
 	}
 }

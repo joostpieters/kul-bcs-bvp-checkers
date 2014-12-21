@@ -28,17 +28,20 @@ public class CatchActionRequest extends ActionRequest
 	}
 	
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return String.join("x", getIndices().stream().map(i -> i.toString()).collect(Collectors.toList())); 
 	}
 
 	@Override
-	public boolean isCatch() {
+	public boolean isCatch()
+	{
 		return true;
 	}
 
 	@Override
-	public int getNumberOfCatches() {
+	public int getNumberOfCatches()
+	{
 		return getIndices().size() - 1;
 	}
 }

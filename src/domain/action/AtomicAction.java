@@ -1,9 +1,12 @@
 package domain.action;
 
+import domain.action.contracts.IAction;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
+import domain.updates.BasicGameUpdateSource;
 
-public abstract class AtomicAction extends Action {
+public abstract class AtomicAction extends BasicGameUpdateSource implements IAction
+{
 	private final DiagonalLocationPair pair;
 	
 	protected DiagonalLocationPair getPair()
@@ -17,7 +20,11 @@ public abstract class AtomicAction extends Action {
 	}
 	
 	@Override
-	protected Location getFrom() {
+	public Location getFrom()
+	{
 		return getPair().getFrom();
 	}
+	
+	@Override
+	public abstract String toString();
 }

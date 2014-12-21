@@ -4,10 +4,13 @@ public class BoardSize {
 	private final int rows;
 	private final int cols;
 	
-	public int getRows() {
+	public int getRows()
+	{
 		return rows;
 	}
-	public int getCols() {
+	
+	public int getCols()
+	{
 		return cols;
 	}
 	

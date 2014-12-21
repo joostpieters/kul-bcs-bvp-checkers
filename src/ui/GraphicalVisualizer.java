@@ -8,14 +8,15 @@ import bvp.Figuren;
 import bvp.Figuur;
 import common.Configs;
 import common.Player;
-import domain.action.Action;
+import domain.action.contracts.IAction;
 import domain.board.BoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.piece.contracts.IPiece;
 import domain.square.contracts.IReadOnlySquare;
 
-public class GraphicalVisualizer implements IVisualizer {
+public class GraphicalVisualizer implements IVisualizer
+{
 	private final Bord frame = new Bord("Checkers");
 	
 	private Bord getFrame()
@@ -170,7 +171,7 @@ public class GraphicalVisualizer implements IVisualizer {
 	}
 
 	@Override
-	public void executeAction(Action action)
+	public void executeAction(IAction action)
 	{
 	}
 }

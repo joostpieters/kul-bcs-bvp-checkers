@@ -9,7 +9,8 @@ import domain.piece.PieceFactory;
 import domain.piece.contracts.IPiece;
 
 
-public class BoardFactory {
+public class BoardFactory
+{
 	public static Board create(BoardSize size, Path input) throws IOException
 	{
 		Board board = new Board(size);

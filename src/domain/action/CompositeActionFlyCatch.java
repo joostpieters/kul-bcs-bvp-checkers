@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import common.Player;
+import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
@@ -29,7 +30,7 @@ public class CompositeActionFlyCatch extends CompositeAction
 		Location enemyLocation = locationsBetween.get(0);
 		
 		List<DiagonalLocationPair> pairs = pair.getPairsBetweenInclusive();
-		Action subAction;
+		IAction subAction;
 		for(int i=0; i < pairs.size(); i++)
 		{
 			DiagonalLocationPair stepPair = pairs.get(i);

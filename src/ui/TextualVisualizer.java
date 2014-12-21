@@ -2,13 +2,12 @@ package ui;
 
 import ui.contracts.IVisualizer;
 import common.Player;
-import domain.action.Action;
+import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 
 public class TextualVisualizer implements IVisualizer
 {
-
 	@Override
 	public void paint(IReadOnlyBoard board)
 	{
@@ -91,7 +90,7 @@ public class TextualVisualizer implements IVisualizer
 	}
 
 	@Override
-	public void executeAction(Action action)
+	public void executeAction(IAction action)
 	{
 		System.out.println(action);
 	}

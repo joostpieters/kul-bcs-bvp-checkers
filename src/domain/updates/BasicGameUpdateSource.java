@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.Player;
-import domain.action.Action;
+import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.updates.contracts.IBasicGameObserver;
 import domain.updates.contracts.IBasicGameUpdateSource;
@@ -59,7 +59,7 @@ public class BasicGameUpdateSource implements IBasicGameUpdateSource
 		sendToObservers(observer -> observer.switchPlayer(board, switchedIn));
 	}
 
-	protected void updateObserversExecuteAction(Action action)
+	protected void updateObserversExecuteAction(IAction action)
 	{
 		sendToObservers(observer -> observer.executeAction(action));
 	}

@@ -1,5 +1,6 @@
 package domain.piece.contracts;
 
+import common.IDeepClonable;
 import common.Player;
 
 /**
@@ -8,8 +9,8 @@ import common.Player;
  * Pieces can have various capabilities, 
  * as defined by the methods in this interface.  
  */
-public interface IPiece {
-
+public interface IPiece extends IDeepClonable<IPiece>
+{
 	/**
 	 * Returns the Player that owns this Piece.
 	 */
@@ -43,5 +44,6 @@ public interface IPiece {
 	/**
 	 * Returns a clone of this Piece of the same type with the same Player.
 	 */
-	public abstract IPiece getClone();
+	@Override
+	public abstract IPiece getDeepClone();
 }

@@ -15,11 +15,6 @@ public class AtomicActionCatch extends AtomicAction
 		super(pair);
 	}
 	
-//	public AtomicActionCatch(AtomicActionStep step1, AtomicActionStep step2)
-//	{
-//		super(new DiagonalLocationPair(step1.getPair().getFrom(), step2.getPair().getTo()));
-//	}
-	
 	@Override
 	public boolean isValidOn(IReadOnlyBoard board, Player currentPlayer)
 	{
@@ -56,8 +51,8 @@ public class AtomicActionCatch extends AtomicAction
 			return false;
 		}
 		
-		if(	to.isBehind(from, currentPlayer) &&
-			!fromPiece.canCatchBackward())
+		if(	!fromPiece.canCatchBackward() &&
+			to.isBehind(from, currentPlayer))
 		{
 			return false;
 		}

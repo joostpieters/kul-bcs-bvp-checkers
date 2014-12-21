@@ -47,20 +47,24 @@ public final class Location
 		this(copy.getRow(), copy.getCol(), copy.getBoardSize());
 	}
 
-	public int getRow() {
+	public int getRow()
+	{
 		return row;
 	}
 
-	public int getCol() {
+	public int getCol()
+	{
 		return col;
 	}
 	
-	public BoardSize getBoardSize() {
+	public BoardSize getBoardSize()
+	{
 		return size;
 	}
 	
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		if(isBlack())
 		{
 			return String.format("%d:(%d, %d)", getIndex(), getRow(), getCol());
@@ -93,7 +97,8 @@ public final class Location
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if(obj == null)
 		{
 			return false;
@@ -113,7 +118,8 @@ public final class Location
 	}
 	
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return getRow() ^ getCol(); 
 	}
 	

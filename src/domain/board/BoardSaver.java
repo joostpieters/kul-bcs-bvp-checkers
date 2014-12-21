@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import common.Player;
-import domain.action.Action;
+import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.updates.contracts.IBasicGameObserver;
 
@@ -62,7 +62,7 @@ public class BoardSaver implements IBasicGameObserver
 	}
 
 	@Override
-	public void executeAction(Action action)
+	public void executeAction(IAction action)
 	{
 	}
 }

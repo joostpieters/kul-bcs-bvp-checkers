@@ -12,7 +12,6 @@ import domain.board.BoardSize;
  */
 public class DiagonalLocationPair extends LocationPair
 {
-	
 	public DiagonalLocationPair(Location from, Location to)
 	{
 		super(from, to);
@@ -32,7 +31,8 @@ public class DiagonalLocationPair extends LocationPair
 	}
 	
 	@Override
-	public boolean isOnSameDiagonal() {
+	public boolean isOnSameDiagonal()
+	{
 		return true;
 	}
 	

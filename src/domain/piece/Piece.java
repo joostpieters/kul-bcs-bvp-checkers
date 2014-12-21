@@ -6,15 +6,23 @@ import domain.piece.contracts.IPiece;
 /**
  * An IPiece representing a basic Piece.  
  */
-public class Piece implements IPiece {
+public class Piece implements IPiece
+{
 	private final Player player;
 
-	public Piece(Player player) {
+	public Piece(Player player)
+	{
 		this.player = player;
 	}
 	
+	public Piece(Piece original)
+	{
+		this.player = original.getPlayer();
+	}
+	
 	@Override
-	public Player getPlayer() {
+	public Player getPlayer()
+	{
 		return player;
 	}
 	
@@ -51,13 +59,14 @@ public class Piece implements IPiece {
 	}
 	
 	@Override
-	public Piece getClone()
+	public Piece getDeepClone()
 	{
-		return new Piece(getPlayer());
+		return new Piece(this);
 	}
 	
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Piece";
 	}
 }

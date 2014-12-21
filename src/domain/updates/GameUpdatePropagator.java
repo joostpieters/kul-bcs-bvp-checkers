@@ -1,7 +1,7 @@
 package domain.updates;
 
 import common.Player;
-import domain.action.Action;
+import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.updates.contracts.IGameObserver;
@@ -67,7 +67,7 @@ public abstract class GameUpdatePropagator extends GameUpdateSource implements I
 	}
 	
 	@Override
-	public void executeAction(Action action)
+	public void executeAction(IAction action)
 	{
 		updateObserversExecuteAction(action);
 	}

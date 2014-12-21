@@ -5,25 +5,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import common.Player;
+import domain.action.contracts.IAction;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.updates.GameUpdatePropagator;
-import domain.updates.contracts.IBasicGameObserver;
 
-/**
- *
- * Note: this class should ideally extend {@link GameUpdatePropagator}
- * but already extends Action. Since java does not support multiple inheritance, 
- * some code used to propagate events is duplicated within. 
- */
-public class CompositeAction extends Action implements IBasicGameObserver
+public class CompositeAction extends GameUpdatePropagator implements IAction
 {
-	private final List<Action> actions = new ArrayList<Action>();
+	private final List<IAction> actions = new ArrayList<IAction>();
 	
-	public CompositeAction(Action... actions)
+	public CompositeAction(IAction... actions)
 	{
-		for(Action action : actions)
+		for(IAction action : actions)
 		{
 			addAction(action);
 		}
@@ -31,12 +25,12 @@ public class CompositeAction extends Action implements IBasicGameObserver
 	
 	public CompositeAction() { }
 	
-	protected List<Action> getActions()
+	protected List<IAction> getActions()
 	{
 		return actions;
 	}
 	
-	protected void addAction(Action action)
+	protected void addAction(IAction action)
 	{
 		getActions().add(action);
 		action.subscribe(this);
@@ -50,7 +44,7 @@ public class CompositeAction extends Action implements IBasicGameObserver
 			throw new IllegalStateException("CompositeAction is empty.");
 		}
 		IBoard testBoard = board.getDeepClone();
-		for(Action action : getActions())
+		for(IAction action : getActions())
 		{
 			if(!action.isValidOn(testBoard, currentPlayer))
 			{
@@ -71,7 +65,7 @@ public class CompositeAction extends Action implements IBasicGameObserver
 			throw new IllegalStateException(String.format("%s is invalid.", this));
 		}
 		
-		for(Action action : getActions())
+		for(IAction action : getActions())
 		{
 			action.executeOn(board, currentPlayer);
 		}
@@ -87,7 +81,7 @@ public class CompositeAction extends Action implements IBasicGameObserver
 	}
 
 	@Override
-	protected Location getFrom()
+	public Location getFrom()
 	{
 		return getActions().get(0).getFrom();
 	}
@@ -105,7 +99,7 @@ public class CompositeAction extends Action implements IBasicGameObserver
 	}
 
 	@Override
-	public void executeAction(Action action)
+	public void executeAction(IAction action)
 	{
 		updateObserversExecuteAction(action);
 	}

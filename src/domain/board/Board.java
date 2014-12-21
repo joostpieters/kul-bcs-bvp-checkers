@@ -1,17 +1,21 @@
 package domain.board;
+
 import java.util.HashMap;
 
 import common.Player;
 import domain.board.contracts.IBoard;
+import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.location.LocationPair;
 import domain.piece.Dame;
 import domain.piece.contracts.IPiece;
 import domain.square.SquareBlack;
 import domain.square.SquareWhite;
+import domain.square.contracts.IReadOnlySquare;
 import domain.square.contracts.ISquare;
 
-public class Board implements IBoard {
+public class Board implements IBoard
+{
 	private final ISquare[][] squares;
 	private final BoardSize size;
 	private final ReadOnlyBoard readOnlyWrapper = new ReadOnlyBoard(this);
@@ -31,13 +35,41 @@ public class Board implements IBoard {
 		}
 	}
 	
+	/**
+	 * Copy constructor. Creates a deep clone of the given {@link IReadOnlyBoard}. 
+	 * 
+	 * @param 	original
+	 * 			The original IReadOnlyBoard to base this new Board on.
+	 */
+	public Board(IReadOnlyBoard original)
+	{
+		this(original.getSize());
+		BoardSize size = getSize();
+		for(int row=0; row < size.getRows(); row++)
+		{
+			for(int col=0; col < size.getCols(); col++)
+			{
+				Location location = new Location(row, col, size);
+				IReadOnlySquare originalSquare = original.getSquare(location);
+				if(originalSquare.hasPiece())
+				{
+					IPiece originalPiece = originalSquare.getPiece();
+					IPiece newPiece = originalPiece.getDeepClone();
+					this.addPiece(location, newPiece);
+				}
+			}
+		}
+	}
+	
 	@Override
-	public BoardSize getSize() {
+	public BoardSize getSize()
+	{
 		return size;
 	}
 	
 	@Override
-	public ReadOnlyBoard getReadOnlyBoard() {
+	public ReadOnlyBoard getReadOnlyBoard()
+	{
 		return readOnlyWrapper;
 	}
 	
@@ -205,20 +237,6 @@ public class Board implements IBoard {
 	@Override
 	public IBoard getDeepClone()
 	{
-		IBoard clone = new Board(getSize());
-		for(int row=0; row < size.getRows(); row++)
-		{
-			for(int col=0; col < size.getCols(); col++)
-			{
-				Location location = new Location(row, col, size);
-				ISquare square = getSquare(location);
-				if(square.hasPiece())
-				{
-					IPiece piece = square.getPiece();
-					clone.addPiece(location, piece.getClone());
-				}
-			}
-		}
-		return clone;
+		return new Board(this);
 	}
 }

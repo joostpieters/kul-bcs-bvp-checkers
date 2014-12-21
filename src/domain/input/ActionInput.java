@@ -4,8 +4,8 @@ import ui.LocalizationManager;
 import common.Player;
 import domain.Game;
 import domain.LegalActionChecker;
-import domain.action.Action;
 import domain.action.ActionFactory;
+import domain.action.contracts.IAction;
 import domain.action.request.ActionRequest;
 import domain.action.request.AtomicCatchActionRequest;
 import domain.action.request.CatchActionRequest;
@@ -30,7 +30,8 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 		return game;
 	}
 	
-	private LegalActionChecker getLegalActionChecker() {
+	private LegalActionChecker getLegalActionChecker()
+	{
 		return legalActionChecker;
 	}
 	
@@ -55,7 +56,7 @@ public class ActionInput extends GameUpdatePropagator implements IInput
 			{
 				return false;
 			}
-			Action action = ActionFactory.create(request, board, currentPlayer);
+			IAction action = ActionFactory.create(request, board, currentPlayer);
 			action.subscribe(this);
 			if(action.isValidOn(board, currentPlayer))
 			{

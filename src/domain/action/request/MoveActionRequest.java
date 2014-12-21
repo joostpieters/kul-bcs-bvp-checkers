@@ -8,17 +8,20 @@ public class MoveActionRequest extends ActionRequest
 	}
 	
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return String.format("%d-%d", getStartIndex(), getEndIndex());
 	}
 
 	@Override
-	public boolean isCatch() {
+	public boolean isCatch()
+	{
 		return false;
 	}
 
 	@Override
-	public int getNumberOfCatches() {
+	public int getNumberOfCatches()
+	{
 		return 0;
 	}
 }

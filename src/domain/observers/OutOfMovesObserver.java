@@ -6,8 +6,8 @@ import java.util.Set;
 
 import common.Player;
 import domain.Game;
-import domain.action.Action;
 import domain.action.ActionFactory;
+import domain.action.contracts.IAction;
 import domain.action.request.ActionRequest;
 import domain.action.request.AtomicCatchActionRequest;
 import domain.action.request.MoveActionRequest;
@@ -45,7 +45,7 @@ public class OutOfMovesObserver extends GameUpdateSource implements IBasicGameOb
 		List<T> filteredRequests = new ArrayList<T>();
 		for(T step : requests)
 		{
-			Action action = ActionFactory.create(step, board, player);
+			IAction action = ActionFactory.create(step, board, player);
 			if(action.isValidOn(board, player)) //no need to execute in case of atomic actions
 			{
 				filteredRequests.add(step);
@@ -132,7 +132,7 @@ public class OutOfMovesObserver extends GameUpdateSource implements IBasicGameOb
 	}
 
 	@Override
-	public void executeAction(Action action)
+	public void executeAction(IAction action)
 	{
 	}
 }

@@ -14,14 +14,18 @@ import domain.board.BoardSize;
  * @invariant getFrom().getBoardSize().equals(getTo().getBoardSize())
  * @invariant this.equals(this)
  */
-public class LocationPair {
+public class LocationPair
+{
 	private final Location from;
 	private final Location to;
 	
-	public Location getFrom() {
+	public Location getFrom()
+	{
 		return from;
 	}
-	public Location getTo() {
+	
+	public Location getTo()
+	{
 		return to;
 	}
 	
@@ -37,7 +41,8 @@ public class LocationPair {
 	 * @param from
 	 * @param to
 	 */
-	public LocationPair(Location from, Location to) {
+	public LocationPair(Location from, Location to)
+	{
 		if(from == null || to == null)
 		{
 			throw new NullPointerException("Locations from and to must not be null.");
@@ -121,12 +126,14 @@ public class LocationPair {
 	}
 	
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return String.format("from %s to %s", getFrom(), getTo());
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if(obj == null)
 		{
 			return false;
@@ -145,7 +152,8 @@ public class LocationPair {
 	}
 	
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return getFrom().hashCode() ^ getTo().hashCode(); 
 	}
 }

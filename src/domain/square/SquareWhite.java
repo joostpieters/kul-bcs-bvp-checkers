@@ -36,12 +36,14 @@ public class SquareWhite implements ISquare
 	}
 	
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "White Square";
 	}
 
 	@Override
-	public IReadOnlySquare getReadOnlySquare() {
+	public IReadOnlySquare getReadOnlySquare()
+	{
 		return readOnlySquare;
 	}
 }

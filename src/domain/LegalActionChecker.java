@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 import common.Configs;
 import common.Player;
-import domain.action.Action;
 import domain.action.ActionFactory;
+import domain.action.contracts.IAction;
 import domain.action.request.ActionRequest;
 import domain.action.request.ActionRequestPriorityComparator;
 import domain.action.request.AtomicCatchActionRequest;
@@ -93,7 +93,7 @@ public class LegalActionChecker
 		for(AtomicCatchActionRequest atomicCatchRequest : atomicCatchRequests)
 		{
 			IBoard testBoard = board.getDeepClone();
-			Action action = ActionFactory.create(atomicCatchRequest, testBoard, currentPlayer);
+			IAction action = ActionFactory.create(atomicCatchRequest, testBoard, currentPlayer);
 			if(action.isValidOn(testBoard, currentPlayer))
 			{
 				action.executeOn(testBoard, currentPlayer);

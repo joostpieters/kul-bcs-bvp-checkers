@@ -3,15 +3,18 @@ package domain.action;
 import java.util.List;
 
 import common.Player;
+import domain.action.contracts.IAction;
 import domain.action.request.ActionRequest;
 import domain.board.BoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.DiagonalLocationPair;
 
-public class ActionFactory {
+public class ActionFactory
+{
 	private ActionFactory() { }
 	
-	public static Action create(ActionRequest request, IReadOnlyBoard board, Player currentPlayer) {
+	public static IAction create(ActionRequest request, IReadOnlyBoard board, Player currentPlayer)
+	{
 		BoardSize size = board.getSize();
 		List<Integer> indices = request.getIndices();
 		if(!request.isCatch())
@@ -36,7 +39,7 @@ public class ActionFactory {
 			else //multi(fly)catch
 			{
 				int numIndices = indices.size();
-				Action[] actions = new Action[numIndices-1];
+				IAction[] actions = new IAction[numIndices-1];
 				for(int i=0; i < numIndices - 1; i++)
 				{
 					int fromIndex = indices.get(i);
@@ -49,7 +52,8 @@ public class ActionFactory {
 		}
 	}
 
-	private static Action createActionMove(DiagonalLocationPair pair) {
+	private static IAction createActionMove(DiagonalLocationPair pair)
+	{
 		if(pair.getDiagonalDistance() == 1)
 		{
 			return new AtomicActionStep(pair);
@@ -60,7 +64,8 @@ public class ActionFactory {
 		}
 	}
 
-	private static Action createActionCatch(IReadOnlyBoard board, Player currentPlayer, DiagonalLocationPair pair) {
+	private static IAction createActionCatch(IReadOnlyBoard board, Player currentPlayer, DiagonalLocationPair pair)
+	{
 		if(pair.getDiagonalDistance() == 2)
 		{
 			return new AtomicActionCatch(pair);

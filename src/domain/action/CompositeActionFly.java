@@ -3,6 +3,7 @@ package domain.action;
 import java.util.List;
 
 import common.Player;
+import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
@@ -20,7 +21,7 @@ public class CompositeActionFly extends CompositeAction
 		List<DiagonalLocationPair> pairs = pair.getPairsBetweenInclusive();
 		for(DiagonalLocationPair p : pairs)
 		{
-			Action subAction = new AtomicActionStep(p);
+			IAction subAction = new AtomicActionStep(p);
 			addAction(subAction);
 		}
 	}

@@ -2,7 +2,6 @@ package domain.input;
 
 import ui.LocalizationManager;
 import ui.contracts.IUserInterface;
-import common.Configs;
 import common.Player;
 import domain.Game;
 import domain.LegalActionChecker;
@@ -10,7 +9,7 @@ import domain.input.contracts.IInput;
 import domain.updates.GameUpdatePropagator;
 
 
-public class InputProvider extends GameUpdatePropagator
+public class InputProvider extends GameUpdatePropagator implements AutoCloseable
 {
 	private final IUserInterface ui;
 	private final LegalActionChecker legalActionChecker;
@@ -31,6 +30,7 @@ public class InputProvider extends GameUpdatePropagator
 		return closed;
 	}
 	
+	@Override
 	public void close()
 	{
 		this.closed = true;
@@ -51,13 +51,13 @@ public class InputProvider extends GameUpdatePropagator
 		}
 		Player player = game.getCurrentPlayer();
 		String move = getUI().askActionInput(player);
-		if(move.equals(Configs.ResignInput))
+		if(move.equals(LocalizationManager.getString("resignInput")))
 		{
 			ResignInput input = new ResignInput(game);
 			input.subscribe(this);
 			return input;
 		}
-		else if(move.equals(Configs.RemiseInput))
+		else if(move.equals(LocalizationManager.getString("remiseInput")))
 		{
 			RemiseInput input = new RemiseInput(game, getUI());
 			input.subscribe(this);

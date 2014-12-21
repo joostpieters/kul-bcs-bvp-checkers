@@ -58,7 +58,8 @@ public class AtomicActionStep extends AtomicAction
 	}
 	
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return String.format("Step %s", getPair());
 	}
 }
