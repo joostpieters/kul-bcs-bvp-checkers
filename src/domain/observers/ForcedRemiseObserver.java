@@ -10,12 +10,13 @@ import domain.updates.contracts.IObserver;
 import domain.updates.contracts.IUpdateProcessor;
 
 /**
- * A simple instance of {@link IObserver} that forces remise after
- * a given number of actions have passed without a catch or a promotion. 
+ * A simple type of {@link IObserver} that forces remise after a given 
+ * number of whole actions have passed without a catch or a promotion.
+ * This event is signaled to its own observers using the {@link IObserver#forcedRemise()} update. 
  */
 public class ForcedRemiseObserver extends UpdateSource implements IUpdateProcessor
 {
-	private int moveCounter = 0;
+	private int actionCounter = 0;
 	private boolean catchDuringTurn = false;
 	private final int threshold;
 	
@@ -31,19 +32,26 @@ public class ForcedRemiseObserver extends UpdateSource implements IUpdateProcess
 
 	private void incrementMoveCounter()
 	{
-		moveCounter++;
+		actionCounter++;
 	}
 	
 	private void resetMoveCounter()
 	{
-		moveCounter = 0;
+		actionCounter = 0;
 	}
 	
 	private boolean isThresholdReached()
 	{
-		return moveCounter >= threshold;
+		return actionCounter >= threshold;
 	}
 	
+	/**
+	 * Creates a new {@link ForcedRemiseObserver} with the given threshold.
+	 * 
+	 * @param 	threshold
+	 * 			The maximum number of whole actions without catching 
+	 * 			or promotions after which remise is forced.
+	 */
 	public ForcedRemiseObserver(int threshold)
 	{
 		this.threshold = threshold;
@@ -138,17 +146,31 @@ public class ForcedRemiseObserver extends UpdateSource implements IUpdateProcess
 	}
 	
 	@Override
-	public void subscribeBasicBothWays(IBasicUpdateProcessor propagator)
+	public void linkBasic(IBasicUpdateProcessor propagator)
 	{
 		this.subscribeBasic(propagator);
 		propagator.subscribeBasic(this);
 	}
 
 	@Override
-	public void subscribeBothWays(IUpdateProcessor processor)
+	public void unlinkBasic(IBasicUpdateProcessor processor)
+	{
+		this.unsubscribeBasic(processor);
+		processor.unsubscribeBasic(this);
+	}
+	
+	@Override
+	public void link(IUpdateProcessor processor)
 	{
 		this.subscribe(processor);
 		processor.subscribe(this);
 		
+	}
+
+	@Override
+	public void unlink(IUpdateProcessor processor)
+	{
+		this.unsubscribe(processor);
+		processor.unsubscribe(this);
 	}
 }

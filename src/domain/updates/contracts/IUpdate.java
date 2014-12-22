@@ -3,10 +3,10 @@ package domain.updates.contracts;
 /**
  * Represents an update to be sent to one or more {@link IObserver}s. 
  */
-public interface IUpdate
+public interface IUpdate extends IGenericUpdate<IObserver>
 {
 	/**
-	 * Send this update to the given observer.
+	 * {@inheritDoc}
 	 */
 	public void sendTo(IObserver observer);
 }

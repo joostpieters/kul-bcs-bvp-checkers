@@ -149,7 +149,7 @@ public class Board implements IBoard
 		}
 		IPiece piece = square.getPiece();
 		Player player = piece.getPlayer();
-		if(!location.isPromotionRow(player))
+		if(!location.isOnPromotionRow(player))
 		{
 			throw new IllegalStateException(String.format("Cannot promote piece of player %s on row %d.", player, location.getRow()));
 		}

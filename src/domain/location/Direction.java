@@ -3,6 +3,11 @@ package domain.location;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Specifies the basic {@link Direction}s on which to base relative navigation.
+ * Four {@link Direction}s are semantically independent, but the other two
+ * (Front, Back) require additional perspective information.
+ */
 public enum Direction
 {
 	Above,
@@ -12,6 +17,9 @@ public enum Direction
 	Left,
 	Right;
 	
+	/**
+	 * Returns the reverse {@link Direction}.
+	 */
 	public Direction reverse()
 	{
 		switch(this)
@@ -26,6 +34,10 @@ public enum Direction
 		}
 	}
 	
+	/**
+	 * Returns the four basic diagonal {@link Direction}s by 
+	 * combining Front and Back each with Left and Right. 
+	 */
 	public static List<Direction[]> getDiagonalDirections()
 	{
 		List<Direction[]> directions = new ArrayList<Direction[]>(4);

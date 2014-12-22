@@ -38,7 +38,7 @@ public class Main
 			controller.subscribeBasic(promotionObserver);
 			oomObserver.subscribe(controller);
 			controller.subscribeBasic(oomObserver);
-			controller.subscribeBothWays(forcedRemiseObserver);
+			controller.link(forcedRemiseObserver);
 			controller.subscribe(new GraphicalVisualizer());
 			controller.subscribe(new TextualVisualizer());
 			controller.subscribeBasic(new BoardSaver(Paths.get("data", "output")));

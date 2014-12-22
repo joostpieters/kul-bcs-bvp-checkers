@@ -17,11 +17,23 @@ public class Dame implements IPiece
 		return player;
 	}
 	
+	/**
+	 * Creates a new {@link Dame} of the given {@link Player}.
+	 * 
+	 * @param 	player
+	 * 			The owner of this {@link IPiece}.
+	 */
 	public Dame(Player player)
 	{
 		this.player = player;
 	}
 	
+	/**
+	 * Creates a new {@link Dame} equal to but not linked to the given {@link Dame}.
+	 *  
+	 * @param 	original
+	 * 			The original {@link Dame}.
+	 */
 	public Dame(Dame original)
 	{
 		this.player = original.getPlayer();
@@ -69,5 +81,33 @@ public class Dame implements IPiece
 	public String toString()
 	{
 		return "Dame";
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj == null)
+		{
+			return false;
+		}
+		if(obj == this)
+		{
+			return true;
+		}
+		if(obj instanceof Dame)
+		{
+			Dame casted = (Dame)obj;
+			return this.getPlayer() == casted.getPlayer();
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Boolean.hashCode(canPromote()) ^ getPlayer().hashCode();
 	}
 }

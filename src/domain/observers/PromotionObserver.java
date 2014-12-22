@@ -31,7 +31,7 @@ public class PromotionObserver extends UpdateSource implements IBasicUpdateProce
 		HashMap<Location, IPiece> playerPieces = board.getPlayerPieces(previous);
 		for(Location location : playerPieces.keySet())
 		{
-			if(location.isPromotionRow(previous))
+			if(location.isOnPromotionRow(previous))
 			{
 				IPiece piece = playerPieces.get(location);
 				if(piece.canPromote())
@@ -48,9 +48,16 @@ public class PromotionObserver extends UpdateSource implements IBasicUpdateProce
 	}
 
 	@Override
-	public void subscribeBasicBothWays(IBasicUpdateProcessor propagator)
+	public void linkBasic(IBasicUpdateProcessor propagator)
 	{
 		this.subscribeBasic(propagator);
 		propagator.subscribeBasic(this);
+	}
+	
+	@Override
+	public void unlinkBasic(IBasicUpdateProcessor processor)
+	{
+		this.unsubscribeBasic(processor);
+		processor.unsubscribeBasic(this);
 	}
 }

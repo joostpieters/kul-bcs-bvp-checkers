@@ -10,11 +10,23 @@ public class Piece implements IPiece
 {
 	private final Player player;
 
+	/**
+	 * Creates a new {@link Piece} of the given {@link Player}.
+	 * 
+	 * @param 	player
+	 * 			The owner of this {@link IPiece}.
+	 */
 	public Piece(Player player)
 	{
 		this.player = player;
 	}
 	
+	/**
+	 * Creates a new {@link Piece} equal to but not linked to the given {@link Piece}.
+	 *  
+	 * @param 	original
+	 * 			The original {@link Piece}.
+	 */
 	public Piece(Piece original)
 	{
 		this.player = original.getPlayer();
@@ -68,5 +80,33 @@ public class Piece implements IPiece
 	public String toString()
 	{
 		return "Piece";
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj == null)
+		{
+			return false;
+		}
+		if(obj == this)
+		{
+			return true;
+		}
+		if(obj instanceof Piece)
+		{
+			Piece casted = (Piece)obj;
+			return this.getPlayer() == casted.getPlayer();
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Boolean.hashCode(canPromote()) ^ getPlayer().hashCode();
 	}
 }

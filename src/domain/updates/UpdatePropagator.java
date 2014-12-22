@@ -15,17 +15,31 @@ import domain.updates.contracts.IUpdateProcessor;
 public abstract class UpdatePropagator extends UpdateSource implements IUpdateProcessor
 {
 	@Override
-	public void subscribeBasicBothWays(IBasicUpdateProcessor propagator)
+	public void linkBasic(IBasicUpdateProcessor propagator)
 	{
 		this.subscribeBasic(propagator);
 		propagator.subscribeBasic(this);
 	}
 	
 	@Override
-	public void subscribeBothWays(IUpdateProcessor propagator)
+	public void unlinkBasic(IBasicUpdateProcessor processor)
+	{
+		this.unsubscribeBasic(processor);
+		processor.unsubscribeBasic(this);
+	}
+	
+	@Override
+	public void link(IUpdateProcessor propagator)
 	{
 		this.subscribe(propagator);
 		propagator.subscribe(this);
+	}
+	
+	@Override
+	public void unlink(IUpdateProcessor processor)
+	{
+		this.unsubscribe(processor);
+		processor.unsubscribe(this);
 	}
 	
 	@Override

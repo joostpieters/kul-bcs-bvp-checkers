@@ -6,7 +6,8 @@ import common.Player;
 import domain.board.BoardSize;
 
 /**
- * An immutable class representing a Location on a Board with a given size, specified by a given row and column index.
+ * An immutable class representing a location on an {@link IBoard} with 
+ * a given {@link BoardSize}, specified by a given row and column index.
  */
 public final class Location
 {
@@ -14,6 +15,16 @@ public final class Location
 	private final int col;
 	private final BoardSize size;
 
+	/**
+	 * Creates a new {@link Location} with the given parameters.
+	 * 
+	 * @param 	row
+	 * 			The row on the {@link IBoard}.
+	 * @param 	col
+	 * 			The column on the {@link IBoard}.
+	 * @param 	size
+	 * 			The size of the {@link IBoard}.
+	 */
 	public Location(int row, int col, BoardSize size)
 	{
 		if(!size.isValidLocation(row, col))
@@ -25,6 +36,17 @@ public final class Location
 		this.size = size;
 	}
 	
+	/**
+	 * Creates a new {@link Location} with the given parameters.
+	 * 
+	 * @param 	index
+	 *          The position of this location based on the index number of the
+	 *          corresponding {@link BlackSquare}. Numbering starts at 1 in
+	 *          the upper leftmost black square and ends in the lower
+	 *          rightmost black square.
+	 * @param 	size
+	 * 			The size of the {@link IBoard}.
+	 */
 	public Location(int index, BoardSize size)
 	{
 		if(!size.isValidIndex(index))
@@ -42,21 +64,37 @@ public final class Location
 		this.size = size;
 	}
 	
-	public Location(Location copy)
+	/**
+	 * Creates a new {@link Location} equal to the one given, 
+	 * but without any links between the two.
+	 * 
+	 * @param 	location
+	 * 			The {@link Location} to clone.
+	 */
+	public Location(Location location)
 	{
-		this(copy.getRow(), copy.getCol(), copy.getBoardSize());
+		this(location.getRow(), location.getCol(), location.getBoardSize());
 	}
 
+	/**
+	 * Returns the row of this {@link Location}.
+	 */
 	public int getRow()
 	{
 		return row;
 	}
 
+	/**
+	 * Returns the column of this {@link Location}.
+	 */
 	public int getCol()
 	{
 		return col;
 	}
 	
+	/**
+	 * Returns the {@link BoardSize} related to this {@link Location}.
+	 */
 	public BoardSize getBoardSize()
 	{
 		return size;
@@ -75,16 +113,25 @@ public final class Location
 		}
 	}
 	
+	/**
+	 * Returns true if this corresponds to a white square.
+	 */
 	public boolean isWhite()
 	{
 		return (getRow() + getCol()) % 2 == 0;
 	}
-	
+
+	/**
+	 * Returns true if this corresponds to a black square.
+	 */
 	public boolean isBlack()
 	{
 		return !isWhite();
 	}
 	
+	/**
+	 * Returns the black square index of this {@link Location} as defined in {@link Location#Location(int, BoardSize)}.
+	 */
 	public int getIndex()
 	{
 		if(isWhite())
@@ -123,34 +170,85 @@ public final class Location
 		return getRow() ^ getCol(); 
 	}
 	
-	public boolean isPromotionRow(Player player)
+	/**
+	 * Returns true if this {@link Location} lies 
+	 * on the promotion row of the given {@link Player},
+	 * false otherwise.
+	 * 
+	 * @param 	player
+	 * 			The {@link Player} whose promotion row to check.
+	 */
+	public boolean isOnPromotionRow(Player player)
 	{
 		return player == Player.Black ?
 				getRow() == getBoardSize().getRows() - 1 :
 				getRow() == 0;
 	}
 	
+	/**
+	 * Returns true if this {@link Location} lies 
+	 * above (i.e. North) of the other {@link Location},
+	 * false otherwise.
+	 * 
+	 * @param 	other
+	 * 			The other {@link Location} to compare with.
+	 */
 	public boolean isAbove(Location other)
 	{
 		return getRow() < other.getRow();
 	}
 	
+	/**
+	 * Returns true if this {@link Location} lies 
+	 * below (i.e. South) of the other {@link Location},
+	 * false otherwise.
+	 * 
+	 * @param 	other
+	 * 			The other {@link Location} to compare with.
+	 */
 	public boolean isBelow(Location other)
 	{
 		return getRow() > other.getRow();
 	}
 	
+	/**
+	 * Returns true if this {@link Location} lies 
+	 * left (i.e. West) of the other {@link Location},
+	 * false otherwise.
+	 * 
+	 * @param 	other
+	 * 			The other {@link Location} to compare with.
+	 */
 	public boolean isLeftFrom(Location other)
 	{
 		return getCol() < other.getCol();
 	}
 	
+	/**
+	 * Returns true if this {@link Location} lies 
+	 * right (i.e. East) of the other {@link Location},
+	 * false otherwise.
+	 * 
+	 * @param 	other
+	 * 			The other {@link Location} to compare with.
+	 */
 	public boolean isRightFrom(Location other)
 	{
 		return getCol() > other.getCol();
 	}
 	
-	public boolean isInFrontOf(Location other, Player player)
+	/**
+	 * Returns true if this {@link Location} lies 
+	 * in front of the other {@link Location} from 
+	 * the perspective of the given {@link Player},
+	 * false otherwise.
+	 * 
+	 * @param 	other
+	 * 			The other {@link Location} to compare with.
+	 * @param	player
+	 * 			The {@link Player} whose perspective to consider.
+	 */
+	public boolean isInFront(Location other, Player player)
 	{
 		int delta = getRow() - other.getRow();
 		
@@ -159,6 +257,17 @@ public final class Location
 				delta > 0;
 	}
 	
+	/**
+	 * Returns true if this {@link Location} lies 
+	 * behind the other {@link Location} from 
+	 * the perspective of the given {@link Player},
+	 * false otherwise.
+	 * 
+	 * @param 	other
+	 * 			The other {@link Location} to compare with.
+	 * @param	player
+	 * 			The {@link Player} whose perspective to consider.
+	 */
 	public boolean isBehind(Location other, Player player)
 	{
 		int delta = getRow() - other.getRow();
@@ -168,26 +277,45 @@ public final class Location
 				delta < 0;
 	}
 	
+	/**
+	 * Returns the {@link Location} one row above this one.
+	 */
 	public Location getAbove()
 	{
 		return new Location(getRow()-1, getCol(), getBoardSize());
 	}
 	
+	/**
+	 * Returns the {@link Location} one row below this one.
+	 */
 	public Location getBelow()
 	{
 		return new Location(getRow()+1, getCol(), getBoardSize());
 	}
 	
+	/**
+	 * Returns the {@link Location} one row left of this one.
+	 */
 	public Location getLeft()
 	{
 		return new Location(getRow(), getCol()-1, getBoardSize());
 	}
 	
+	/**
+	 * Returns the {@link Location} one row right of this one.
+	 */
 	public Location getRight()
 	{
 		return new Location(getRow(), getCol()+1, getBoardSize());
 	}
 	
+	/**
+	 * Returns the {@link Location} one row in front of this one,
+	 * from the given {@link Player}'s perspective.
+	 * 
+	 * @param	player
+	 * 			The {@link Player} whose perspective to consider.
+	 */
 	public Location getFront(Player player)
 	{
 		return player == Player.White ?
@@ -195,6 +323,13 @@ public final class Location
 				getBelow();
 	}
 	
+	/**
+	 * Returns the {@link Location} one row behind this one,
+	 * from the given {@link Player}'s perspective.
+	 * 
+	 * @param	player
+	 * 			The {@link Player} whose perspective to consider.
+	 */
 	public Location getBack(Player player)
 	{
 		return player == Player.White ?
@@ -216,6 +351,15 @@ public final class Location
 		}
 	}
 	
+	/**
+	 * Returns the {@link Location} reached by following the given
+	 * {@link Direction}s from the given {@link Player}'s perspective.
+	 * 
+	 * @param 	player
+	 *        	The {@link Player} whose perspective to consider.
+	 * @param 	steps
+	 * 			The sequence of {@link Direction}'s to follow.
+	 */
 	public Location getRelativeLocation(Player player, Iterable<Direction> steps)
 	{
 		Location current = this;
@@ -226,6 +370,15 @@ public final class Location
 		return current;
 	}
 	
+	/**
+	 * Returns the {@link Location} reached by following the given
+	 * {@link Direction}s from the given {@link Player}'s perspective.
+	 * 
+	 * @param 	player
+	 *        	The {@link Player} whose perspective to consider.
+	 * @param 	steps
+	 * 			The sequence of {@link Direction}'s to follow.
+	 */
 	public Location getRelativeLocation(Player player, Direction... steps)
 	{
 		return getRelativeLocation(player, Arrays.asList(steps));

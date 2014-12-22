@@ -12,11 +12,20 @@ public class SquareBlack implements ISquare
 	private IPiece piece;
 	private final ReadOnlySquare readOnlySquare = new ReadOnlySquare(this);
 	
+	/**
+	 * Creates an empty Black Square.
+	 */
 	public SquareBlack()
 	{
 		this(null);
 	}
 	
+	/**
+	 * Creates a Black Square containing the given {@link IPiece}.
+	 * 
+	 * @param 	piece
+	 * 			The piece to add to this Square.
+	 */
 	public SquareBlack(IPiece piece)
 	{
 		this.piece = piece;

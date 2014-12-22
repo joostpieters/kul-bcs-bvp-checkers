@@ -11,7 +11,6 @@ import domain.action.request.ActionRequest;
 import domain.action.request.AtomicCatchActionRequest;
 import domain.action.request.MoveActionRequest;
 import domain.board.contracts.IReadOnlyBoard;
-import domain.game.Game;
 import domain.location.DiagonalLocationPair;
 import domain.location.Direction;
 import domain.location.Location;
@@ -20,10 +19,10 @@ import domain.updates.contracts.IBasicUpdateProcessor;
 import domain.updates.contracts.IObserver;
 
 /**
- * This {@link IObserver} monitors the {@link Game} 
+ * This {@link IObserver} monitors the {@link IBoard} 
  * for possible out-of-moves occurrences every time the {@link Player}s switch turns.
  * If it found such an occurrence, it signals this to its own observers 
- * through the {@link IObserver#outOfMoves(Player) } event.
+ * through the {@link IObserver#outOfMoves(Player)} update.
  */
 public class OutOfMovesObserver extends UpdateSource implements IBasicUpdateProcessor
 {
@@ -76,7 +75,7 @@ public class OutOfMovesObserver extends UpdateSource implements IBasicUpdateProc
 		return canMove(board, player, location) || canCatch(board, player, location);
 	}
 	
-	public static List<MoveActionRequest> getAtomicStepsFromLocation(IReadOnlyBoard board, Player player, Location location)
+	private static List<MoveActionRequest> getAtomicStepsFromLocation(IReadOnlyBoard board, Player player, Location location)
 	{
 		List<MoveActionRequest> requests = new ArrayList<MoveActionRequest>();
 		List<Location> targets = new ArrayList<Location>();
@@ -95,7 +94,7 @@ public class OutOfMovesObserver extends UpdateSource implements IBasicUpdateProc
 		return requests;
 	}
 	
-	public static List<AtomicCatchActionRequest> getAtomicCatchesFromLocation(IReadOnlyBoard board, Player player, Location location)
+	public static List<AtomicCatchActionRequest> getAtomicCatchesFromLocation(IReadOnlyBoard board, Player player, Location location) //TODO private
 	{
 		List<AtomicCatchActionRequest> requests = new ArrayList<AtomicCatchActionRequest>();
 		List<Location> targets = new ArrayList<Location>();
@@ -137,9 +136,16 @@ public class OutOfMovesObserver extends UpdateSource implements IBasicUpdateProc
 	}
 
 	@Override
-	public void subscribeBasicBothWays(IBasicUpdateProcessor propagator)
+	public void linkBasic(IBasicUpdateProcessor propagator)
 	{
 		this.subscribeBasic(propagator);
 		propagator.subscribeBasic(this);
+	}
+	
+	@Override
+	public void unlinkBasic(IBasicUpdateProcessor processor)
+	{
+		this.unsubscribeBasic(processor);
+		processor.unsubscribeBasic(this);
 	}
 }
