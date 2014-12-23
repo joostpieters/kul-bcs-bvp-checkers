@@ -7,9 +7,9 @@ import ui.TextualVisualizer;
 import ui.UserInterface;
 import ui.GraphicalVisualizer;
 import domain.LegalActionChecker;
-import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.BoardSaver;
+import domain.board.contracts.IBoard;
 import domain.game.Game;
 import domain.input.InputProvider;
 import domain.observers.ForcedRemiseObserver;
@@ -22,7 +22,7 @@ public class Main
 {
 	public static void main(String[] args) throws IOException
 	{
-		Board board = BoardFactory.create(Paths.get("data", "input", "testPromotion.txt"));
+		IBoard board = BoardFactory.create(Paths.get("data", "input", "testPromotion.txt"));
 		Game game = new Game(board);
 		
 		//try-with-resource (since Java 7)

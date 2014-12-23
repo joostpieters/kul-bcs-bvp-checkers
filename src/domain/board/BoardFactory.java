@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import common.Configs;
+import domain.board.contracts.IBoard;
 import domain.location.Location;
 import domain.piece.PieceFactory;
 import domain.piece.contracts.IPiece;
@@ -11,7 +12,9 @@ import domain.piece.contracts.IPiece;
 
 public class BoardFactory
 {
-	public static Board create(BoardSize size, Path input) throws IOException
+	private BoardFactory() { }
+	
+	public static IBoard create(BoardSize size, Path input) throws IOException
 	{
 		Board board = new Board(size);
 		Scanner scanner = new Scanner(input);
@@ -28,7 +31,7 @@ public class BoardFactory
 		return board;
 	}
 	
-	public static Board create(Path input) throws IOException
+	public static IBoard create(Path input) throws IOException
 	{
 		return create(Configs.Size, input);
 	}

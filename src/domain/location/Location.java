@@ -143,6 +143,11 @@ public final class Location
 		return squareNumber / 2 + 1; //only count black squares
 	}
 	
+	public boolean equalBoardSize(Location other)
+	{
+		return this.getBoardSize().equals(other.getBoardSize());
+	}
+	
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -159,7 +164,7 @@ public final class Location
 			Location casted = (Location)obj;
 			return 	this.getRow() == casted.getRow() && 
 					this.getCol() == casted.getCol() &&
-					this.getBoardSize().equals(casted.getBoardSize());
+					equalBoardSize(casted);
 		}
 		return false;
 	}
@@ -167,7 +172,7 @@ public final class Location
 	@Override
 	public int hashCode()
 	{
-		return getRow() ^ getCol(); 
+		return Integer.hashCode(getRow()) ^ Integer.hashCode(getCol()); 
 	}
 	
 	/**
