@@ -64,6 +64,11 @@ public class LocationPair
 		this(new Location(fromIndex, size), new Location(toIndex, size));
 	}
 	
+	public LocationPair(LocationPair copy)
+	{
+		this(copy.getFrom(), copy.getTo());
+	}
+	
 	/**
 	 * Returns the distance in number of rows between this Pair.
 	 * 

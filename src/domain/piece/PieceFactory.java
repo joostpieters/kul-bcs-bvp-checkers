@@ -8,6 +8,8 @@ import domain.piece.contracts.IPiece;
  */
 public class PieceFactory
 {
+	private PieceFactory() { }
+	
 	/**
 	 * Creates a Piece based on the given character code and returns it.
 	 * 

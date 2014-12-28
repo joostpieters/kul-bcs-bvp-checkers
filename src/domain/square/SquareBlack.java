@@ -38,6 +38,10 @@ public class SquareBlack implements ISquare
 	
 	public IPiece getPiece()
 	{
+		if(!hasPiece())
+		{
+			throw new IllegalStateException("Square has no Piece.");
+		}
 		return piece;
 	}
 
@@ -65,5 +69,40 @@ public class SquareBlack implements ISquare
 	public IReadOnlySquare getReadOnlySquare()
 	{
 		return readOnlySquare;
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj == null)
+		{
+			return false;
+		}
+		if(obj == this)
+		{
+			return true;
+		}
+		if(obj instanceof SquareBlack)
+		{
+			SquareBlack casted = (SquareBlack)obj;
+			if(this.hasPiece() != casted.hasPiece())
+			{
+				return false;
+			}
+			if(this.hasPiece()) //both have pieces
+			{
+				return this.getPiece().equals(casted.getPiece());
+			}
+			//both have no pieces
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int pieceHash = hasPiece() ? getPiece().hashCode() : 0;
+		return 37 * pieceHash + Boolean.hashCode(true); 
 	}
 }

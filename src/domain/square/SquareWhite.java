@@ -46,4 +46,24 @@ public class SquareWhite implements ISquare
 	{
 		return readOnlySquare;
 	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj == null)
+		{
+			return false;
+		}
+		if(obj == this)
+		{
+			return true;
+		}
+		return obj instanceof SquareWhite;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Boolean.hashCode(false); 
+	}
 }

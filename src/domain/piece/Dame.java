@@ -72,7 +72,7 @@ public class Dame implements IPiece
 	}
 	
 	@Override
-	public IPiece getDeepClone()
+	public Dame getDeepClone()
 	{
 		return new Dame(this);
 	}

@@ -34,4 +34,38 @@ public class ReadOnlySquare implements IReadOnlySquare
 	{
 		return getSquare().getPiece();
 	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj == null)
+		{
+			return false;
+		}
+		if(obj == this)
+		{
+			return true;
+		}
+		if(obj instanceof IReadOnlySquare)
+		{
+			IReadOnlySquare casted = (IReadOnlySquare)obj;
+			if(this.hasPiece() != casted.hasPiece())
+			{
+				return false;
+			}
+			if(this.hasPiece()) //both have pieces
+			{
+				return this.getPiece().equals(casted.getPiece());
+			}
+			//both have no pieces
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return square.hashCode();
+	}
 }

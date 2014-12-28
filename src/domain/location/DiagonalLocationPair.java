@@ -23,17 +23,7 @@ public class DiagonalLocationPair extends LocationPair
 	
 	public DiagonalLocationPair(int fromIndex, int toIndex, BoardSize size)
 	{
-		super(fromIndex, toIndex, size);
-		if(!super.isOnSameDiagonal())
-		{
-			throw new IllegalArgumentException("DiagonalLocationPair members must be on same diagonal.");
-		}
-	}
-	
-	@Override
-	public boolean isOnSameDiagonal()
-	{
-		return true;
+		this(new Location(fromIndex, size), new Location(toIndex, size));
 	}
 	
 	public int getDiagonalDistance()
