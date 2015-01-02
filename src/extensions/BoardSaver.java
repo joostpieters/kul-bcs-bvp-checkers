@@ -1,4 +1,4 @@
-package domain.board;
+package extensions;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

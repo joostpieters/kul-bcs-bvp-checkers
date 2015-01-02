@@ -76,15 +76,16 @@ public class BoardSize {
 		{
 			return false;
 		}
-		try
+		if(obj == this)
+		{
+			return true;
+		}
+		if(obj instanceof BoardSize)
 		{
 			BoardSize casted = (BoardSize)obj;
 			return 	this.getRows() == casted.getRows() && 
 					this.getCols() == casted.getCols();
 		}
-		catch(ClassCastException ex)
-		{
-			return false;
-		}
+		return false;
 	}
 }

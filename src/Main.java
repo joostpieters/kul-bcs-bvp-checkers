@@ -8,13 +8,13 @@ import ui.UserInterface;
 import ui.GraphicalVisualizer;
 import domain.LegalActionChecker;
 import domain.board.BoardFactory;
-import domain.board.BoardSaver;
 import domain.board.contracts.IBoard;
 import domain.game.Game;
 import domain.input.InputProvider;
 import domain.observers.ForcedRemiseObserver;
 import domain.observers.OutOfMovesObserver;
 import domain.observers.PromotionObserver;
+import extensions.BoardSaver;
 
 //TODO testing
 //TODO documentation
