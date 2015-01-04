@@ -4,17 +4,15 @@ import common.Player;
 import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
-import domain.updates.UpdateSource;
-import domain.updates.contracts.IBasicUpdateProcessor;
+import domain.updates.UpdateProcessor;
 import domain.updates.contracts.IObserver;
-import domain.updates.contracts.IUpdateProcessor;
 
 /**
  * A simple type of {@link IObserver} that forces remise after a given 
  * number of whole actions have passed without a catch or a promotion.
  * This event is signaled to its own observers using the {@link IObserver#forcedRemise()} update. 
  */
-public class ForcedRemiseObserver extends UpdateSource implements IUpdateProcessor
+public class ForcedRemiseObserver extends UpdateProcessor
 {
 	private int actionCounter = 0;
 	private boolean catchDuringTurn = false;
@@ -143,34 +141,5 @@ public class ForcedRemiseObserver extends UpdateSource implements IUpdateProcess
 	@Override
 	public void error(String message, Exception ex)
 	{
-	}
-	
-	@Override
-	public void linkBasic(IBasicUpdateProcessor propagator)
-	{
-		this.subscribeBasic(propagator);
-		propagator.subscribeBasic(this);
-	}
-
-	@Override
-	public void unlinkBasic(IBasicUpdateProcessor processor)
-	{
-		this.unsubscribeBasic(processor);
-		processor.unsubscribeBasic(this);
-	}
-	
-	@Override
-	public void link(IUpdateProcessor processor)
-	{
-		this.subscribe(processor);
-		processor.subscribe(this);
-		
-	}
-
-	@Override
-	public void unlink(IUpdateProcessor processor)
-	{
-		this.unsubscribe(processor);
-		processor.unsubscribe(this);
 	}
 }

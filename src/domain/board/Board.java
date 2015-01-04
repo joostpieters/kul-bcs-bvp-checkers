@@ -276,4 +276,6 @@ public class Board implements IBoard
 		}
 		return false;
 	}
+	
+	//TODO hash code
 }

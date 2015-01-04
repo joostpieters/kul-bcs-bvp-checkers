@@ -88,4 +88,10 @@ public class BoardSize {
 		}
 		return false;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		return 37 * Integer.hashCode(getRows()) + Integer.hashCode(getCols());
+	}
 }

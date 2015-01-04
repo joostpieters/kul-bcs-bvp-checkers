@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.sun.rowset.internal.Row;
-
 import common.Player;
 import domain.piece.Piece;
 import domain.square.contracts.IReadOnlySquare;

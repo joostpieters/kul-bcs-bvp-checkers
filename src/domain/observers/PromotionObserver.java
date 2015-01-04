@@ -8,8 +8,7 @@ import domain.board.contracts.IReadOnlyBoard;
 import domain.game.contracts.IGame;
 import domain.location.Location;
 import domain.piece.contracts.IPiece;
-import domain.updates.UpdateSource;
-import domain.updates.contracts.IBasicUpdateProcessor;
+import domain.updates.BasicUpdateProcessor;
 
 /**
  * This {@link IObserver} monitors the {@link IGame} 
@@ -17,7 +16,7 @@ import domain.updates.contracts.IBasicUpdateProcessor;
  * If it found a promotion, it signals this to its own observers 
  * through the {@link IObserver#promotion(IReadOnlyBoard, Location)} update.
  */
-public class PromotionObserver extends UpdateSource implements IBasicUpdateProcessor
+public class PromotionObserver extends BasicUpdateProcessor
 {
 	@Override
 	public void updateBoard(IReadOnlyBoard board, Player performer)
@@ -45,19 +44,5 @@ public class PromotionObserver extends UpdateSource implements IBasicUpdateProce
 	@Override
 	public void executeAction(IAction action)
 	{
-	}
-
-	@Override
-	public void linkBasic(IBasicUpdateProcessor propagator)
-	{
-		this.subscribeBasic(propagator);
-		propagator.subscribeBasic(this);
-	}
-	
-	@Override
-	public void unlinkBasic(IBasicUpdateProcessor processor)
-	{
-		this.unsubscribeBasic(processor);
-		processor.unsubscribeBasic(this);
 	}
 }

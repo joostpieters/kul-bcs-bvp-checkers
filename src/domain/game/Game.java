@@ -12,6 +12,19 @@ public class Game implements IGame
 	private Player currentPlayer = Configs.FirstPlayer;
 	private Player winner = null;
 	private GameState state = GameState.Ongoing;
+	
+	public Game(IBoard board)
+	{
+		this.board = board;
+	}
+	
+	public Game(Game copy)
+	{
+		this.board = copy.board.getDeepClone();
+		this.currentPlayer = copy.currentPlayer;
+		this.winner = copy.winner;
+		this.state = copy.state;
+	}
 
 	@Override
 	public IBoard getBoard()
@@ -75,24 +88,59 @@ public class Game implements IGame
 	@Override
 	public void remise()
 	{
+		if(isOver())
+		{
+			throw new IllegalStateException("Game is already over.");
+		}
 		setGameState(GameState.Remise);
 	}
 
 	@Override
 	public void gameOver(Player winner)
 	{
+		if(isOver())
+		{
+			throw new IllegalStateException("Game is already over.");
+		}
 		setWinner(winner);
 		setGameState(GameState.Finished);
-	}
-
-	public Game(IBoard board)
-	{
-		this.board = board;
 	}
 
 	@Override
 	public IReadOnlyGame getReadOnlyGame()
 	{
 		return new ReadOnlyGame(this);
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj == null)
+		{
+			return false;
+		}
+		if(obj == this)
+		{
+			return true;
+		}
+		if(obj instanceof Game)
+		{
+			Game casted = (Game)obj;
+			return 	this.getGameState() == casted.getGameState() &&
+					this.getCurrentPlayer() == casted.getCurrentPlayer() &&
+					this.winner == casted.winner &&
+					this.getBoard().equals(casted.getBoard());
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int result = getGameState().hashCode();
+		result = 37 * result + getCurrentPlayer().hashCode();
+		result = 37 * result + (winner == null ? 0 : winner.hashCode());
+		result = 37 * result + getBoard().hashCode();
+		return result;
 	}
 }

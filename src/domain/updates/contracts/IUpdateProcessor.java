@@ -24,4 +24,13 @@ public interface IUpdateProcessor extends IObserver, IUpdateSource, IBasicUpdate
 	 * 			The {@link IUpdateProcessor} to unlink with.
 	 */
 	public void unlink(IUpdateProcessor processor);
+	
+	/**
+	 * Returns true if the given processor is linked to this instance, false otherwise.
+	 * 
+	 * @param 	processor
+	 * 			The {@link IUpdateProcessor} to check.
+	 * @return TODO
+	 */
+	public boolean isLinked(IUpdateProcessor processor);
 }

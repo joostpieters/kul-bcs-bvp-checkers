@@ -20,4 +20,12 @@ public interface IUpdateSource extends IBasicUpdateSource
 	 * 			The observer to unsubscribe.
 	 */
 	public void unsubscribe(IObserver observer);
+	
+	/**
+	 * Returns true if the given observer is already subscribed, false otherwise.
+	 * 
+	 * @param 	observer
+	 * 			The observer to check
+	 */
+	public boolean isSubscribed(IBasicObserver observer);
 }

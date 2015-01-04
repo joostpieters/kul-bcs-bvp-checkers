@@ -46,7 +46,7 @@ public class ActionFactory
 					int fromIndex = indices.get(i);
 					int toIndex = indices.get(i+1);
 					DiagonalLocationPair pair = new DiagonalLocationPair(fromIndex, toIndex, size);
-					actions[i] = createActionCatch(board, currentPlayer, pair);
+					actions[i] = createActionCatch(board, currentPlayer, pair); //TODO update board in between
 				}
 				return new CompositeAction(actions);
 			}

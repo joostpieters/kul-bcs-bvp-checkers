@@ -52,7 +52,7 @@ public class CompositeAction extends UpdatePropagator implements IAction
 			}
 			disableUpdateObservers();
 			action.executeOn(testBoard, currentPlayer);
-			enableUpdateObserverss();
+			enableUpdateObservers();
 		}
 		return true;
 	}
@@ -84,24 +84,6 @@ public class CompositeAction extends UpdatePropagator implements IAction
 	public Location getFrom()
 	{
 		return getActions().get(0).getFrom();
-	}
-
-	@Override
-	public void updateBoard(IReadOnlyBoard board, Player performer) //propagate updates from actions to own observers
-	{
-		emitUpdateBoard(board, performer);		
-	}
-
-	@Override
-	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
-	{
-		emitSwitchPlayer(board, switchedIn);
-	}
-
-	@Override
-	public void executeAction(IAction action)
-	{
-		emitExecuteAction(action);
 	}
 
 	@Override

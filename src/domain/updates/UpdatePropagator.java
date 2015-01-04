@@ -4,44 +4,14 @@ import common.Player;
 import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
-import domain.updates.contracts.IBasicUpdateProcessor;
-import domain.updates.contracts.IUpdateProcessor;
 
 /**
  * This class directly propagates all {@link IUpdate}s from source to observer, 
  * thereby limiting the direct dependency of many classes outside this 
  * package on the often-changed IGameObserver interface.
  */
-public abstract class UpdatePropagator extends UpdateSource implements IUpdateProcessor
+public abstract class UpdatePropagator extends UpdateProcessor
 {
-	@Override
-	public void linkBasic(IBasicUpdateProcessor propagator)
-	{
-		this.subscribeBasic(propagator);
-		propagator.subscribeBasic(this);
-	}
-	
-	@Override
-	public void unlinkBasic(IBasicUpdateProcessor processor)
-	{
-		this.unsubscribeBasic(processor);
-		processor.unsubscribeBasic(this);
-	}
-	
-	@Override
-	public void link(IUpdateProcessor propagator)
-	{
-		this.subscribe(propagator);
-		propagator.subscribe(this);
-	}
-	
-	@Override
-	public void unlink(IUpdateProcessor processor)
-	{
-		this.unsubscribe(processor);
-		processor.unsubscribe(this);
-	}
-	
 	@Override
 	public void updateBoard(IReadOnlyBoard board, Player performer)
 	{

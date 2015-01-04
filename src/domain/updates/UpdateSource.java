@@ -7,6 +7,7 @@ import common.Player;
 import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
+import domain.updates.contracts.IBasicObserver;
 import domain.updates.contracts.IObserver;
 import domain.updates.contracts.IUpdateSource;
 import domain.updates.contracts.IUpdate;
@@ -116,12 +117,26 @@ public abstract class UpdateSource extends BasicUpdateSource implements IUpdateS
 	@Override
 	public void subscribe(IObserver observer)
 	{
+		if(isSubscribed(observer))
+		{
+			throw new IllegalStateException("Cannot subscribe twice");
+		}
 		getObservers().add(observer);
 	}
 	
 	@Override
 	public void unsubscribe(IObserver observer)
 	{
+		if(!isSubscribed(observer))
+		{
+			throw new IllegalStateException("Given observer was not subscribed");
+		}
 		getObservers().remove(observer);
+	}
+	
+	@Override
+	public boolean isSubscribed(IBasicObserver observer)
+	{
+		return getObservers().contains(observer);
 	}
 }

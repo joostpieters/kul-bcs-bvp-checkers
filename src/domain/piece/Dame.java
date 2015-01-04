@@ -108,6 +108,6 @@ public class Dame implements IPiece
 	@Override
 	public int hashCode()
 	{
-		return Boolean.hashCode(canPromote()) ^ getPlayer().hashCode();
+		return 37 * getPlayer().hashCode() + Boolean.hashCode(canPromote());
 	}
 }

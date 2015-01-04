@@ -13,7 +13,7 @@ import domain.updates.contracts.IBasicUpdate;
 /**
  * A convenient, basic implementation of {@link IBasicUpdateSource}.  
  */
-public class BasicUpdateSource implements IBasicUpdateSource
+public abstract class BasicUpdateSource implements IBasicUpdateSource
 {
 	private final List<IBasicObserver> basicObservers = new ArrayList<IBasicObserver>();
 	private boolean disabled = false;
@@ -23,7 +23,7 @@ public class BasicUpdateSource implements IBasicUpdateSource
 		return disabled;
 	}
 	
-	protected void enableUpdateObserverss()
+	protected void enableUpdateObservers()
 	{
 		this.disabled = false;
 	}
@@ -67,12 +67,26 @@ public class BasicUpdateSource implements IBasicUpdateSource
 	@Override
 	public void subscribeBasic(IBasicObserver observer)
 	{
+		if(isSubscribedBasic(observer))
+		{
+			throw new IllegalStateException("Cannot subscribe twice");
+		}
 		getBasicObservers().add(observer);
 	}
 	
 	@Override
 	public void unsubscribeBasic(IBasicObserver observer)
 	{
+		if(!isSubscribedBasic(observer))
+		{
+			throw new IllegalStateException("Given observer was not subscribed");
+		}
 		getBasicObservers().remove(observer);
+	}
+	
+	@Override
+	public boolean isSubscribedBasic(IBasicObserver observer)
+	{
+		return getBasicObservers().contains(observer);
 	}
 }

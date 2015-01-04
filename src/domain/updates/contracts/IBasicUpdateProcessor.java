@@ -24,4 +24,13 @@ public interface IBasicUpdateProcessor extends IBasicObserver, IBasicUpdateSourc
 	 * 			The {@link IBasicUpdateProcessor} to unlink with.
 	 */
 	public void unlinkBasic(IBasicUpdateProcessor processor);
+	
+	/**
+	 * Returns true if the given processor is linked to this instance, false otherwise.
+	 * 
+	 * @param 	processor
+	 * 			The {@link IBasicUpdateProcessor} to check.
+	 * @return TODO
+	 */
+	public boolean isLinkedBasic(IBasicUpdateProcessor processor);
 }

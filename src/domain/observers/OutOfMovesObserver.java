@@ -14,8 +14,7 @@ import domain.board.contracts.IReadOnlyBoard;
 import domain.location.DiagonalLocationPair;
 import domain.location.Direction;
 import domain.location.Location;
-import domain.updates.UpdateSource;
-import domain.updates.contracts.IBasicUpdateProcessor;
+import domain.updates.BasicUpdateProcessor;
 import domain.updates.contracts.IObserver;
 
 /**
@@ -24,7 +23,7 @@ import domain.updates.contracts.IObserver;
  * If it found such an occurrence, it signals this to its own observers 
  * through the {@link IObserver#outOfMoves(Player)} update.
  */
-public class OutOfMovesObserver extends UpdateSource implements IBasicUpdateProcessor
+public class OutOfMovesObserver extends BasicUpdateProcessor
 {
 	private static boolean isCurrentPlayerOutOfMoves(IReadOnlyBoard board, Player player)
 	{
@@ -133,19 +132,5 @@ public class OutOfMovesObserver extends UpdateSource implements IBasicUpdateProc
 	@Override
 	public void executeAction(IAction action)
 	{
-	}
-
-	@Override
-	public void linkBasic(IBasicUpdateProcessor propagator)
-	{
-		this.subscribeBasic(propagator);
-		propagator.subscribeBasic(this);
-	}
-	
-	@Override
-	public void unlinkBasic(IBasicUpdateProcessor processor)
-	{
-		this.unsubscribeBasic(processor);
-		processor.unsubscribeBasic(this);
 	}
 }

@@ -20,4 +20,12 @@ public interface IBasicUpdateSource
 	 * 			The observer to unsubscribe.
 	 */
 	public void unsubscribeBasic(IBasicObserver observer);
+	
+	/**
+	 * Returns true if the given observer is already subscribed, false otherwise.
+	 * 
+	 * @param 	observer
+	 * 			The observer to check
+	 */
+	public boolean isSubscribedBasic(IBasicObserver observer);
 }
