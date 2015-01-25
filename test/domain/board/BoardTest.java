@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import common.Player;
 import domain.board.contracts.IBoard;
+import domain.board.contracts.IBoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.location.LocationPair;
@@ -43,7 +44,7 @@ public class BoardTest
 	@Test
 	public void testConstructor()
 	{
-		BoardSize size = new BoardSize(10, 10);
+		IBoardSize size = new BoardSize(10, 10);
 		Board board = new Board(size);
 		
 		assertEquals(size, board.getSize());
@@ -60,7 +61,7 @@ public class BoardTest
 	@Test
 	public void testCopyConstructor()
 	{
-		BoardSize size = new BoardSize(10, 10);
+		IBoardSize size = new BoardSize(10, 10);
 		Board copy = new Board(board);
 		
 		assertEquals(size, copy.getSize());

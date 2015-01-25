@@ -1,14 +1,18 @@
 package domain.board;
 
-public class BoardSize {
+import domain.board.contracts.IBoardSize;
+
+public class BoardSize implements IBoardSize {
 	private final int rows;
 	private final int cols;
 	
+	@Override
 	public int getRows()
 	{
 		return rows;
 	}
 	
+	@Override
 	public int getCols()
 	{
 		return cols;
@@ -33,6 +37,7 @@ public class BoardSize {
 		this.cols = cols;
 	}
 	
+	@Override
 	public boolean isValidIndex(int index)
 	{
 		return index >= 1 && index <= getRows()*getCols()/2;
@@ -59,6 +64,7 @@ public class BoardSize {
 				cols % 2 == 0;
 	}
 	
+	@Override
 	public boolean isValidLocation(int row, int col)
 	{
 		return 	row >= 0 && row < getRows() &&
@@ -82,7 +88,7 @@ public class BoardSize {
 		}
 		if(obj instanceof BoardSize)
 		{
-			BoardSize casted = (BoardSize)obj;
+			IBoardSize casted = (IBoardSize)obj;
 			return 	this.getRows() == casted.getRows() && 
 					this.getCols() == casted.getCols();
 		}

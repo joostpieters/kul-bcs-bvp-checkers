@@ -9,7 +9,7 @@ import domain.piece.Piece;
 import domain.square.contracts.IReadOnlySquare;
 import domain.square.contracts.ISquare;
 
-public class ReadOnlySquareTests
+public class ReadOnlySquareTest
 {
 	private static final Piece whitePiece = new Piece(Player.White);
 	private final static ISquare emptyBlack = new SquareBlack();

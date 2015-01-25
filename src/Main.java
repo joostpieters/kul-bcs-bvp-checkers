@@ -1,11 +1,13 @@
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import common.Configs;
-import controller.GameController;
+import ui.GraphicalVisualizer;
 import ui.TextualVisualizer;
 import ui.UserInterface;
-import ui.GraphicalVisualizer;
+
+import common.Configs;
+
+import controller.GameController;
 import domain.LegalActionChecker;
 import domain.board.BoardFactory;
 import domain.board.contracts.IBoard;
@@ -26,7 +28,7 @@ public class Main
 		Game game = new Game(board);
 		
 		//try-with-resource (since Java 7)
-		try(InputProvider inputProvider = new InputProvider(new UserInterface(), new LegalActionChecker(game)))
+		try(InputProvider inputProvider = new InputProvider(new UserInterface(), new LegalActionChecker(game), game))
 		{
 			GameController controller = new GameController(game, inputProvider);
 			PromotionObserver promotionObserver = new PromotionObserver();

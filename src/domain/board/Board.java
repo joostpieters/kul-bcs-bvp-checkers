@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import common.Player;
 import domain.board.contracts.IBoard;
+import domain.board.contracts.IBoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.location.LocationPair;
@@ -17,10 +18,10 @@ import domain.square.contracts.ISquare;
 public class Board implements IBoard
 {
 	private final ISquare[][] squares;
-	private final BoardSize size;
+	private final IBoardSize size;
 	private final ReadOnlyBoard readOnlyWrapper = new ReadOnlyBoard(this);
 	
-	public Board(BoardSize size)
+	public Board(IBoardSize size)
 	{
 		this.size = size;
 		this.squares = new ISquare[size.getRows()][size.getCols()];
@@ -44,7 +45,7 @@ public class Board implements IBoard
 	public Board(IReadOnlyBoard original)
 	{
 		this(original.getSize());
-		BoardSize size = getSize();
+		IBoardSize size = getSize();
 		for(int row=0; row < size.getRows(); row++)
 		{
 			for(int col=0; col < size.getCols(); col++)
@@ -62,7 +63,7 @@ public class Board implements IBoard
 	}
 	
 	@Override
-	public BoardSize getSize()
+	public IBoardSize getSize()
 	{
 		return size;
 	}
@@ -142,20 +143,34 @@ public class Board implements IBoard
 		addPiece(pair.getTo(), piece);
 	}
 	
-	@Override
-	public void promotePiece(Location location)
+	private boolean isValidPromotion(Location location)
 	{
 		ISquare square = getSquare(location);
 		if(!square.hasPiece())
 		{
-			throw new IllegalStateException(String.format("Square %s does not contains a piece.", location));
+			//throw new IllegalStateException(String.format("Square %s does not contains a piece.", location));
+			return false;
 		}
 		IPiece piece = square.getPiece();
 		Player player = piece.getPlayer();
 		if(!location.isOnPromotionRow(player))
 		{
-			throw new IllegalStateException(String.format("Cannot promote piece of player %s on row %d.", player, location.getRow()));
+			//throw new IllegalStateException(String.format("Cannot promote piece of player %s on row %d.", player, location.getRow()));
+			return false;
 		}
+		return true;
+	}
+	
+	@Override
+	public void promotePiece(Location location) //TODO move promotion logic somewhere else
+	{
+		if(!isValidPromotion(location))
+		{
+			throw new IllegalStateException(String.format("Location %s does not contain a piece that can legally be promoted.", location));
+		}
+		ISquare square = getSquare(location);
+		IPiece piece = square.getPiece();
+		Player player = piece.getPlayer();
 		Dame dame = new Dame(player);
 		removePiece(location);
 		addPiece(location, dame);
@@ -277,5 +292,17 @@ public class Board implements IBoard
 		return false;
 	}
 	
-	//TODO hash code
+	@Override
+	public int hashCode()
+	{
+		int result = getSize().hashCode();
+		for(ISquare[] squareRow : squares)
+		{
+			for(ISquare square : squareRow)
+			{
+				result = 37 * result + square.hashCode();
+			}
+		}
+		return result;
+	}
 }

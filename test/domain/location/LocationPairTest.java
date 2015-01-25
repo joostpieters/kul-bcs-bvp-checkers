@@ -7,12 +7,12 @@ import java.util.Collection;
 import org.junit.Test;
 
 import common.Player;
-
 import domain.board.BoardSize;
+import domain.board.contracts.IBoardSize;
 
-public class LocationPairTests
+public class LocationPairTest
 {
-	private final static BoardSize size = new BoardSize(10, 10);
+	private final static IBoardSize size = new BoardSize(10, 10);
 	private final static LocationPair stepAboveRight = new LocationPair(48, 43, size);
 	private final static LocationPair stepAboveLeft = new LocationPair(38, 32, size);
 	private final static LocationPair stepBelowRight = new LocationPair(18, 23, size);

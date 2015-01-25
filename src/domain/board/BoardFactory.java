@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import common.Configs;
 import domain.board.contracts.IBoard;
+import domain.board.contracts.IBoardSize;
 import domain.location.Location;
 import domain.piece.PieceFactory;
 import domain.piece.contracts.IPiece;
@@ -14,7 +15,7 @@ public class BoardFactory
 {
 	private BoardFactory() { }
 	
-	public static IBoard create(BoardSize size, Path input) throws IOException
+	public static IBoard create(IBoardSize size, Path input) throws IOException
 	{
 		Board board = new Board(size);
 		Scanner scanner = new Scanner(input);

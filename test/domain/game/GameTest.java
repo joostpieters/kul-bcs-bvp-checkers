@@ -8,6 +8,7 @@ import common.Player;
 import domain.board.Board;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoard;
+import domain.game.contracts.GameState;
 import domain.game.contracts.IGame;
 import domain.game.contracts.IReadOnlyGame;
 

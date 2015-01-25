@@ -9,7 +9,7 @@ import bvp.Figuur;
 import common.Configs;
 import common.Player;
 import domain.action.contracts.IAction;
-import domain.board.BoardSize;
+import domain.board.contracts.IBoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.piece.contracts.IPiece;
@@ -56,7 +56,7 @@ public class GraphicalVisualizer implements IVisualizer
 	public void paint(IReadOnlyBoard board)
 	{
 		Bord frame = getFrame();
-		BoardSize size = board.getSize();
+		IBoardSize size = board.getSize();
 		Figuren numbers = new Figuren(Configs.CijfersPath);
 		Figuren pieces = new Figuren(Configs.SchijvenPath);
 		Figuur background = new Figuur(size.getCols()*50, size.getRows()*50);

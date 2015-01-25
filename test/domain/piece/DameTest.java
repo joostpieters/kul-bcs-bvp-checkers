@@ -7,7 +7,7 @@ import org.junit.Test;
 import common.Configs;
 import common.Player;
 
-public class DameTests
+public class DameTest
 {
 	private static final Dame whiteDame = new Dame(Player.White);
 	private static final Dame blackDame = new Dame(Player.Black);

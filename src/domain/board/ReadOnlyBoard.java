@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import common.Player;
 import domain.board.contracts.IBoard;
+import domain.board.contracts.IBoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.location.LocationPair;
@@ -25,11 +26,15 @@ public class ReadOnlyBoard implements IReadOnlyBoard
 
 	public ReadOnlyBoard(IBoard board)
 	{
+		if(board == null)
+		{
+			throw new NullPointerException("Board must not be null.");
+		}
 		this.board = board;
 	}
 
 	@Override
-	public BoardSize getSize()
+	public IBoardSize getSize()
 	{
 		return getBoard().getSize();
 	}
@@ -80,6 +85,12 @@ public class ReadOnlyBoard implements IReadOnlyBoard
 	public IBoard getDeepClone()
 	{
 		return new Board(getBoard());
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return board.hashCode();
 	}
 	
 	@Override

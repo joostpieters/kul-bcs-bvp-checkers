@@ -2,6 +2,7 @@ package domain.game;
 
 import common.Player;
 import domain.board.contracts.IReadOnlyBoard;
+import domain.game.contracts.GameState;
 import domain.game.contracts.IGame;
 import domain.game.contracts.IReadOnlyGame;
 

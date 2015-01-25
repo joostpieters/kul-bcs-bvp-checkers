@@ -6,7 +6,7 @@ import ui.LocalizationManager;
 import common.Player;
 import domain.action.contracts.IAction;
 import domain.action.request.ActionRequest;
-import domain.board.BoardSize;
+import domain.board.contracts.IBoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.DiagonalLocationPair;
 
@@ -16,7 +16,7 @@ public class ActionFactory
 	
 	public static IAction create(ActionRequest request, IReadOnlyBoard board, Player currentPlayer)
 	{
-		BoardSize size = board.getSize();
+		IBoardSize size = board.getSize();
 		List<Integer> indices = request.getIndices();
 		if(!request.isCatch())
 		{

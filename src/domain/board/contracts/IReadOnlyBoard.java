@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import common.IDeepClonable;
 import common.Player;
-import domain.board.BoardSize;
 import domain.location.Location;
 import domain.location.LocationPair;
 import domain.piece.contracts.IPiece;
@@ -12,7 +11,7 @@ import domain.square.contracts.IReadOnlySquare;
 
 public interface IReadOnlyBoard extends IDeepClonable<IBoard>
 {
-	public BoardSize getSize();
+	public IBoardSize getSize();
 
 	public Location createLocation(int row, int col);
 

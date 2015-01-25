@@ -76,7 +76,7 @@ public class CompositeAction extends UpdatePropagator implements IAction
 	public String toString()
 	{
 		List<String> list = getActions().stream().map(e -> e.toString()).collect(Collectors.toList());
-		String[] strings = (String[]) list.toArray(new String[list.size()]);
+		String[] strings = list.toArray(new String[list.size()]);
 		return "(" + String.join(" + ", strings) + ")";
 	}
 

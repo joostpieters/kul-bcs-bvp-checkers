@@ -18,6 +18,7 @@ import domain.action.contracts.IAction;
 import domain.board.Board;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoard;
+import domain.board.contracts.IBoardSize;
 import domain.input.RemiseInput;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
@@ -122,7 +123,7 @@ public class UpdateSourceTest
 	@Test
 	public void testExecuteAction()
 	{
-		BoardSize size = new BoardSize(10, 10);
+		IBoardSize size = new BoardSize(10, 10);
 		Location from = new Location(1, size);
 		Location to = new Location(6, size);
 		DiagonalLocationPair pair = new DiagonalLocationPair(from, to); 

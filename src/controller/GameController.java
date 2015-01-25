@@ -41,7 +41,7 @@ public class GameController extends UpdatePropagator
 		//main game loop
 		while(!game.isOver())
 		{
-			IInput input = getInputProvider().askInput(game);
+			IInput input = getInputProvider().askInput();
 			boolean success = input.process();
 			
 			if(success)

@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
 
-import domain.board.BoardSize;
+import domain.board.contracts.IBoardSize;
 
 /**
  * @invariant super.isOnSameDiagonal()
@@ -21,7 +21,7 @@ public class DiagonalLocationPair extends LocationPair
 		}
 	}
 	
-	public DiagonalLocationPair(int fromIndex, int toIndex, BoardSize size)
+	public DiagonalLocationPair(int fromIndex, int toIndex, IBoardSize size)
 	{
 		this(new Location(fromIndex, size), new Location(toIndex, size));
 	}

@@ -2,7 +2,6 @@ package domain.game.contracts;
 
 import common.Player;
 import domain.board.contracts.IReadOnlyBoard;
-import domain.game.GameState;
 
 public interface IReadOnlyGame
 {

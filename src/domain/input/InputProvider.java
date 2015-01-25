@@ -14,6 +14,7 @@ public class InputProvider extends UpdatePropagator implements AutoCloseable
 	private final IUserInterface ui;
 	private final LegalActionChecker legalActionChecker;
 	private boolean closed = false;
+	private final IGame game;
 	
 	private IUserInterface getUI()
 	{
@@ -23,6 +24,11 @@ public class InputProvider extends UpdatePropagator implements AutoCloseable
 	private LegalActionChecker getLegalActionChecker()
 	{
 		return legalActionChecker;
+	}
+	
+	private IGame getGame()
+	{
+		return game;
 	}
 	
 	private boolean isClosed()
@@ -37,35 +43,36 @@ public class InputProvider extends UpdatePropagator implements AutoCloseable
 		getUI().close();
 	}
 	
-	public InputProvider(IUserInterface ui, LegalActionChecker legalActionChecker)
+	public InputProvider(IUserInterface ui, LegalActionChecker legalActionChecker, IGame game)
 	{
 		this.ui = ui;
 		this.legalActionChecker = legalActionChecker;
+		this.game = game;
 	}
 	
-	public IInput askInput(IGame game)
+	public IInput askInput()
 	{
 		if(isClosed())
 		{
 			throw new IllegalStateException(LocalizationManager.getString("closedProviderException"));
 		}
-		Player player = game.getCurrentPlayer();
+		Player player = getGame().getCurrentPlayer();
 		String move = getUI().askActionInput(player);
 		if(move.equals(LocalizationManager.getString("resignInput")))
 		{
-			ResignInput input = new ResignInput(game.getReadOnlyGame());
+			ResignInput input = new ResignInput(getGame().getReadOnlyGame());
 			input.subscribe(this);
 			return input;
 		}
 		else if(move.equals(LocalizationManager.getString("remiseInput")))
 		{
-			RemiseInput input = new RemiseInput(game.getReadOnlyGame(), getUI());
+			RemiseInput input = new RemiseInput(getGame().getReadOnlyGame(), getUI());
 			input.subscribe(this);
 			return input;
 		}
 		else
 		{
-			ActionInput input = new ActionInput(move, game, getLegalActionChecker());
+			ActionInput input = new ActionInput(move, getGame(), getLegalActionChecker());
 			input.subscribe(this);
 			return input;
 		}

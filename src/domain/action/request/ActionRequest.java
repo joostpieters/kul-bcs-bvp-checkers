@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import domain.board.BoardSize;
+import domain.board.contracts.IBoardSize;
 import domain.location.Location;
 
 public abstract class ActionRequest
@@ -44,12 +44,12 @@ public abstract class ActionRequest
 		return getIndices().get(getIndices().size()-1);
 	}
 	
-	public Location getStart(BoardSize size)
+	public Location getStart(IBoardSize size)
 	{
 		return new Location(getStartIndex(), size);
 	}
 	
-	public Location getEnd(BoardSize size)
+	public Location getEnd(IBoardSize size)
 	{
 		return new Location(getEndIndex(), size);
 	}
@@ -84,6 +84,6 @@ public abstract class ActionRequest
 	@Override
 	public int hashCode()
 	{
-		return Boolean.hashCode(isCatch()) ^ indices.hashCode();
+		return Boolean.hashCode(isCatch()) + 37 * indices.hashCode();
 	}
 }

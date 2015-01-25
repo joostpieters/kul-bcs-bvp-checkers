@@ -36,7 +36,7 @@ public class RemiseInput extends UpdateSource implements IInput
 		
 		emitProposeRemise(proposer);
 		
-		if(getUI().askYesNo(LocalizationManager.getString("acceptRemise")))
+		if(getUI().askYesNo(LocalizationManager.getString("suggestRemise")))
 		{
 			emitAcceptRemise();
 			return true;

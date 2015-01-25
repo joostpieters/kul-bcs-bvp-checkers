@@ -6,9 +6,7 @@ import domain.LegalActionChecker;
 import domain.action.ActionFactory;
 import domain.action.contracts.IAction;
 import domain.action.request.ActionRequest;
-import domain.action.request.AtomicCatchActionRequest;
-import domain.action.request.CatchActionRequest;
-import domain.action.request.MoveActionRequest;
+import domain.action.request.ActionRequestFactory;
 import domain.board.contracts.IBoard;
 import domain.game.contracts.IGame;
 import domain.input.contracts.IInput;
@@ -51,7 +49,7 @@ public class ActionInput extends UpdatePropagator implements IInput
 		
 		try
 		{
-			ActionRequest request = analyzeAction();
+			ActionRequest request = ActionRequestFactory.create(getMove());
 			if(!getLegalActionChecker().isActionLegal(request))
 			{
 				emitWarning(LocalizationManager.getString("warningIllegalAction"));
@@ -77,35 +75,5 @@ public class ActionInput extends UpdatePropagator implements IInput
 		}
 	}
 	
-	private ActionRequest analyzeAction()
-	{
-		String move = getMove();
-		if(move.matches("\\d+\\s*-\\s*\\d+")) //step or fly
-		{
-			String parts[] = move.split("\\s*-\\s*");
-			int fromIndex = Integer.parseInt(parts[0]);
-			int toIndex = Integer.parseInt(parts[1]);
-			return new MoveActionRequest(fromIndex, toIndex);
-		}
-		else if(move.matches("\\d+(\\s*x\\s*\\d+)+")) //(multi-)(fly-)catch
-		{
-			String[] parts = move.split("\\s*x\\s*");
-			if(parts.length == 2)
-			{
-				int fromIndex = Integer.parseInt(parts[0]);
-				int toIndex = Integer.parseInt(parts[1]);
-				return new AtomicCatchActionRequest(fromIndex, toIndex);
-			}
-			else
-			{
-				int[] indices = new int[parts.length];
-				for(int i=0; i < parts.length; i++)
-				{
-					indices[i] = Integer.parseInt(parts[i]);
-				}
-				return new CatchActionRequest(indices);
-			}
-		}
-		throw new IllegalArgumentException(LocalizationManager.getString("invalidPatternException"));
-	}
+	
 }

@@ -3,7 +3,7 @@ package domain.location;
 import java.util.Collection;
 import java.util.Stack;
 
-import domain.board.BoardSize;
+import domain.board.contracts.IBoardSize;
 
 /**
  * Represents a pair of Locations: from and to.
@@ -59,7 +59,7 @@ public class LocationPair
 		this.to = to;
 	}
 	
-	public LocationPair(int fromIndex, int toIndex, BoardSize size)
+	public LocationPair(int fromIndex, int toIndex, IBoardSize size)
 	{
 		this(new Location(fromIndex, size), new Location(toIndex, size));
 	}

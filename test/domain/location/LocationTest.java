@@ -5,11 +5,12 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import common.Player;
-
 import domain.board.BoardSize;
+import domain.board.contracts.IBoardSize;
 import domain.location.Location;
 
-public class LocationTests {
+public class LocationTest
+{
 	private final Location loc1x1on4x4 = new Location(1, 1, new BoardSize(4, 4));
 	private final Location loc4x5on8x8 = new Location(4, 5, new BoardSize(8, 8));
 	private final Location loc9x0on10x10 = new Location(9, 0, new BoardSize(10, 10));
@@ -112,7 +113,7 @@ public class LocationTests {
 	{
 		int rows = 2 * (1 + (int)(Math.random() * 25));
 		int cols = 2 * (1 + (int)(Math.random() * 25));
-		BoardSize size = new BoardSize(rows, cols);
+		IBoardSize size = new BoardSize(rows, cols);
 		int prevIndex = 1;
 		for(int row=0; row<rows; row++)
 		{

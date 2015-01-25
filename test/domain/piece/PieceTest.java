@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import common.Player;
 
-public class PieceTests
+public class PieceTest
 {
 	private static final Piece whitePiece = new Piece(Player.White);
 	private static final Piece blackPiece = new Piece(Player.Black);

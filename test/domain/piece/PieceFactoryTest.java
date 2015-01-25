@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import common.Player;
 
-public class PieceFactoryTests
+public class PieceFactoryTest
 {
 	@Test
 	public void testCreate()

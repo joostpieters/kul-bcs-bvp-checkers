@@ -7,10 +7,11 @@ import java.util.List;
 import org.junit.Test;
 
 import domain.board.BoardSize;
+import domain.board.contracts.IBoardSize;
 
-public class DiagonalLocationPairTests
+public class DiagonalLocationPairTest
 {
-	private final static BoardSize size = new BoardSize(10, 10);
+	private final static IBoardSize size = new BoardSize(10, 10);
 	private final static DiagonalLocationPair stepAboveRight = new DiagonalLocationPair(48, 43, size);
 	private final static DiagonalLocationPair stepAboveLeft = new DiagonalLocationPair(38, 32, size);
 	private final static DiagonalLocationPair flyFar = new DiagonalLocationPair(46, 5, size);

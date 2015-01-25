@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import common.Player;
 import domain.board.BoardSize;
+import domain.board.contracts.IBoardSize;
 
 /**
  * An immutable class representing a location on an {@link IBoard} with 
@@ -13,7 +14,7 @@ public final class Location
 {
 	private final int row;
 	private final int col;
-	private final BoardSize size;
+	private final IBoardSize size;
 
 	/**
 	 * Creates a new {@link Location} with the given parameters.
@@ -25,7 +26,7 @@ public final class Location
 	 * @param 	size
 	 * 			The size of the {@link IBoard}.
 	 */
-	public Location(int row, int col, BoardSize size)
+	public Location(int row, int col, IBoardSize size)
 	{
 		if(!size.isValidLocation(row, col))
 		{
@@ -47,7 +48,7 @@ public final class Location
 	 * @param 	size
 	 * 			The size of the {@link IBoard}.
 	 */
-	public Location(int index, BoardSize size)
+	public Location(int index, IBoardSize size)
 	{
 		if(!size.isValidIndex(index))
 		{
@@ -95,7 +96,7 @@ public final class Location
 	/**
 	 * Returns the {@link BoardSize} related to this {@link Location}.
 	 */
-	public BoardSize getBoardSize()
+	public IBoardSize getBoardSize()
 	{
 		return size;
 	}

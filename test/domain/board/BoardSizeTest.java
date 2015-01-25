@@ -6,26 +6,28 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import domain.board.contracts.IBoardSize;
 
-public class BoardSizeTests {
+
+public class BoardSizeTest {
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 	
 	@Test
 	public void testGetRows() {
-		BoardSize x = new BoardSize(2, 4);
+		IBoardSize x = new BoardSize(2, 4);
 		assertEquals(2, x.getRows());
 	}
 
 	@Test
 	public void testGetCols() {
-		BoardSize x = new BoardSize(2, 4);
+		IBoardSize x = new BoardSize(2, 4);
 		assertEquals(4, x.getCols());
 	}
 
 	@Test
 	public void testBoardSizeValid() {
-		BoardSize x = new BoardSize(100, 200);
+		IBoardSize x = new BoardSize(100, 200);
 		assertEquals(100, x.getRows());
 		assertEquals(200, x.getCols());
 	}
@@ -39,7 +41,7 @@ public class BoardSizeTests {
 
 	@Test
 	public void testIsValidIndex() {
-		BoardSize x = new BoardSize(12, 12);
+		IBoardSize x = new BoardSize(12, 12);
 		int max = 12*12/2;
 		assertTrue(x.isValidIndex(1));
 		assertTrue(x.isValidIndex(12));
@@ -48,7 +50,7 @@ public class BoardSizeTests {
 	
 	@Test
 	public void testIsInvalidIndex() {
-		BoardSize x = new BoardSize(12, 12);
+		IBoardSize x = new BoardSize(12, 12);
 		int max = 12*12/2;
 		assertFalse(x.isValidIndex(-1));
 		assertFalse(x.isValidIndex(0));
@@ -91,14 +93,14 @@ public class BoardSizeTests {
 
 	@Test
 	public void testIsValidLocationInBoundsTrue() {
-		BoardSize x = new BoardSize(6, 8);
+		IBoardSize x = new BoardSize(6, 8);
 		assertTrue(x.isValidLocation(0, 0));
 		assertTrue(x.isValidLocation(5, 7));
 	}
 	
 	@Test
 	public void testIsValidLocationOutBoundsFalse() {
-		BoardSize x = new BoardSize(4, 2);
+		IBoardSize x = new BoardSize(4, 2);
 		assertFalse(x.isValidLocation(-1, 0));
 		assertFalse(x.isValidLocation(0, -1));
 		assertFalse(x.isValidLocation(4, 1));
@@ -107,37 +109,37 @@ public class BoardSizeTests {
 
 	@Test
 	public void testEqualsSameSize() {
-		BoardSize x = new BoardSize(2,2);
-		BoardSize y = new BoardSize(2,2);
+		IBoardSize x = new BoardSize(2,2);
+		IBoardSize y = new BoardSize(2,2);
 		assertTrue(x.equals(y));
 		assertTrue(y.equals(x));
 	}
 	
 	@Test
 	public void testEqualsOtherRowSize() {
-		BoardSize x = new BoardSize(2,2);
-		BoardSize y = new BoardSize(4,2);
+		IBoardSize x = new BoardSize(2,2);
+		IBoardSize y = new BoardSize(4,2);
 		assertFalse(x.equals(y));
 		assertFalse(y.equals(x));
 	}
 	
 	@Test
 	public void testEqualsOtherColSize() {
-		BoardSize x = new BoardSize(2,2);
-		BoardSize y = new BoardSize(2,4);
+		IBoardSize x = new BoardSize(2,2);
+		IBoardSize y = new BoardSize(2,4);
 		assertFalse(x.equals(y));
 		assertFalse(y.equals(x));
 	}
 	
 	@Test
 	public void testEqualsNull() {
-		BoardSize x = new BoardSize(2,2);
+		IBoardSize x = new BoardSize(2,2);
 		assertFalse(x.equals(null));
 	}
 	
 	@Test
 	public void testEqualsObject() {
-		BoardSize x = new BoardSize(2,2);
+		IBoardSize x = new BoardSize(2,2);
 		assertFalse(x.equals(new Object()));
 	}
 }

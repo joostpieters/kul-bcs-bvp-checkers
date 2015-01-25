@@ -1,6 +1,5 @@
 package domain.board.contracts;
 
-import domain.board.ReadOnlyBoard;
 import domain.location.Location;
 import domain.location.LocationPair;
 import domain.piece.contracts.IPiece;
@@ -19,5 +18,5 @@ public interface IBoard extends IReadOnlyBoard
 	@Override
 	public ISquare getSquare(Location location);
 	
-	public ReadOnlyBoard getReadOnlyBoard();
+	public IReadOnlyBoard getReadOnlyBoard();
 }
