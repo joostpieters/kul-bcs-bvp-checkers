@@ -2,15 +2,15 @@ package domain.input;
 
 import ui.LocalizationManager;
 import common.Player;
-import domain.LegalActionChecker;
 import domain.action.ActionFactory;
+import domain.action.LegalActionChecker;
 import domain.action.contracts.IAction;
 import domain.action.request.ActionRequest;
 import domain.action.request.ActionRequestFactory;
 import domain.board.contracts.IBoard;
 import domain.game.contracts.IGame;
 import domain.input.contracts.IInput;
-import domain.updates.UpdatePropagator;
+import domain.update.UpdatePropagator;
 
 public class ActionInput extends UpdatePropagator implements IInput
 {

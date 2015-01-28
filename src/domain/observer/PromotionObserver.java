@@ -1,4 +1,4 @@
-package domain.observers;
+package domain.observer;
 
 import java.util.HashMap;
 
@@ -8,7 +8,7 @@ import domain.board.contracts.IReadOnlyBoard;
 import domain.game.contracts.IGame;
 import domain.location.Location;
 import domain.piece.contracts.IPiece;
-import domain.updates.BasicUpdateProcessor;
+import domain.update.BasicUpdateProcessor;
 
 /**
  * This {@link IObserver} monitors the {@link IGame} 

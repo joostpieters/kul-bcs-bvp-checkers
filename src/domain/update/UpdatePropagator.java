@@ -1,4 +1,4 @@
-package domain.updates;
+package domain.update;
 
 import common.Player;
 import domain.action.contracts.IAction;

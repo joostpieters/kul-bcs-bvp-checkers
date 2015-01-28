@@ -1,7 +1,7 @@
 package ui.contracts;
 
 import domain.board.contracts.IReadOnlyBoard;
-import domain.updates.contracts.IObserver;
+import domain.update.contracts.IObserver;
 
 public interface IVisualizer extends IObserver
 {

@@ -8,7 +8,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import ui.LocalizationManager;
 import ui.contracts.IUserInterface;
 import common.Player;
-import domain.LegalActionChecker;
+import domain.action.LegalActionChecker;
 import domain.board.Board;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoard;

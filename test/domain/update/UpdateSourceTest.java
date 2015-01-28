@@ -1,4 +1,4 @@
-package domain.updates;
+package domain.update;
 
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
@@ -22,7 +22,8 @@ import domain.board.contracts.IBoardSize;
 import domain.input.RemiseInput;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
-import domain.updates.contracts.IObserver;
+import domain.update.UpdateSource;
+import domain.update.contracts.IObserver;
 
 @RunWith(EasyMockRunner.class) 
 public class UpdateSourceTest

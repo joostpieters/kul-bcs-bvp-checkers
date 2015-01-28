@@ -9,7 +9,7 @@ import domain.action.contracts.IAction;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
-import domain.updates.UpdatePropagator;
+import domain.update.UpdatePropagator;
 
 public class CompositeAction extends UpdatePropagator implements IAction
 {

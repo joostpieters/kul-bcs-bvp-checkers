@@ -1,11 +1,12 @@
-package domain.updates;
+package domain.update;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import domain.observers.ForcedRemiseObserver;
+import domain.observer.ForcedRemiseObserver;
+import domain.update.UpdateProcessor;
 
 public class UpdateProcessorTest
 {

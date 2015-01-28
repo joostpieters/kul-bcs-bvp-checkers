@@ -1,4 +1,4 @@
-package domain;
+package domain.action;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import common.Configs;
 import common.Player;
-import domain.action.ActionFactory;
 import domain.action.contracts.IAction;
 import domain.action.request.ActionRequest;
 import domain.action.request.ActionRequestPriorityComparator;
@@ -18,7 +17,7 @@ import domain.board.contracts.IReadOnlyBoard;
 import domain.game.contracts.IReadOnlyGame;
 import domain.location.Direction;
 import domain.location.Location;
-import domain.observers.OutOfMovesObserver;
+import domain.observer.OutOfMovesObserver;
 import domain.piece.contracts.IPiece;
 
 public class LegalActionChecker

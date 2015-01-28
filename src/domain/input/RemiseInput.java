@@ -5,7 +5,7 @@ import ui.contracts.IUserInterface;
 import common.Player;
 import domain.game.contracts.IReadOnlyGame;
 import domain.input.contracts.IInput;
-import domain.updates.UpdateSource;
+import domain.update.UpdateSource;
 
 public class RemiseInput extends UpdateSource implements IInput
 {

@@ -1,6 +1,6 @@
-package domain.updates;
+package domain.update;
 
-import domain.updates.contracts.IBasicUpdateProcessor;
+import domain.update.contracts.IBasicUpdateProcessor;
 
 /**
  * A convenient, basic implementation of {@link IBasicUpdateProcessor}.

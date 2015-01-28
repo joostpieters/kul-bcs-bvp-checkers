@@ -1,4 +1,4 @@
-package domain.updates;
+package domain.update;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import common.Player;
 import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
-import domain.updates.contracts.IBasicObserver;
-import domain.updates.contracts.IBasicUpdateSource;
-import domain.updates.contracts.IBasicUpdate;
+import domain.update.contracts.IBasicObserver;
+import domain.update.contracts.IBasicUpdate;
+import domain.update.contracts.IBasicUpdateSource;
 
 /**
  * A convenient, basic implementation of {@link IBasicUpdateSource}.  

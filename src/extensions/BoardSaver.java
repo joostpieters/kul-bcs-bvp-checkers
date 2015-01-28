@@ -11,7 +11,7 @@ import java.util.Calendar;
 import common.Player;
 import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
-import domain.updates.contracts.IBasicObserver;
+import domain.update.contracts.IBasicObserver;
 
 public class BoardSaver implements IBasicObserver
 {

@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
-import domain.LegalActionChecker;
+import domain.action.LegalActionChecker;
 import domain.board.BoardFactory;
 import domain.board.contracts.IBoard;
 import domain.game.Game;

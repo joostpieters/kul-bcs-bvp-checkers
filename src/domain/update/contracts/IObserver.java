@@ -1,4 +1,4 @@
-package domain.updates.contracts;
+package domain.update.contracts;
 
 import common.Player;
 import domain.board.contracts.IReadOnlyBoard;

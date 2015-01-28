@@ -1,27 +1,36 @@
 package domain.input;
 
 import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
 
+import org.easymock.EasyMockRunner;
+import org.easymock.Mock;
+import org.junit.After;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import ui.contracts.IUserInterface;
 import common.Player;
-import domain.action.contracts.IAction;
 import domain.board.Board;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
-import domain.board.contracts.IReadOnlyBoard;
 import domain.game.Game;
 import domain.game.contracts.IGame;
-import domain.location.Location;
-import domain.updates.contracts.IObserver;
+import domain.update.contracts.IObserver;
 
-public class RemiseInputTest implements IObserver
+@RunWith(EasyMockRunner.class) 
+public class RemiseInputTest
 {
-	private boolean isRemiseProposed = false;
-	private boolean isRemiseAccepted = false;
+	@Mock
+	private static IObserver observer;
+	
+	@After
+	public void tearDown()
+	{
+		reset(observer);
+	}
 	
 	private IUserInterface getYesNoUI(boolean yesno)
 	{
@@ -60,11 +69,15 @@ public class RemiseInputTest implements IObserver
 		IBoard board = new Board(size);
 		IGame game = new Game(board);
 		RemiseInput input = new RemiseInput(game, getYesNoUI(true));
-		input.subscribe(this);
+		input.subscribe(observer);
+		
+		observer.proposeRemise(Player.White);
+		observer.acceptRemise();
+		replay(observer);
+		
 		boolean result = input.process();
 		assertTrue(result);
-		assertTrue(isRemiseProposed);
-		assertTrue(isRemiseAccepted);
+		verify(observer);
 	}
 	
 	@Test
@@ -74,83 +87,14 @@ public class RemiseInputTest implements IObserver
 		IBoard board = new Board(size);
 		IGame game = new Game(board);
 		RemiseInput input = new RemiseInput(game, getYesNoUI(false));
-		input.subscribe(this);
+		input.subscribe(observer);
+		
+		observer.proposeRemise(Player.White);
+		observer.declineRemise();
+		replay(observer);
+		
 		boolean result = input.process();
 		assertFalse(result);
-		assertTrue(isRemiseProposed);
-		assertFalse(isRemiseAccepted);
-	}
-
-	@Override
-	public void updateBoard(IReadOnlyBoard board, Player performer)
-	{
-	}
-
-	@Override
-	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
-	{
-	}
-
-	@Override
-	public void executeAction(IAction action)
-	{
-	}
-
-	@Override
-	public void promotion(IReadOnlyBoard board, Location location)
-	{
-	}
-
-	@Override
-	public void gameOver(Player winner)
-	{
-	}
-
-	@Override
-	public void outOfMoves(Player player)
-	{
-	}
-
-	@Override
-	public void proposeRemise(Player proposer)
-	{
-		isRemiseProposed = true;
-	}
-
-	@Override
-	public void acceptRemise()
-	{
-		isRemiseAccepted = true;
-	}
-
-	@Override
-	public void declineRemise()
-	{
-		isRemiseAccepted = false;
-	}
-
-	@Override
-	public void forcedRemise()
-	{
-	}
-
-	@Override
-	public void resign(Player resignee)
-	{
-	}
-
-	@Override
-	public void start(IReadOnlyBoard board, Player starter)
-	{
-	}
-
-	@Override
-	public void warning(String message)
-	{
-	}
-
-	@Override
-	public void error(String message, Exception ex)
-	{
+		verify(observer);
 	}
 }

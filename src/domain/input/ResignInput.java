@@ -3,7 +3,7 @@ package domain.input;
 import common.Player;
 import domain.game.contracts.IReadOnlyGame;
 import domain.input.contracts.IInput;
-import domain.updates.UpdateSource;
+import domain.update.UpdateSource;
 
 public class ResignInput extends UpdateSource implements IInput
 {

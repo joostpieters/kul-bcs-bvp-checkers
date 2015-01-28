@@ -1,4 +1,4 @@
-package domain.updates;
+package domain.update;
 
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
@@ -21,7 +21,8 @@ import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
-import domain.updates.contracts.IObserver;
+import domain.update.UpdatePropagator;
+import domain.update.contracts.IObserver;
 
 @RunWith(EasyMockRunner.class) 
 public class UpdatePropagatorTest

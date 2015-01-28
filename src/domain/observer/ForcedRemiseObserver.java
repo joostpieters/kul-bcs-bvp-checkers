@@ -1,11 +1,11 @@
-package domain.observers;
+package domain.observer;
 
 import common.Player;
 import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
-import domain.updates.UpdateProcessor;
-import domain.updates.contracts.IObserver;
+import domain.update.UpdateProcessor;
+import domain.update.contracts.IObserver;
 
 /**
  * A simple type of {@link IObserver} that forces remise after a given 

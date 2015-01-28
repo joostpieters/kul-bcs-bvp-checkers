@@ -1,12 +1,13 @@
-package domain.updates;
+package domain.update;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import domain.observers.OutOfMovesObserver;
-import domain.observers.PromotionObserver;
+import domain.observer.OutOfMovesObserver;
+import domain.observer.PromotionObserver;
+import domain.update.BasicUpdateProcessor;
 
 public class BasicUpdateProcessorTest
 {

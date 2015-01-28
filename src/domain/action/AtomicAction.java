@@ -3,7 +3,7 @@ package domain.action;
 import domain.action.contracts.IAction;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
-import domain.updates.BasicUpdateSource;
+import domain.update.BasicUpdateSource;
 
 public abstract class AtomicAction extends BasicUpdateSource implements IAction
 {

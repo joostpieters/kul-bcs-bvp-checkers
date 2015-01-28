@@ -1,4 +1,4 @@
-package domain.observers;
+package domain.observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,8 @@ import domain.board.contracts.IReadOnlyBoard;
 import domain.location.DiagonalLocationPair;
 import domain.location.Direction;
 import domain.location.Location;
-import domain.updates.BasicUpdateProcessor;
-import domain.updates.contracts.IObserver;
+import domain.update.UpdateProcessor;
+import domain.update.contracts.IObserver;
 
 /**
  * This {@link IObserver} monitors the {@link IBoard} 
@@ -23,7 +23,7 @@ import domain.updates.contracts.IObserver;
  * If it found such an occurrence, it signals this to its own observers 
  * through the {@link IObserver#outOfMoves(Player)} update.
  */
-public class OutOfMovesObserver extends BasicUpdateProcessor
+public class OutOfMovesObserver extends UpdateProcessor
 {
 	private static boolean isCurrentPlayerOutOfMoves(IReadOnlyBoard board, Player player)
 	{
@@ -131,6 +131,62 @@ public class OutOfMovesObserver extends BasicUpdateProcessor
 
 	@Override
 	public void executeAction(IAction action)
+	{
+	}
+
+	@Override
+	public void promotion(IReadOnlyBoard board, Location location)
+	{
+	}
+
+	@Override
+	public void gameOver(Player winner)
+	{
+	}
+
+	@Override
+	public void outOfMoves(Player player)
+	{
+	}
+
+	@Override
+	public void proposeRemise(Player proposer)
+	{
+	}
+
+	@Override
+	public void acceptRemise()
+	{
+	}
+
+	@Override
+	public void declineRemise()
+	{
+	}
+
+	@Override
+	public void forcedRemise()
+	{
+	}
+
+	@Override
+	public void resign(Player resignee)
+	{
+	}
+
+	@Override
+	public void start(IReadOnlyBoard board, Player starter)
+	{
+		this.switchPlayer(board, starter);
+	}
+
+	@Override
+	public void warning(String message)
+	{
+	}
+
+	@Override
+	public void error(String message, Exception ex)
 	{
 	}
 }

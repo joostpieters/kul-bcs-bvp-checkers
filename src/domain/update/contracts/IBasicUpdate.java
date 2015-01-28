@@ -1,4 +1,4 @@
-package domain.updates.contracts;
+package domain.update.contracts;
 
 /**
  * Represents an update to be sent to one or more {@link IBasicObserver}s. 

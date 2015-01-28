@@ -4,7 +4,7 @@ import common.Player;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
-import domain.updates.contracts.IBasicUpdateSource;
+import domain.update.contracts.IBasicUpdateSource;
 
 public interface IAction extends IBasicUpdateSource
 {	

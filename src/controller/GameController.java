@@ -6,28 +6,28 @@ import common.Player;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.game.contracts.IGame;
-import domain.input.InputProvider;
 import domain.input.contracts.IInput;
+import domain.input.contracts.IInputProvider;
 import domain.location.Location;
-import domain.updates.UpdatePropagator;
+import domain.update.UpdatePropagator;
 
 
 public class GameController extends UpdatePropagator
 {
 	private final IGame game;
-	private final InputProvider inputProvider;
+	private final IInputProvider inputProvider;
 	
 	private IGame getGame()
 	{
 		return game;
 	}
 	
-	private InputProvider getInputProvider()
+	private IInputProvider getInputProvider()
 	{
 		return inputProvider;
 	}
 	
-	public GameController(IGame game, InputProvider inputProvider)
+	public GameController(IGame game, IInputProvider inputProvider)
 	{
 		this.game = game;
 		this.inputProvider = inputProvider;
@@ -60,6 +60,12 @@ public class GameController extends UpdatePropagator
 	public void promotion(IReadOnlyBoard readOnlyBoard, Location location) //augmented propagation
 	{
 		IBoard board = getGame().getBoard();
+		
+		if(!board.getReadOnlyBoard().equals(readOnlyBoard))
+		{
+			throw new IllegalStateException("promotion() called with wrong board.");
+		}
+		
 		board.promotePiece(location);
 		super.promotion(readOnlyBoard, location); //disseminate update
 	}

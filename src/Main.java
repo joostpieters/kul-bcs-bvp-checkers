@@ -4,18 +4,16 @@ import java.nio.file.Paths;
 import ui.GraphicalVisualizer;
 import ui.TextualVisualizer;
 import ui.UserInterface;
-
 import common.Configs;
-
 import controller.GameController;
-import domain.LegalActionChecker;
+import domain.action.LegalActionChecker;
 import domain.board.BoardFactory;
 import domain.board.contracts.IBoard;
 import domain.game.Game;
 import domain.input.InputProvider;
-import domain.observers.ForcedRemiseObserver;
-import domain.observers.OutOfMovesObserver;
-import domain.observers.PromotionObserver;
+import domain.observer.ForcedRemiseObserver;
+import domain.observer.OutOfMovesObserver;
+import domain.observer.PromotionObserver;
 import extensions.BoardSaver;
 
 //TODO testing
@@ -39,7 +37,7 @@ public class Main
 			promotionObserver.subscribe(controller);
 			controller.subscribeBasic(promotionObserver);
 			oomObserver.subscribe(controller);
-			controller.subscribeBasic(oomObserver);
+			controller.subscribe(oomObserver);
 			controller.link(forcedRemiseObserver);
 			controller.subscribe(new GraphicalVisualizer());
 			controller.subscribe(new TextualVisualizer());
