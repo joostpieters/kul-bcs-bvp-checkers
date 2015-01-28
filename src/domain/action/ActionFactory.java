@@ -5,7 +5,7 @@ import java.util.List;
 import ui.LocalizationManager;
 import common.Player;
 import domain.action.contracts.IAction;
-import domain.action.request.ActionRequest;
+import domain.action.contracts.IActionRequest;
 import domain.board.contracts.IBoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.DiagonalLocationPair;
@@ -14,13 +14,13 @@ public class ActionFactory
 {
 	private ActionFactory() { }
 	
-	public static IAction create(ActionRequest request, IReadOnlyBoard board, Player currentPlayer)
+	public static IAction create(IActionRequest request, IReadOnlyBoard board, Player currentPlayer)
 	{
 		IBoardSize size = board.getSize();
 		List<Integer> indices = request.getIndices();
 		if(!request.isCatch())
 		{
-			assert(indices.size() == 2);
+			assert(indices.size() == 2); //MoveActionRequest always has two indices
 			int fromIndex = indices.get(0);
 			int toIndex = indices.get(1);
 			DiagonalLocationPair pair = new DiagonalLocationPair(fromIndex, toIndex, size);

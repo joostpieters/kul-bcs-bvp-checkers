@@ -1,12 +1,13 @@
 package domain.action.request;
 
+import domain.action.contracts.IActionRequest;
 import ui.LocalizationManager;
 
 public class ActionRequestFactory
 {
 	private ActionRequestFactory() 	{}
 	
-	public static ActionRequest create(String move)
+	public static IActionRequest create(String move)
 	{
 		if(move.matches("\\d+\\s*-\\s*\\d+")) //step or fly
 		{

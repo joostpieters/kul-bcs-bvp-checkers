@@ -5,7 +5,7 @@ import common.Player;
 import domain.action.ActionFactory;
 import domain.action.LegalActionChecker;
 import domain.action.contracts.IAction;
-import domain.action.request.ActionRequest;
+import domain.action.contracts.IActionRequest;
 import domain.action.request.ActionRequestFactory;
 import domain.board.contracts.IBoard;
 import domain.game.contracts.IGame;
@@ -49,7 +49,7 @@ public class ActionInput extends UpdatePropagator implements IInput
 		
 		try
 		{
-			ActionRequest request = ActionRequestFactory.create(getMove());
+			IActionRequest request = ActionRequestFactory.create(getMove());
 			if(!getLegalActionChecker().isActionLegal(request))
 			{
 				emitWarning(LocalizationManager.getString("warningIllegalAction"));

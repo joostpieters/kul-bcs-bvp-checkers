@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import domain.action.contracts.IActionRequest;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoardSize;
 import domain.location.Location;
@@ -16,7 +17,7 @@ public class ActionRequestTest
 	@Test
 	public void testActionRequestIntArray()
 	{
-		ActionRequest request = new CatchActionRequest(1,2,3);
+		IActionRequest request = new CatchActionRequest(1,2,3);
 		List<Integer> indices = request.getIndices();
 		assertTrue(indices.contains(1));
 		assertTrue(indices.contains(2));
@@ -38,14 +39,14 @@ public class ActionRequestTest
 	@Test
 	public void testGetStartIndex()
 	{
-		ActionRequest request = new CatchActionRequest(1,2,3);
+		IActionRequest request = new CatchActionRequest(1,2,3);
 		assertEquals(1, request.getStartIndex());
 	}
 
 	@Test
 	public void testGetEndIndex()
 	{
-		ActionRequest request = new CatchActionRequest(1,2,3);
+		IActionRequest request = new CatchActionRequest(1,2,3);
 		assertEquals(3, request.getEndIndex());
 	}
 
@@ -53,7 +54,7 @@ public class ActionRequestTest
 	public void testGetStart()
 	{
 		IBoardSize size = new BoardSize(10, 10);
-		ActionRequest request = new CatchActionRequest(1,2,3);
+		IActionRequest request = new CatchActionRequest(1,2,3);
 		assertEquals(new Location(1, size), request.getStart(size));
 	}
 
@@ -61,7 +62,7 @@ public class ActionRequestTest
 	public void testGetEnd()
 	{
 		IBoardSize size = new BoardSize(10, 10);
-		ActionRequest request = new CatchActionRequest(1,2,3);
+		IActionRequest request = new CatchActionRequest(1,2,3);
 		assertEquals(new Location(3, size), request.getEnd(size));
 	}
 
@@ -76,10 +77,10 @@ public class ActionRequestTest
 	@Test
 	public void testEqualsObject()
 	{
-		ActionRequest request = new CatchActionRequest(1,2);
-		ActionRequest copy = new CatchActionRequest(1, 2);
-		ActionRequest other = new CatchActionRequest(1, 2, 3);
-		ActionRequest moveRequest = new MoveActionRequest(1, 2);
+		IActionRequest request = new CatchActionRequest(1,2);
+		IActionRequest copy = new CatchActionRequest(1, 2);
+		IActionRequest other = new CatchActionRequest(1, 2, 3);
+		IActionRequest moveRequest = new MoveActionRequest(1, 2);
 		assertFalse(request.equals(null));
 		assertFalse(request.equals(new Object()));
 		assertTrue(request.equals(request));

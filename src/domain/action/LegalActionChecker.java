@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import common.Configs;
 import common.Player;
 import domain.action.contracts.IAction;
-import domain.action.request.ActionRequest;
+import domain.action.contracts.IActionRequest;
 import domain.action.request.ActionRequestPriorityComparator;
 import domain.action.request.CatchActionRequest;
 import domain.board.contracts.IBoard;
@@ -35,7 +35,7 @@ public class LegalActionChecker
 		this.game = game;
 	}
 	
-	public boolean isActionLegal(ActionRequest request) //TODO move to Action.isValid?
+	public boolean isActionLegal(IActionRequest request) //TODO move to Action.isValid?
 	{
 		if(Configs.MandatoryMaximalCatching) //request must be one of the maximal catches
 		{

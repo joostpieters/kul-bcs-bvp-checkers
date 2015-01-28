@@ -9,7 +9,7 @@ public class Configs //TODO move to xml file
 {
 	public final static IBoardSize Size = new BoardSize(10, 10);
 	public final static boolean MandatoryMaximalCatching = true;
-	public final static boolean BackwardCatchingAllowed = true;
+	public static boolean BackwardCatchingAllowed = true;
 	public final static Player FirstPlayer = Player.White;
 	public final static boolean FlyingDame = true;
 	public final static int RemiseThreshold = 25;

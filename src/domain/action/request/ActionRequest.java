@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import domain.action.contracts.IActionRequest;
 import domain.board.contracts.IBoardSize;
 import domain.location.Location;
 
-public abstract class ActionRequest
+public abstract class ActionRequest implements IActionRequest
 {
 	protected final List<Integer> indices = new ArrayList<Integer>();
 	
@@ -27,28 +28,34 @@ public abstract class ActionRequest
 		}
 	}
 
+	@Override
 	public abstract boolean isCatch();
 
+	@Override
 	public List<Integer> getIndices()
 	{
 		return Collections.unmodifiableList(indices);
 	}
 	
+	@Override
 	public int getStartIndex()
 	{
 		return getIndices().get(0);
 	}
 	
+	@Override
 	public int getEndIndex()
 	{
 		return getIndices().get(getIndices().size()-1);
 	}
 	
+	@Override
 	public Location getStart(IBoardSize size)
 	{
 		return new Location(getStartIndex(), size);
 	}
 	
+	@Override
 	public Location getEnd(IBoardSize size)
 	{
 		return new Location(getEndIndex(), size);
@@ -59,6 +66,7 @@ public abstract class ActionRequest
 		indices.add(index);
 	}
 	
+	@Override
 	public abstract int getNumberOfCatches();
 	
 	@Override
@@ -74,7 +82,7 @@ public abstract class ActionRequest
 		}
 		if(obj instanceof ActionRequest)
 		{
-			ActionRequest casted = (ActionRequest)obj;
+			IActionRequest casted = (IActionRequest)obj;
 			return 	this.isCatch() == casted.isCatch() &&
 					this.getIndices().equals(casted.getIndices());
 		}

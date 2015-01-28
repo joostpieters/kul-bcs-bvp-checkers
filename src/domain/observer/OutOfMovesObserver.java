@@ -7,7 +7,7 @@ import java.util.Set;
 import common.Player;
 import domain.action.ActionFactory;
 import domain.action.contracts.IAction;
-import domain.action.request.ActionRequest;
+import domain.action.contracts.IActionRequest;
 import domain.action.request.AtomicCatchActionRequest;
 import domain.action.request.MoveActionRequest;
 import domain.board.contracts.IReadOnlyBoard;
@@ -38,7 +38,7 @@ public class OutOfMovesObserver extends UpdateProcessor
 		return true;
 	}
 	
-	private static <T extends ActionRequest> List<T> filterValidActionRequests(IReadOnlyBoard board, Player player, List<T> requests)
+	private static <T extends IActionRequest> List<T> filterValidActionRequests(IReadOnlyBoard board, Player player, List<T> requests)
 	{
 		List<T> filteredRequests = new ArrayList<T>();
 		for(T step : requests)
