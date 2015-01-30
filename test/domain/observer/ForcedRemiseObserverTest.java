@@ -35,16 +35,16 @@ public class ForcedRemiseObserverTest
 		frObserver.subscribe(observer);
 		
 		expect(actionMock.isCatch()).andReturn(false).times(3);
-		observer.forcedRemise();
+		observer.fireForcedRemise();
 		replay(observer);
 		replay(actionMock);
 		
-		frObserver.executeAction(actionMock);
-		frObserver.switchPlayer(null, Player.Black);
-		frObserver.executeAction(actionMock);
-		frObserver.switchPlayer(null, Player.White);
-		frObserver.executeAction(actionMock);
-		frObserver.switchPlayer(null, Player.Black);
+		frObserver.fireExecuteAction(actionMock);
+		frObserver.fireSwitchPlayer(null, Player.Black);
+		frObserver.fireExecuteAction(actionMock);
+		frObserver.fireSwitchPlayer(null, Player.White);
+		frObserver.fireExecuteAction(actionMock);
+		frObserver.fireSwitchPlayer(null, Player.Black);
 		verify(observer);
 	}
 
@@ -59,13 +59,13 @@ public class ForcedRemiseObserverTest
 		replay(observer);
 		replay(actionMock);
 		
-		frObserver.executeAction(actionMock);
-		frObserver.switchPlayer(null, Player.Black);
-		frObserver.executeAction(actionMock);
-		frObserver.switchPlayer(null, Player.White);
-		frObserver.executeAction(actionMock);
-		frObserver.promotion(null, null);
-		frObserver.switchPlayer(null, Player.Black);
+		frObserver.fireExecuteAction(actionMock);
+		frObserver.fireSwitchPlayer(null, Player.Black);
+		frObserver.fireExecuteAction(actionMock);
+		frObserver.fireSwitchPlayer(null, Player.White);
+		frObserver.fireExecuteAction(actionMock);
+		frObserver.firePromotion(null, null);
+		frObserver.fireSwitchPlayer(null, Player.Black);
 		verify(observer);
 		verify(actionMock);
 	}
@@ -81,12 +81,12 @@ public class ForcedRemiseObserverTest
 		replay(observer);
 		replay(actionMock);
 		
-		frObserver.executeAction(actionMock);
-		frObserver.switchPlayer(null, Player.Black);
-		frObserver.executeAction(actionMock);
-		frObserver.switchPlayer(null, Player.White);
-		frObserver.executeAction(actionMock);
-		frObserver.switchPlayer(null, Player.Black);
+		frObserver.fireExecuteAction(actionMock);
+		frObserver.fireSwitchPlayer(null, Player.Black);
+		frObserver.fireExecuteAction(actionMock);
+		frObserver.fireSwitchPlayer(null, Player.White);
+		frObserver.fireExecuteAction(actionMock);
+		frObserver.fireSwitchPlayer(null, Player.Black);
 		verify(observer);
 		verify(actionMock);
 	}

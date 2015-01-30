@@ -71,8 +71,8 @@ public class RemiseInputTest
 		RemiseInput input = new RemiseInput(game, getYesNoUI(true));
 		input.subscribe(observer);
 		
-		observer.proposeRemise(Player.White);
-		observer.acceptRemise();
+		observer.fireProposeRemise(Player.White);
+		observer.fireAcceptRemise();
 		replay(observer);
 		
 		boolean result = input.process();
@@ -89,8 +89,8 @@ public class RemiseInputTest
 		RemiseInput input = new RemiseInput(game, getYesNoUI(false));
 		input.subscribe(observer);
 		
-		observer.proposeRemise(Player.White);
-		observer.declineRemise();
+		observer.fireProposeRemise(Player.White);
+		observer.fireDeclineRemise();
 		replay(observer);
 		
 		boolean result = input.process();

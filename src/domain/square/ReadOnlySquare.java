@@ -35,6 +35,18 @@ public class ReadOnlySquare implements IReadOnlySquare
 		return getSquare().getPiece();
 	}
 	
+//	@Override
+//	public boolean canHavePiece()
+//	{
+//		return square.canHavePiece();
+//	}
+//	
+//	@Override
+//	public boolean isValidLocation(Location location)
+//	{
+//		return square.isValidLocation(location);
+//	}
+	
 	@Override
 	public boolean equals(Object obj)
 	{

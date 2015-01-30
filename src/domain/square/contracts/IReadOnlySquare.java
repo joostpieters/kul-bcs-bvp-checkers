@@ -1,25 +1,38 @@
 package domain.square.contracts;
 
+import domain.board.contracts.IBoard;
 import domain.piece.contracts.IPiece;
 
 /**
- * Represents a Square on a Board.
+ * Represents a square on an {@link IBoard}.
  * Can possibly contain {@link IPiece}s.
- * This Square does not allow its contents to be altered.
+ * This square does not allow its contents to be altered.
  */
 public interface IReadOnlySquare
 {
 	/**
-	 * Returns true if this Square contains a Piece. 
+	 * Returns true if this {@link IReadOnlySquare} contains an {@link IPiece}. 
 	 */
 	public boolean hasPiece();
 	
 	/**
-	 * Returns the Piece on this Square if present.
-	 * Null otherwise.
+	 * Returns the {@link IPiece} on this {@link IReadOnlySquare} if present,
+	 * null otherwise.
 	 * 
 	 * @throws 	IllegalStateException
 	 * 			If this Square does not contain a Piece.
 	 */
 	public IPiece getPiece() throws IllegalStateException;
+	
+//	/**
+//	 * Returns true if this {@link IReadOnlySquare} can hold an {@link IPiece},
+//	 * false otherwise.
+//	 */
+//	public boolean canHavePiece();
+//	
+//	/**
+//	 * Returns true if the given {@link Location} is suitable for this kind of {@link ISquare}, 
+//	 * false otherwise.
+//	 */
+//	public boolean isValidLocation(Location location);
 }

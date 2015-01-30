@@ -15,88 +15,88 @@ public class TextualVisualizer implements IVisualizer
 	}
 
 	@Override
-	public void updateBoard(IReadOnlyBoard board, Player performer)
+	public void fireUpdateBoard(IReadOnlyBoard board, Player performer)
 	{
 		paint(board);
 	}
 
 	@Override
-	public void gameOver(Player winner)
+	public void fireGameOver(Player winner)
 	{
 		System.out.printf(LocalizationManager.getString("gameOver"), winner);
 	}
 
 	@Override
-	public void promotion(IReadOnlyBoard board, Location location)
+	public void firePromotion(IReadOnlyBoard board, Location location)
 	{
 		System.out.println(LocalizationManager.getString("promotion"));
 		paint(board);
 	}
 
 	@Override
-	public void outOfMoves(Player player)
+	public void fireOutOfMoves(Player player)
 	{
 		System.out.printf(LocalizationManager.getString("outOfMoves"), player);
 	}
 
 	@Override
-	public void proposeRemise(Player proposer)
+	public void fireProposeRemise(Player proposer)
 	{
 		System.out.printf(LocalizationManager.getString("proposeRemise"), proposer);
 	}
 
 	@Override
-	public void acceptRemise()
+	public void fireAcceptRemise()
 	{
 		System.out.println(LocalizationManager.getString("acceptRemise"));
 	}
 
 	@Override
-	public void declineRemise()
+	public void fireDeclineRemise()
 	{
 		System.out.println(LocalizationManager.getString("declineRemise"));
 	}
 
 	@Override
-	public void resign(Player resignee)
+	public void fireResign(Player resignee)
 	{
 		System.out.printf(LocalizationManager.getString("resign"), resignee);
 	}
 
 	@Override
-	public void start(IReadOnlyBoard board, Player starter)
+	public void fireStart(IReadOnlyBoard board, Player starter)
 	{
 		System.out.printf(LocalizationManager.getString("gameStart"), starter);
 		paint(board);
 	}
 
 	@Override
-	public void warning(String message)
+	public void fireWarning(String message)
 	{
 		System.out.printf(LocalizationManager.getString("warning"), message);
 	}
 
 	@Override
-	public void error(String message, Exception ex)
+	public void fireError(String message, Exception ex)
 	{
 		System.out.printf(LocalizationManager.getString("error"), message);
 		ex.printStackTrace();
 	}
 
 	@Override
-	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
+	public void fireSwitchPlayer(IReadOnlyBoard board, Player switchedIn)
 	{
 		System.out.printf(LocalizationManager.getString("switchPlayer"), switchedIn);
 	}
 
 	@Override
-	public void executeAction(IAction action)
+	public void fireExecuteAction(IAction action)
 	{
 		System.out.println(action);
 	}
 
 	@Override
-	public void forcedRemise()
+	public void fireForcedRemise()
 	{
 		System.out.println(LocalizationManager.getString("forcedRemise"));
 	}

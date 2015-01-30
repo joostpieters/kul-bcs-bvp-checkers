@@ -13,85 +13,85 @@ import domain.location.Location;
 public abstract class UpdatePropagator extends UpdateProcessor
 {
 	@Override
-	public void updateBoard(IReadOnlyBoard board, Player performer)
+	public void fireUpdateBoard(IReadOnlyBoard board, Player performer)
 	{
 		emitUpdateBoard(board, performer);
 	}
 
 	@Override
-	public void gameOver(Player winner)
+	public void fireGameOver(Player winner)
 	{
 		emitGameOver(winner);
 	}
 	
 	@Override
-	public void promotion(IReadOnlyBoard board, Location location)
+	public void firePromotion(IReadOnlyBoard board, Location location)
 	{
 		emitPromotion(board, location);
 	}
 	
 	@Override
-	public void outOfMoves(Player player)
+	public void fireOutOfMoves(Player player)
 	{
 		emitOutOfMoves(player);
 	}
 	
 	@Override
-	public void acceptRemise()
+	public void fireAcceptRemise()
 	{
 		emitAcceptRemise();
 	}
 	
 	@Override
-	public void declineRemise()
+	public void fireDeclineRemise()
 	{
 		emitDeclineRemise();
 	}
 	
 	@Override
-	public void proposeRemise(Player proposer)
+	public void fireProposeRemise(Player proposer)
 	{
 		emitProposeRemise(proposer);
 	}
 	
 	@Override
-	public void resign(Player resignee)
+	public void fireResign(Player resignee)
 	{
 		emitResign(resignee);
 	}
 	
 	@Override
-	public void start(IReadOnlyBoard board, Player starter)
+	public void fireStart(IReadOnlyBoard board, Player starter)
 	{
 		emitStart(board, starter);
 	}
 	
 	@Override
-	public void executeAction(IAction action)
+	public void fireExecuteAction(IAction action)
 	{
 		emitExecuteAction(action);
 	}
 	
 	@Override
-	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
+	public void fireSwitchPlayer(IReadOnlyBoard board, Player switchedIn)
 	{
 		emitSwitchPlayer(board, switchedIn);
 	}
 	
 	@Override
-	public void forcedRemise()
+	public void fireForcedRemise()
 	{
 		emitForcedRemise();
 	}
 	
 	@Override
-	public void warning(String message)
+	public void fireWarning(String message)
 	{
 		emitWarning(message);
 	}
 	
 	@Override
-	public void error(String message, Exception ex)
+	public void fireError(String message, Exception ex)
 	{
 		emitError(message, ex);
 	}

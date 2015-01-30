@@ -57,7 +57,7 @@ public class GameController extends UpdatePropagator
 	}
 	
 	@Override
-	public void promotion(IReadOnlyBoard readOnlyBoard, Location location) //augmented propagation
+	public void firePromotion(IReadOnlyBoard readOnlyBoard, Location location) //augmented propagation
 	{
 		IBoard board = getGame().getBoard();
 		
@@ -67,13 +67,13 @@ public class GameController extends UpdatePropagator
 		}
 		
 		board.promotePiece(location);
-		super.promotion(readOnlyBoard, location); //disseminate update
+		super.firePromotion(readOnlyBoard, location); //disseminate update
 	}
 	
 	@Override
-	public void outOfMoves(Player player)
+	public void fireOutOfMoves(Player player)
 	{
-		super.outOfMoves(player);
+		super.fireOutOfMoves(player);
 		Player winner = player.getOpponent();
 		getGame().gameOver(winner);
 		emitGameOver(winner);

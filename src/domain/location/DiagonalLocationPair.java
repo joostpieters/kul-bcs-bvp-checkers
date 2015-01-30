@@ -42,7 +42,7 @@ public class DiagonalLocationPair extends LocationPair
 		return new Location(centerRow, centerCol, getFrom().getBoardSize());
 	}
 	
-	public List<Location> getStepsBetweenExclusive()
+	public List<Location> getStepsBetweenStrict()
 	{
 		Collection<Direction> direction = getUnitDirection();
 		Stack<Location> locations = new Stack<Location>();
@@ -56,7 +56,7 @@ public class DiagonalLocationPair extends LocationPair
 		return locations;
 	}
 	
-	public List<Location> getStepsBetweenInclusive()
+	public List<Location> getStepsBetween()
 	{
 		Collection<Direction> direction = getUnitDirection();
 		Stack<Location> locations = new Stack<Location>();
@@ -70,15 +70,15 @@ public class DiagonalLocationPair extends LocationPair
 		return locations;
 	}
 	
-	public List<DiagonalLocationPair> getPairsBetweenExclusive()
+	public List<DiagonalLocationPair> getPairsBetweenStrict()
 	{
-		List<Location> steps = getStepsBetweenExclusive();
+		List<Location> steps = getStepsBetweenStrict();
 		return getPairsBetween(steps);
 	}
 	
-	public List<DiagonalLocationPair> getPairsBetweenInclusive()
+	public List<DiagonalLocationPair> getPairsBetween()
 	{
-		List<Location> steps = getStepsBetweenInclusive();
+		List<Location> steps = getStepsBetween();
 		return getPairsBetween(steps);
 	}
 	
@@ -95,13 +95,13 @@ public class DiagonalLocationPair extends LocationPair
 		return pairs;
 	}
 	
-	public boolean isBetweenInclusive(Location location)
+	public boolean isBetweenStrict(Location location)
 	{
-		return getStepsBetweenInclusive().contains(location);
+		return getStepsBetweenStrict().contains(location);
 	}
 	
-	public boolean isBetweenExclusive(Location location)
+	public boolean isBetween(Location location)
 	{
-		return getStepsBetweenExclusive().contains(location);
+		return getStepsBetween().contains(location);
 	}
 }

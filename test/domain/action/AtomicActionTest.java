@@ -29,4 +29,22 @@ public class AtomicActionTest
 		
 		assertEquals(pair.getFrom(), action.getFrom());
 	}
+	
+	@Test
+	public void testEquals()
+	{
+		IBoardSize size = new BoardSize(10, 10);
+		DiagonalLocationPair pairStep = new DiagonalLocationPair(1, 7, size);
+		DiagonalLocationPair pairStep2 = new DiagonalLocationPair(7, 12, size);
+		DiagonalLocationPair pairCatch = new DiagonalLocationPair(1, 12, size);
+		AtomicAction stepAction = new AtomicActionStep(pairStep);
+		AtomicAction stepAction2 = new AtomicActionStep(pairStep2);
+		AtomicAction catchAction = new AtomicActionCatch(pairCatch);
+		
+		assertFalse(stepAction.equals(null));
+		assertFalse(stepAction.equals(new Object()));
+		assertTrue(stepAction.equals(stepAction));
+		assertFalse(stepAction.equals(stepAction2));
+		assertFalse(stepAction.equals(catchAction));
+	}
 }

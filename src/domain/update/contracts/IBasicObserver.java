@@ -19,7 +19,7 @@ public interface IBasicObserver
 	 * @param	performer
 	 * 			The Player that initiated the Action that caused this update.
 	 */
-	public void updateBoard(IReadOnlyBoard board, Player performer);
+	public void fireUpdateBoard(IReadOnlyBoard board, Player performer);
 
 	/**
 	 * Indicates that it is now the given Player's turn.
@@ -29,7 +29,7 @@ public interface IBasicObserver
 	 * @param	switchedIn
 	 * 			The newly active Player.
 	 */
-	public void switchPlayer(IReadOnlyBoard board, Player switchedIn);
+	public void fireSwitchPlayer(IReadOnlyBoard board, Player switchedIn);
 	
 	/**
 	 * Indicates that the given Action has been executed.
@@ -37,5 +37,5 @@ public interface IBasicObserver
 	 * @param 	action
 	 * 			The action that has been executed. 
 	 */
-	public void executeAction(IAction action);
+	public void fireExecuteAction(IAction action);
 }

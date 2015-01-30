@@ -41,77 +41,77 @@ public abstract class UpdateSource extends BasicUpdateSource implements IUpdateS
 	protected void emitUpdateBoard(IReadOnlyBoard board, Player performer)
 	{
 		super.emitUpdateBoard(board, performer); //update basic observers
-		sendToObservers(observer -> observer.updateBoard(board, performer));
+		sendToObservers(observer -> observer.fireUpdateBoard(board, performer));
 	}
 	
 	@Override
 	protected void emitSwitchPlayer(IReadOnlyBoard board, Player switchedIn)
 	{
 		super.emitSwitchPlayer(board, switchedIn); //update basic observers
-		sendToObservers(observer -> observer.switchPlayer(board, switchedIn));
+		sendToObservers(observer -> observer.fireSwitchPlayer(board, switchedIn));
 	}
 	
 	@Override
 	protected void emitExecuteAction(IAction action)
 	{
 		super.emitExecuteAction(action); //update basic observers
-		sendToObservers(observer -> observer.executeAction(action));
+		sendToObservers(observer -> observer.fireExecuteAction(action));
 	}
 	
 	//Other updates
 	protected void emitGameOver(Player winner)
 	{
-		sendToObservers(observer -> observer.gameOver(winner));
+		sendToObservers(observer -> observer.fireGameOver(winner));
 	}
 	
 	protected void emitPromotion(IReadOnlyBoard board, Location location)
 	{
-		sendToObservers(observer -> observer.promotion(board, location));
+		sendToObservers(observer -> observer.firePromotion(board, location));
 	}
 	
 	protected void emitOutOfMoves(Player player)
 	{
-		sendToObservers(observer -> observer.outOfMoves(player));
+		sendToObservers(observer -> observer.fireOutOfMoves(player));
 	}
 	
 	protected void emitProposeRemise(Player proposer)
 	{
-		sendToObservers(observer -> observer.proposeRemise(proposer));
+		sendToObservers(observer -> observer.fireProposeRemise(proposer));
 	}
 	
 	protected void emitAcceptRemise()
 	{
-		sendToObservers(observer -> observer.acceptRemise());
+		sendToObservers(observer -> observer.fireAcceptRemise());
 	}
 	
 	protected void emitDeclineRemise()
 	{
-		sendToObservers(observer -> observer.declineRemise());
+		sendToObservers(observer -> observer.fireDeclineRemise());
 	}
 	
 	protected void emitResign(Player resignee)
 	{
-		sendToObservers(observer -> observer.resign(resignee));
+		sendToObservers(observer -> observer.fireResign(resignee));
 	}
 	
 	protected void emitStart(IReadOnlyBoard board, Player starter)
 	{
-		sendToObservers(observer -> observer.start(board, starter));
+		sendToObservers(observer -> observer.fireStart(board, starter));
 	}
 	
 	protected void emitForcedRemise()
 	{
-		sendToObservers(observer -> observer.forcedRemise());
+		sendToObservers(observer -> observer.fireForcedRemise());
 	}
 	
 	protected void emitWarning(String message)
 	{
-		sendToObservers(observer -> observer.warning(message));
+		sendToObservers(observer -> observer.fireWarning(message));
 	}
 	
 	protected void emitError(String message, Exception ex)
 	{
-		sendToObservers(observer -> observer.error(message, ex));
+		sendToObservers(observer -> observer.fireError(message, ex));
 	}
 	
 	@Override
@@ -119,7 +119,8 @@ public abstract class UpdateSource extends BasicUpdateSource implements IUpdateS
 	{
 		if(isSubscribed(observer))
 		{
-			throw new IllegalStateException("Cannot subscribe twice");
+			//throw new IllegalStateException("Cannot subscribe twice");
+			return;
 		}
 		getObservers().add(observer);
 	}
@@ -129,7 +130,8 @@ public abstract class UpdateSource extends BasicUpdateSource implements IUpdateS
 	{
 		if(!isSubscribed(observer))
 		{
-			throw new IllegalStateException("Given observer was not subscribed");
+			//throw new IllegalStateException("Given observer was not subscribed");
+			return;
 		}
 		getObservers().remove(observer);
 	}

@@ -44,7 +44,7 @@ public class BoardSaver implements IBasicObserver
 	}
 	
 	@Override
-	public void updateBoard(IReadOnlyBoard board, Player performer)
+	public void fireUpdateBoard(IReadOnlyBoard board, Player performer)
 	{
 		try
 		{
@@ -57,12 +57,12 @@ public class BoardSaver implements IBasicObserver
 	}
 
 	@Override
-	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
+	public void fireSwitchPlayer(IReadOnlyBoard board, Player switchedIn)
 	{
 	}
 
 	@Override
-	public void executeAction(IAction action)
+	public void fireExecuteAction(IAction action)
 	{
 	}
 }

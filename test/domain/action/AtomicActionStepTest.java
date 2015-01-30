@@ -122,8 +122,8 @@ public class AtomicActionStepTest
 		
 		IBoard expectedBoard = new Board(size);
 		expectedBoard.addPiece(to, fromPiece);
-		observer.executeAction(action);
-		observer.updateBoard(expectedBoard.getReadOnlyBoard(), Player.White);
+		observer.fireExecuteAction(action);
+		observer.fireUpdateBoard(expectedBoard.getReadOnlyBoard(), Player.White);
 		replay(observer);
 		
 		action.executeOn(board, Player.White);

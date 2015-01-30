@@ -71,6 +71,18 @@ public class SquareBlack implements ISquare
 		return readOnlySquare;
 	}
 	
+//	@Override
+//	public boolean canHavePiece()
+//	{
+//		return true;
+//	}
+//	
+//	@Override
+//	public boolean isValidLocation(Location location)
+//	{
+//		return (location.getRow() + location.getCol()) % 2 == 1;
+//	}
+	
 	@Override
 	public boolean equals(Object obj)
 	{

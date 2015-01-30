@@ -40,10 +40,10 @@ public class PromotionObserverTest
 		PromotionObserver promotionObserver = new PromotionObserver();
 		promotionObserver.subscribe(observer);
 		
-		observer.promotion(board, expectedLocation);
+		observer.firePromotion(board, expectedLocation);
 		replay(observer);
 		
-		promotionObserver.switchPlayer(board, Player.Black);
+		promotionObserver.fireSwitchPlayer(board, Player.Black);
 		verify(observer);
 	}
 	
@@ -60,7 +60,7 @@ public class PromotionObserverTest
 		//record nothing
 		replay(observer);
 		
-		promotionObserver.switchPlayer(board, Player.Black);
+		promotionObserver.fireSwitchPlayer(board, Player.Black);
 		verify(observer);
 	}
 	
@@ -77,7 +77,7 @@ public class PromotionObserverTest
 		//record nothing
 		replay(observer);
 		
-		promotionObserver.switchPlayer(board, Player.Black);
+		promotionObserver.fireSwitchPlayer(board, Player.Black);
 		verify(observer);
 	}
 }

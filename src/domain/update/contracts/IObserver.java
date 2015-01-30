@@ -19,7 +19,7 @@ public interface IObserver extends IBasicObserver
 	 * @param 	location
 	 * 			The location of the Piece to be promoted.
 	 */
-	public void promotion(IReadOnlyBoard board, Location location);
+	public void firePromotion(IReadOnlyBoard board, Location location);
 	
 	/**
 	 * Indicates that the Game is over.
@@ -27,7 +27,7 @@ public interface IObserver extends IBasicObserver
 	 * @param 	winner
 	 * 			The winner of the Game. Can be null in case of remise.
 	 */
-	public void gameOver(Player winner);
+	public void fireGameOver(Player winner);
 	
 	/**
 	 * Indicates that the given player is out of moves.
@@ -35,7 +35,7 @@ public interface IObserver extends IBasicObserver
 	 * @param 	player
 	 * 			The Player who cannot perform any more valid Action.
 	 */
-	public void outOfMoves(Player player);
+	public void fireOutOfMoves(Player player);
 	
 	/**
 	 * Indicates that given Player proposes remise.
@@ -43,22 +43,22 @@ public interface IObserver extends IBasicObserver
 	 * @param 	proposer
 	 * 			The Player that proposes remise.
 	 */
-	public void proposeRemise(Player proposer);
+	public void fireProposeRemise(Player proposer);
 	
 	/**
 	 * Indicates that both Players agreed on remise.
 	 */
-	public void acceptRemise();
+	public void fireAcceptRemise();
 	
 	/**
 	 * Indicates that no agreement on remise was reached.
 	 */
-	public void declineRemise();
+	public void fireDeclineRemise();
 	
 	/**
 	 * Indicates that a forced remise took place.
 	 */
-	public void forcedRemise();
+	public void fireForcedRemise();
 	
 	/**
 	 * Indicates that the given Player has resigned.
@@ -66,7 +66,7 @@ public interface IObserver extends IBasicObserver
 	 * @param 	resignee
 	 * 			The Player who resigned.
 	 */
-	public void resign(Player resignee);
+	public void fireResign(Player resignee);
 	
 	/**
 	 * Indicates that the Game has started.
@@ -76,7 +76,7 @@ public interface IObserver extends IBasicObserver
 	 * @param 	starter
 	 * 			The Player that plays first.
 	 */
-	public void start(IReadOnlyBoard board, Player starter);
+	public void fireStart(IReadOnlyBoard board, Player starter);
 	
 	/**
 	 * Indicates that something has happened that requires the Players to be notified.
@@ -84,7 +84,7 @@ public interface IObserver extends IBasicObserver
 	 * @param 	message
 	 * 			The message to show to the Players.
 	 */
-	public void warning(String message);
+	public void fireWarning(String message);
 	
 	/**
 	 * Indicates that something serious has happened that requires the Players to be notified.
@@ -94,5 +94,5 @@ public interface IObserver extends IBasicObserver
 	 * @param 	ex
 	 * 			The accompanying Exception.
 	 */
-	public void error(String message, Exception ex);
+	public void fireError(String message, Exception ex);
 }

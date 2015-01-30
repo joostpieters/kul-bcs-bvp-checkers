@@ -57,13 +57,13 @@ public class GameControllerTest
 		
 		expect(game.getBoard()).andReturn(board);
 		expect(board.getReadOnlyBoard()).andReturn(board);
-		observer.promotion(board, location);
+		observer.firePromotion(board, location);
 		board.promotePiece(location);
 		replay(observer);
 		replay(board);
 		replay(game);
 		
-		controller.promotion(board, location);
+		controller.firePromotion(board, location);
 		verify(observer);
 		verify(board);
 		verify(game);
@@ -77,14 +77,14 @@ public class GameControllerTest
 		GameController controller = new GameController(game, inputProvider);
 		controller.subscribe(observer);
 		
-		observer.outOfMoves(Player.White);
-		observer.gameOver(Player.Black);
+		observer.fireOutOfMoves(Player.White);
+		observer.fireGameOver(Player.Black);
 		game.gameOver(Player.Black);
 		replay(observer);
 		replay(board);
 		replay(game);
 		
-		controller.outOfMoves(Player.White);
+		controller.fireOutOfMoves(Player.White);
 		verify(observer);
 		verify(board);
 		verify(game);
@@ -98,13 +98,13 @@ public class GameControllerTest
 		GameController controller = new GameController(game, inputProvider);
 		controller.subscribe(observer);
 		
-		observer.start(board, Player.White);
+		observer.fireStart(board, Player.White);
 		expect(game.isOver()).andReturn(false).andReturn(true);
 		expect(game.getBoard()).andReturn(board).times(2);
 		expect(board.getReadOnlyBoard()).andReturn(board);
 		expect(game.getCurrentPlayer()).andReturn(Player.White).times(2);
 		expect(inputProvider.askInput()).andReturn(new ActionInput("lalala", game, legalActionChecker));
-		observer.warning(LocalizationManager.getString("failedInput"));
+		observer.fireWarning(LocalizationManager.getString("failedInput"));
 		replay(game);
 		replay(board);
 		replay(inputProvider);
@@ -125,7 +125,7 @@ public class GameControllerTest
 		GameController controller = new GameController(game, inputProvider);
 		controller.subscribe(observer);
 		
-		observer.start(board, Player.White);
+		observer.fireStart(board, Player.White);
 		expect(game.isOver()).andReturn(false).andReturn(true);
 		expect(game.getBoard()).andReturn(board).times(2);
 		expect(board.getReadOnlyBoard()).andReturn(board).times(2);
@@ -133,7 +133,7 @@ public class GameControllerTest
 		expect(input.process()).andReturn(true);
 		expect(inputProvider.askInput()).andReturn(input);
 		game.switchCurrentPlayer();
-		observer.switchPlayer(board, Player.Black);
+		observer.fireSwitchPlayer(board, Player.Black);
 		replay(game);
 		replay(board);
 		replay(inputProvider);
@@ -156,13 +156,13 @@ public class GameControllerTest
 		GameController controller = new GameController(game, inputProvider);
 		controller.subscribe(observer);
 		
-		observer.resign(Player.White);
+		observer.fireResign(Player.White);
 		game.gameOver(Player.Black);
-		observer.gameOver(Player.Black);
+		observer.fireGameOver(Player.Black);
 		replay(game);
 		replay(observer);
 		
-		controller.resign(Player.White);
+		controller.fireResign(Player.White);
 		verify(game);
 		verify(observer);
 	}
@@ -174,13 +174,13 @@ public class GameControllerTest
 		GameController controller = new GameController(game, inputProvider);
 		controller.subscribe(observer);
 		
-		observer.acceptRemise();
+		observer.fireAcceptRemise();
 		game.remise();
-		observer.gameOver(null);
+		observer.fireGameOver(null);
 		replay(game);
 		replay(observer);
 		
-		controller.acceptRemise();
+		controller.fireAcceptRemise();
 		verify(game);
 		verify(observer);
 	}
@@ -192,13 +192,13 @@ public class GameControllerTest
 		GameController controller = new GameController(game, inputProvider);
 		controller.subscribe(observer);
 		
-		observer.forcedRemise();
+		observer.fireForcedRemise();
 		game.remise();
-		observer.gameOver(null);
+		observer.fireGameOver(null);
 		replay(game);
 		replay(observer);
 		
-		controller.forcedRemise();
+		controller.fireForcedRemise();
 		verify(game);
 		verify(observer);
 	}

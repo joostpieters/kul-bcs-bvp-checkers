@@ -21,7 +21,7 @@ import domain.update.contracts.IObserver;
  * This {@link IObserver} monitors the {@link IBoard} 
  * for possible out-of-moves occurrences every time the {@link Player}s switch turns.
  * If it found such an occurrence, it signals this to its own observers 
- * through the {@link IObserver#outOfMoves(Player)} update.
+ * through the {@link IObserver#fireOutOfMoves(Player)} update.
  */
 public class OutOfMovesObserver extends UpdateProcessor
 {
@@ -116,12 +116,12 @@ public class OutOfMovesObserver extends UpdateProcessor
 	}
 	
 	@Override
-	public void updateBoard(IReadOnlyBoard board, Player performer)
+	public void fireUpdateBoard(IReadOnlyBoard board, Player performer)
 	{
 	}
 	
 	@Override
-	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
+	public void fireSwitchPlayer(IReadOnlyBoard board, Player switchedIn)
 	{
 		if(isCurrentPlayerOutOfMoves(board, switchedIn))
 		{
@@ -130,63 +130,63 @@ public class OutOfMovesObserver extends UpdateProcessor
 	}
 
 	@Override
-	public void executeAction(IAction action)
+	public void fireExecuteAction(IAction action)
 	{
 	}
 
 	@Override
-	public void promotion(IReadOnlyBoard board, Location location)
+	public void firePromotion(IReadOnlyBoard board, Location location)
 	{
 	}
 
 	@Override
-	public void gameOver(Player winner)
+	public void fireGameOver(Player winner)
 	{
 	}
 
 	@Override
-	public void outOfMoves(Player player)
+	public void fireOutOfMoves(Player player)
 	{
 	}
 
 	@Override
-	public void proposeRemise(Player proposer)
+	public void fireProposeRemise(Player proposer)
 	{
 	}
 
 	@Override
-	public void acceptRemise()
+	public void fireAcceptRemise()
 	{
 	}
 
 	@Override
-	public void declineRemise()
+	public void fireDeclineRemise()
 	{
 	}
 
 	@Override
-	public void forcedRemise()
+	public void fireForcedRemise()
 	{
 	}
 
 	@Override
-	public void resign(Player resignee)
+	public void fireResign(Player resignee)
 	{
 	}
 
 	@Override
-	public void start(IReadOnlyBoard board, Player starter)
+	public void fireStart(IReadOnlyBoard board, Player starter)
 	{
-		this.switchPlayer(board, starter);
+		this.fireSwitchPlayer(board, starter);
 	}
 
 	@Override
-	public void warning(String message)
+	public void fireWarning(String message)
 	{
 	}
 
 	@Override
-	public void error(String message, Exception ex)
+	public void fireError(String message, Exception ex)
 	{
 	}
 }

@@ -14,17 +14,17 @@ import domain.update.BasicUpdateProcessor;
  * This {@link IObserver} monitors the {@link IGame} 
  * for possible promotions every time the {@link Player}s switch turns.
  * If it found a promotion, it signals this to its own observers 
- * through the {@link IObserver#promotion(IReadOnlyBoard, Location)} update.
+ * through the {@link IObserver#firePromotion(IReadOnlyBoard, Location)} update.
  */
 public class PromotionObserver extends BasicUpdateProcessor
 {
 	@Override
-	public void updateBoard(IReadOnlyBoard board, Player performer)
+	public void fireUpdateBoard(IReadOnlyBoard board, Player performer)
 	{
 	}
 
 	@Override
-	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
+	public void fireSwitchPlayer(IReadOnlyBoard board, Player switchedIn)
 	{
 		Player previous = switchedIn.getOpponent();
 		HashMap<Location, IPiece> playerPieces = board.getPlayerPieces(previous);
@@ -42,7 +42,7 @@ public class PromotionObserver extends BasicUpdateProcessor
 	}
 
 	@Override
-	public void executeAction(IAction action)
+	public void fireExecuteAction(IAction action)
 	{
 	}
 }

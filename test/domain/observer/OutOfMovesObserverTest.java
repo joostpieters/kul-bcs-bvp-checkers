@@ -38,10 +38,10 @@ public class OutOfMovesObserverTest
 		OutOfMovesObserver oomObserver = new OutOfMovesObserver();
 		oomObserver.subscribe(observer);
 		
-		observer.outOfMoves(Player.White);
+		observer.fireOutOfMoves(Player.White);
 		replay(observer);
 		
-		oomObserver.start(board, Player.White);
+		oomObserver.fireStart(board, Player.White);
 		verify(observer);
 	}
 	
@@ -53,10 +53,10 @@ public class OutOfMovesObserverTest
 		OutOfMovesObserver oomObserver = new OutOfMovesObserver();
 		oomObserver.subscribe(observer);
 		
-		observer.outOfMoves(Player.White);
+		observer.fireOutOfMoves(Player.White);
 		replay(observer);
 		
-		oomObserver.switchPlayer(board, Player.White);
+		oomObserver.fireSwitchPlayer(board, Player.White);
 		verify(observer);
 	}
 	
@@ -69,10 +69,10 @@ public class OutOfMovesObserverTest
 		OutOfMovesObserver oomObserver = new OutOfMovesObserver();
 		oomObserver.subscribe(observer);
 		
-		observer.outOfMoves(Player.Black);
+		observer.fireOutOfMoves(Player.Black);
 		replay(observer);
 		
-		oomObserver.switchPlayer(board, Player.Black);
+		oomObserver.fireSwitchPlayer(board, Player.Black);
 		verify(observer);
 	}
 	
@@ -88,7 +88,7 @@ public class OutOfMovesObserverTest
 		//record nothing
 		replay(observer);
 		
-		oomObserver.switchPlayer(board, Player.White);
+		oomObserver.fireSwitchPlayer(board, Player.White);
 		verify(observer);
 	}
 	
@@ -105,7 +105,7 @@ public class OutOfMovesObserverTest
 		//record nothing
 		replay(observer);
 		
-		oomObserver.switchPlayer(board, Player.White);
+		oomObserver.fireSwitchPlayer(board, Player.White);
 		verify(observer);
 	}
 	
@@ -122,7 +122,7 @@ public class OutOfMovesObserverTest
 		//record nothing
 		replay(observer);
 		
-		oomObserver.switchPlayer(board, Player.White);
+		oomObserver.fireSwitchPlayer(board, Player.White);
 		verify(observer);
 	}
 
@@ -135,10 +135,10 @@ public class OutOfMovesObserverTest
 		OutOfMovesObserver oomObserver = new OutOfMovesObserver();
 		oomObserver.subscribe(observer);
 		
-		observer.outOfMoves(Player.White);
+		observer.fireOutOfMoves(Player.White);
 		replay(observer);
 		
-		oomObserver.switchPlayer(board, Player.White);
+		oomObserver.fireSwitchPlayer(board, Player.White);
 		verify(observer);
 	}
 	
@@ -153,10 +153,10 @@ public class OutOfMovesObserverTest
 		OutOfMovesObserver oomObserver = new OutOfMovesObserver();
 		oomObserver.subscribe(observer);
 		
-		observer.outOfMoves(Player.White);
+		observer.fireOutOfMoves(Player.White);
 		replay(observer);
 		
-		oomObserver.switchPlayer(board, Player.White);
+		oomObserver.fireSwitchPlayer(board, Player.White);
 		verify(observer);
 	}
 }

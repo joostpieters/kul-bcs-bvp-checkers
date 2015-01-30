@@ -51,17 +51,17 @@ public abstract class BasicUpdateSource implements IBasicUpdateSource
 	
 	protected void emitUpdateBoard(IReadOnlyBoard board, Player performer)
 	{
-		sendToBasicObservers(observer -> observer.updateBoard(board, performer));
+		sendToBasicObservers(observer -> observer.fireUpdateBoard(board, performer));
 	}
 	
 	protected void emitSwitchPlayer(IReadOnlyBoard board, Player switchedIn)
 	{
-		sendToBasicObservers(observer -> observer.switchPlayer(board, switchedIn));
+		sendToBasicObservers(observer -> observer.fireSwitchPlayer(board, switchedIn));
 	}
 
 	protected void emitExecuteAction(IAction action)
 	{
-		sendToBasicObservers(observer -> observer.executeAction(action));
+		sendToBasicObservers(observer -> observer.fireExecuteAction(action));
 	}
 
 	@Override
@@ -69,7 +69,8 @@ public abstract class BasicUpdateSource implements IBasicUpdateSource
 	{
 		if(isSubscribedBasic(observer))
 		{
-			throw new IllegalStateException("Cannot subscribe twice");
+			//throw new IllegalStateException("Cannot subscribe twice");
+			return;
 		}
 		getBasicObservers().add(observer);
 	}
@@ -79,7 +80,8 @@ public abstract class BasicUpdateSource implements IBasicUpdateSource
 	{
 		if(!isSubscribedBasic(observer))
 		{
-			throw new IllegalStateException("Given observer was not subscribed");
+			//throw new IllegalStateException("Given observer was not subscribed");
+			return;
 		}
 		getBasicObservers().remove(observer);
 	}

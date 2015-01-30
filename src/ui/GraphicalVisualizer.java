@@ -107,77 +107,77 @@ public class GraphicalVisualizer implements IVisualizer
 	}
 
 	@Override
-	public void updateBoard(IReadOnlyBoard board, Player performer)
+	public void fireUpdateBoard(IReadOnlyBoard board, Player performer)
 	{
 		paint(board);
 	}
 
 	@Override
-	public void gameOver(Player winner)
+	public void fireGameOver(Player winner)
 	{
 		close();		
 	}
 
 	@Override
-	public void promotion(IReadOnlyBoard board, Location location)
+	public void firePromotion(IReadOnlyBoard board, Location location)
 	{
 		paint(board);
 	}
 
 	@Override
-	public void outOfMoves(Player player)
+	public void fireOutOfMoves(Player player)
 	{
 	}
 
 	
 	@Override
-	public void proposeRemise(Player proposer)
+	public void fireProposeRemise(Player proposer)
 	{
 	}
 
 	@Override
-	public void acceptRemise()
+	public void fireAcceptRemise()
 	{
 	}
 
 	@Override
-	public void declineRemise()
+	public void fireDeclineRemise()
 	{
 	}
 
 	@Override
-	public void resign(Player resignee)
+	public void fireResign(Player resignee)
 	{
 	}
 
 	@Override
-	public void start(IReadOnlyBoard board, Player starter)
+	public void fireStart(IReadOnlyBoard board, Player starter)
 	{
 		paint(board);
 	}
 
 	@Override
-	public void warning(String message)
+	public void fireWarning(String message)
 	{
 	}
 
 	@Override
-	public void error(String message, Exception ex)
+	public void fireError(String message, Exception ex)
 	{
 	}
 
 	@Override
-	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
+	public void fireSwitchPlayer(IReadOnlyBoard board, Player switchedIn)
 	{
 	}
 
 	@Override
-	public void executeAction(IAction action)
+	public void fireExecuteAction(IAction action)
 	{
 	}
 
 	@Override
-	public void forcedRemise()
+	public void fireForcedRemise()
 	{
 	}
 }

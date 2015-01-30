@@ -159,6 +159,6 @@ public class LocationPair
 	@Override
 	public int hashCode()
 	{
-		return getFrom().hashCode() ^ getTo().hashCode(); 
+		return 37 * getFrom().hashCode() + getTo().hashCode(); 
 	}
 }

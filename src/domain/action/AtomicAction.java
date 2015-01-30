@@ -27,4 +27,30 @@ public abstract class AtomicAction extends BasicUpdateSource implements IAction
 	
 	@Override
 	public abstract String toString();
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj == null)
+		{
+			return false;
+		}
+		if(this == obj)
+		{
+			return true;
+		}
+		if(obj instanceof AtomicAction)
+		{
+			AtomicAction casted = (AtomicAction)obj;
+			return 	isCatch() == casted.isCatch() &&
+					getPair().equals(casted.getPair());
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return 37 * getPair().hashCode() + Boolean.hashCode(isCatch());
+	}
 }

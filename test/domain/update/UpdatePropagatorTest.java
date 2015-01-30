@@ -50,27 +50,27 @@ public class UpdatePropagatorTest
 	{
 		IBoard board = new Board(new BoardSize(10, 10));
 		Player performer = Player.White;
-		observer.updateBoard(board, performer);
+		observer.fireUpdateBoard(board, performer);
 		replay(observer);
-		source.updateBoard(board, performer);
+		source.fireUpdateBoard(board, performer);
 		verify(observer);
 	}
 
 	@Test
 	public void testAcceptRemise()
 	{
-		observer.acceptRemise();
+		observer.fireAcceptRemise();
 		replay(observer);
-		source.acceptRemise();
+		source.fireAcceptRemise();
 		verify(observer);
 	}
 	
 	@Test
 	public void testDeclineRemise()
 	{
-		observer.declineRemise();
+		observer.fireDeclineRemise();
 		replay(observer);
-		source.declineRemise();
+		source.fireDeclineRemise();
 		verify(observer);
 	}
 	
@@ -79,9 +79,9 @@ public class UpdatePropagatorTest
 	{
 		String message = "error";
 		Exception ex = new Exception(message);
-		observer.error(message, ex);
+		observer.fireError(message, ex);
 		replay(observer);
-		source.error(message, ex);
+		source.fireError(message, ex);
 		verify(observer);
 	}
 	
@@ -94,18 +94,18 @@ public class UpdatePropagatorTest
 		DiagonalLocationPair pair = new DiagonalLocationPair(from, to); 
 		IAction action = new AtomicActionStep(pair);
 		
-		observer.executeAction(action);
+		observer.fireExecuteAction(action);
 		replay(observer);
-		source.executeAction(action);
+		source.fireExecuteAction(action);
 		verify(observer);
 	}
 	
 	@Test
 	public void testForcedRemise()
 	{
-		observer.forcedRemise();
+		observer.fireForcedRemise();
 		replay(observer);
-		source.forcedRemise();
+		source.fireForcedRemise();
 		verify(observer);
 	}
 	
@@ -113,9 +113,9 @@ public class UpdatePropagatorTest
 	public void testGameOver()
 	{
 		Player winner = Player.White;
-		observer.gameOver(winner);
+		observer.fireGameOver(winner);
 		replay(observer);
-		source.gameOver(winner);
+		source.fireGameOver(winner);
 		verify(observer);
 	}
 	
@@ -123,9 +123,9 @@ public class UpdatePropagatorTest
 	public void testOutOfMoves()
 	{
 		Player player = Player.White;
-		observer.outOfMoves(player);
+		observer.fireOutOfMoves(player);
 		replay(observer);
-		source.outOfMoves(player);
+		source.fireOutOfMoves(player);
 		verify(observer);
 	}
 	
@@ -134,9 +134,9 @@ public class UpdatePropagatorTest
 	{
 		IBoard board = new Board(new BoardSize(10, 10));
 		Location location = new Location(1, new BoardSize(10, 10));
-		observer.promotion(board, location);
+		observer.firePromotion(board, location);
 		replay(observer);
-		source.promotion(board, location);
+		source.firePromotion(board, location);
 		verify(observer);
 	}
 	
@@ -144,9 +144,9 @@ public class UpdatePropagatorTest
 	public void testProposeRemise()
 	{
 		Player proposer = Player.White;
-		observer.proposeRemise(proposer);
+		observer.fireProposeRemise(proposer);
 		replay(observer);
-		source.proposeRemise(proposer);
+		source.fireProposeRemise(proposer);
 		verify(observer);
 	}
 	
@@ -154,9 +154,9 @@ public class UpdatePropagatorTest
 	public void testResign()
 	{
 		Player resignee = Player.White;
-		observer.resign(resignee);
+		observer.fireResign(resignee);
 		replay(observer);
-		source.resign(resignee);
+		source.fireResign(resignee);
 		verify(observer);
 	}
 	
@@ -165,9 +165,9 @@ public class UpdatePropagatorTest
 	{
 		IBoard board = new Board(new BoardSize(10, 10));
 		Player starter = Player.White;
-		observer.start(board, starter);
+		observer.fireStart(board, starter);
 		replay(observer);
-		source.start(board, starter);
+		source.fireStart(board, starter);
 		verify(observer);
 	}
 	
@@ -176,9 +176,9 @@ public class UpdatePropagatorTest
 	{
 		IBoard board = new Board(new BoardSize(10, 10));
 		Player switchedIn = Player.White;
-		observer.switchPlayer(board, switchedIn);
+		observer.fireSwitchPlayer(board, switchedIn);
 		replay(observer);
-		source.switchPlayer(board, switchedIn);
+		source.fireSwitchPlayer(board, switchedIn);
 		verify(observer);
 	}
 	
@@ -186,9 +186,9 @@ public class UpdatePropagatorTest
 	public void testWarning()
 	{
 		String message = "error";
-		observer.warning(message);
+		observer.fireWarning(message);
 		replay(observer);
-		source.warning(message);
+		source.fireWarning(message);
 		verify(observer);
 	}
 }

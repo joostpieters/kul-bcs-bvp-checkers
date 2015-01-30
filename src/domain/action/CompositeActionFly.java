@@ -18,7 +18,7 @@ public class CompositeActionFly extends CompositeAction
 			throw new IllegalStateException("Distance is too short to fly.");
 		}
 		
-		List<DiagonalLocationPair> pairs = pair.getPairsBetweenInclusive();
+		List<DiagonalLocationPair> pairs = pair.getPairsBetween();
 		for(DiagonalLocationPair p : pairs)
 		{
 			IAction subAction = new AtomicActionStep(p);
@@ -29,15 +29,12 @@ public class CompositeActionFly extends CompositeAction
 	@Override
 	public boolean isValidOn(IReadOnlyBoard board, Player currentPlayer)
 	{		
-		if(super.isValidOn(board, currentPlayer))
-		{
-			Location from = getFrom();
-			IReadOnlySquare fromSquare = board.getSquare(from);
-			return fromSquare.getPiece().canFly(); //square now surely hasPiece
-		}
-		else
+		if(!super.isValidOn(board, currentPlayer))
 		{
 			return false;
 		}
+		Location from = getFrom();
+		IReadOnlySquare fromSquare = board.getSquare(from);
+		return fromSquare.getPiece().canFly(); //square now surely hasPiece
 	}
 }

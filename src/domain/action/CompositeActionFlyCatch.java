@@ -13,7 +13,6 @@ import domain.square.contracts.IReadOnlySquare;
 
 public class CompositeActionFlyCatch extends CompositeAction
 {
-	
 	public CompositeActionFlyCatch(IReadOnlyBoard board, Player currentPlayer, DiagonalLocationPair pair) //already requires board during construction 
 	{		
 		if(pair.getDiagonalDistance() < 2)
@@ -22,24 +21,26 @@ public class CompositeActionFlyCatch extends CompositeAction
 		}
 		
 		Set<Location> locations = board.getPlayerPieces(currentPlayer.getOpponent()).keySet();
-		List<Location> locationsBetween = locations.stream().filter(l -> pair.isBetweenExclusive(l)).collect(Collectors.toList());
-		if(locationsBetween.size() != 1)
+		List<Location> opponentPiecesInBetween = locations.stream().filter(l -> pair.isBetweenStrict(l)).collect(Collectors.toList());
+		int nbOpponentPiecesInBetween = opponentPiecesInBetween.size();
+		if(nbOpponentPiecesInBetween == 0)
+		{
+			throw new IllegalStateException("Could not find a piece to catch.");
+		}
+		else if(nbOpponentPiecesInBetween > 1)
 		{
 			throw new IllegalStateException("Can only catch one piece at a time.");
 		}
-		Location enemyLocation = locationsBetween.get(0);
+		Location opponentLocation = opponentPiecesInBetween.get(0);
 		
-		List<DiagonalLocationPair> pairs = pair.getPairsBetweenInclusive();
+		List<DiagonalLocationPair> pairs = pair.getPairsBetween();
 		IAction subAction;
 		for(int i=0; i < pairs.size(); i++)
 		{
 			DiagonalLocationPair stepPair = pairs.get(i);
-			if(stepPair.getTo().equals(enemyLocation)) //replace 2 steps with catch
+			if(stepPair.getTo().equals(opponentLocation)) //replace 2 steps with catch
 			{
-				if(i+1 == pairs.size())
-				{
-					throw new IllegalStateException("Must jump over piece to catch.");
-				}
+				assert(i+1 < pairs.size()); //because opponentLocation is strictly between pair end-points
 				Location catchFrom = stepPair.getFrom();
 				Location catchTo = pairs.get(i+1).getTo();
 				DiagonalLocationPair catchPair = new DiagonalLocationPair(catchFrom, catchTo);
@@ -57,15 +58,12 @@ public class CompositeActionFlyCatch extends CompositeAction
 	@Override
 	public boolean isValidOn(IReadOnlyBoard board, Player currentPlayer)
 	{		
-		if(super.isValidOn(board, currentPlayer))
-		{
-			Location from = getFrom();
-			IReadOnlySquare fromSquare = board.getSquare(from);
-			return fromSquare.getPiece().canFly(); //square now surely hasPiece
-		}
-		else
+		if(!super.isValidOn(board, currentPlayer))
 		{
 			return false;
 		}
+		Location from = getFrom();
+		IReadOnlySquare fromSquare = board.getSquare(from);
+		return fromSquare.getPiece().canFly(); //square now surely hasPiece
 	}
 }

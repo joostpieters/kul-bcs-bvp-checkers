@@ -10,7 +10,7 @@ import domain.update.contracts.IObserver;
 /**
  * A simple type of {@link IObserver} that forces remise after a given 
  * number of whole actions have passed without a catch or a promotion.
- * This event is signaled to its own observers using the {@link IObserver#forcedRemise()} update. 
+ * This event is signaled to its own observers using the {@link IObserver#fireForcedRemise()} update. 
  */
 public class ForcedRemiseObserver extends UpdateProcessor
 {
@@ -56,12 +56,12 @@ public class ForcedRemiseObserver extends UpdateProcessor
 	}
 	
 	@Override
-	public void updateBoard(IReadOnlyBoard board, Player performer)
+	public void fireUpdateBoard(IReadOnlyBoard board, Player performer)
 	{
 	}
 
 	@Override
-	public void switchPlayer(IReadOnlyBoard board, Player switchedIn)
+	public void fireSwitchPlayer(IReadOnlyBoard board, Player switchedIn)
 	{
 		if(isCatchDuringTurn())
 		{
@@ -79,7 +79,7 @@ public class ForcedRemiseObserver extends UpdateProcessor
 	}
 
 	@Override
-	public void executeAction(IAction action)
+	public void fireExecuteAction(IAction action)
 	{
 		if(action.isCatch())
 		{
@@ -88,58 +88,58 @@ public class ForcedRemiseObserver extends UpdateProcessor
 	}
 
 	@Override
-	public void promotion(IReadOnlyBoard board, Location location)
+	public void firePromotion(IReadOnlyBoard board, Location location)
 	{
 		resetMoveCounter();
 	}
 
 	@Override
-	public void gameOver(Player winner)
+	public void fireGameOver(Player winner)
 	{
 	}
 
 	@Override
-	public void outOfMoves(Player player)
+	public void fireOutOfMoves(Player player)
 	{
 	}
 
 	@Override
-	public void proposeRemise(Player proposer)
+	public void fireProposeRemise(Player proposer)
 	{
 	}
 
 	@Override
-	public void acceptRemise()
+	public void fireAcceptRemise()
 	{
 	}
 
 	@Override
-	public void declineRemise()
+	public void fireDeclineRemise()
 	{
 	}
 
 	@Override
-	public void forcedRemise()
+	public void fireForcedRemise()
 	{
 	}
 
 	@Override
-	public void resign(Player resignee)
+	public void fireResign(Player resignee)
 	{
 	}
 
 	@Override
-	public void start(IReadOnlyBoard board, Player starter)
+	public void fireStart(IReadOnlyBoard board, Player starter)
 	{
 	}
 
 	@Override
-	public void warning(String message)
+	public void fireWarning(String message)
 	{
 	}
 
 	@Override
-	public void error(String message, Exception ex)
+	public void fireError(String message, Exception ex)
 	{
 	}
 }

@@ -23,8 +23,6 @@ public class CompositeAction extends UpdatePropagator implements IAction
 		}
 	}
 	
-	public CompositeAction() { }
-	
 	protected List<IAction> getActions()
 	{
 		return actions;
@@ -90,5 +88,49 @@ public class CompositeAction extends UpdatePropagator implements IAction
 	public boolean isCatch()
 	{
 		return getActions().stream().anyMatch(a -> a.isCatch());
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj == null)
+		{
+			return false;
+		}
+		if(this == obj)
+		{
+			return true;
+		}
+		if(obj instanceof CompositeAction)
+		{
+			CompositeAction casted = (CompositeAction)obj;
+			List<IAction> subActions = getActions();
+			List<IAction> subActionsOther = casted.getActions();
+			int nbActions = subActions.size();
+			if(nbActions != subActionsOther.size())
+			{
+				return false;
+			}
+			for(int i=0; i < nbActions; i++)
+			{
+				if(!subActions.get(i).equals(subActionsOther.get(i)))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int result = 1;
+		for(IAction action : getActions())
+		{
+			result = 37 * result + action.hashCode();
+		}
+		return result;
 	}
 }

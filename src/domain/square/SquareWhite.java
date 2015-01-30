@@ -47,6 +47,18 @@ public class SquareWhite implements ISquare
 		return readOnlySquare;
 	}
 	
+//	@Override
+//	public boolean canHavePiece()
+//	{
+//		return false;
+//	}
+//	
+//	@Override
+//	public boolean isValidLocation(Location location)
+//	{
+//		return (location.getRow() + location.getCol()) % 2 == 0;
+//	}
+	
 	@Override
 	public boolean equals(Object obj)
 	{
