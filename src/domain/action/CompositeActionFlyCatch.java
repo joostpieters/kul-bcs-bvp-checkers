@@ -13,15 +13,14 @@ import domain.square.contracts.IReadOnlySquare;
 
 public class CompositeActionFlyCatch extends CompositeAction
 {
-	public CompositeActionFlyCatch(IReadOnlyBoard board, Player currentPlayer, DiagonalLocationPair pair) //already requires board during construction 
+	public CompositeActionFlyCatch(Set<Location> opponentPieceLocations, Player currentPlayer, DiagonalLocationPair pair) 
 	{		
 		if(pair.getDiagonalDistance() < 2)
 		{
 			throw new IllegalStateException("Distance is too short to fly.");
 		}
 		
-		Set<Location> locations = board.getPlayerPieces(currentPlayer.getOpponent()).keySet();
-		List<Location> opponentPiecesInBetween = locations.stream().filter(l -> pair.isBetweenStrict(l)).collect(Collectors.toList());
+		List<Location> opponentPiecesInBetween = opponentPieceLocations.stream().filter(l -> pair.isBetweenStrict(l)).collect(Collectors.toList());
 		int nbOpponentPiecesInBetween = opponentPiecesInBetween.size();
 		if(nbOpponentPiecesInBetween == 0)
 		{

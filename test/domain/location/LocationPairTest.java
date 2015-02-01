@@ -13,12 +13,29 @@ import domain.board.contracts.IBoardSize;
 public class LocationPairTest
 {
 	private final static IBoardSize size = new BoardSize(10, 10);
-	private final static LocationPair stepAboveRight = new LocationPair(48, 43, size);
-	private final static LocationPair stepAboveLeft = new LocationPair(38, 32, size);
-	private final static LocationPair stepBelowRight = new LocationPair(18, 23, size);
-	private final static LocationPair stepBelowLeft = new LocationPair(3, 8, size);
-	private final static LocationPair flyFar = new LocationPair(46, 5, size);
-	private final static LocationPair nonRestricted = new LocationPair(25, 44, size);
+	private static LocationPair stepAboveRight;
+	private static LocationPair stepAboveLeft;
+	private static LocationPair stepBelowRight;
+	private static LocationPair stepBelowLeft;
+	private static LocationPair flyFar;
+	private static LocationPair nonRestricted;
+	
+	static
+	{
+		try
+		{
+			stepAboveRight = new LocationPair(48, 43, size);
+			stepAboveLeft = new LocationPair(38, 32, size);
+			stepBelowRight = new LocationPair(18, 23, size);
+			stepBelowLeft = new LocationPair(3, 8, size);
+			flyFar = new LocationPair(46, 5, size);
+			nonRestricted = new LocationPair(25, 44, size);
+		}
+		catch (LocationOutOfRangeException e)
+		{
+			assert false;
+		}
+	}
 	
 	@Test
 	public void testGetFrom()
@@ -35,26 +52,26 @@ public class LocationPairTest
 	}
 
 	@Test(expected=NullPointerException.class)
-	public void testConstructorFirstArgNull()
+	public void testConstructorFirstArgNull() throws LocationOutOfRangeException
 	{
 		new LocationPair(null, new Location(0,0, size));
 	}
 	
 	@Test(expected=NullPointerException.class)
-	public void testConstructorSecondArgNull()
+	public void testConstructorSecondArgNull() throws LocationOutOfRangeException
 	{
 		new LocationPair(new Location(0,0, size), null);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void testConstructorSameArgs()
+	public void testConstructorSameArgs() throws LocationOutOfRangeException
 	{
 		Location loc = new Location(0,0, size);
 		new LocationPair(loc, loc);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void testConstructorDifferentBoardSizes()
+	public void testConstructorDifferentBoardSizes() throws LocationOutOfRangeException
 	{
 		Location loc10x10 = new Location(0,0, size);
 		Location loc8x8 = new Location(0,0, new BoardSize(8, 8));
@@ -79,7 +96,7 @@ public class LocationPairTest
 	}
 	
 	@Test
-	public void testSameRowAndCol()
+	public void testSameRowAndCol() throws LocationOutOfRangeException
 	{
 		LocationPair sameRow = new LocationPair(6, 10, size);
 		LocationPair sameCol = new LocationPair(8, 38, size);
@@ -91,7 +108,7 @@ public class LocationPairTest
 	}
 	
 	@Test
-	public void testEqualsFalse()
+	public void testEqualsFalse() throws LocationOutOfRangeException
 	{
 		assertFalse(stepAboveLeft.equals(null));
 		assertFalse(stepAboveLeft.equals(new Object()));
@@ -107,7 +124,7 @@ public class LocationPairTest
 		assertTrue(nonRestricted.equals(new LocationPair(nonRestricted)));
 	}
 	
-	public void testGetUnitDirection(Direction... directions)
+	public void testGetUnitDirection(Direction... directions) throws LocationOutOfRangeException
 	{
 		Location start = new Location(28, size);
 		Location stop = start.getRelativeLocation(Player.White, directions);
@@ -122,7 +139,7 @@ public class LocationPairTest
 	}
 	
 	@Test
-	public void testGetUnitDirection()
+	public void testGetUnitDirection() throws LocationOutOfRangeException
 	{
 		testGetUnitDirection(Direction.Above);
 		testGetUnitDirection(Direction.Below);

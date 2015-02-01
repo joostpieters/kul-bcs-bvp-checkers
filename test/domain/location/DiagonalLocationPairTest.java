@@ -12,12 +12,26 @@ import domain.board.contracts.IBoardSize;
 public class DiagonalLocationPairTest
 {
 	private final static IBoardSize size = new BoardSize(10, 10);
-	private final static DiagonalLocationPair stepAboveRight = new DiagonalLocationPair(48, 43, size);
-	private final static DiagonalLocationPair stepAboveLeft = new DiagonalLocationPair(38, 32, size);
-	private final static DiagonalLocationPair flyFar = new DiagonalLocationPair(46, 5, size);
+	private static DiagonalLocationPair stepAboveRight;
+	private static DiagonalLocationPair stepAboveLeft;
+	private static DiagonalLocationPair flyFar;
+	
+	static
+	{
+		try
+		{
+			stepAboveRight = new DiagonalLocationPair(48, 43, size);
+			stepAboveLeft = new DiagonalLocationPair(38, 32, size);
+			flyFar = new DiagonalLocationPair(46, 5, size);
+		}
+		catch (LocationOutOfRangeException e)
+		{
+			assert false;
+		}
+	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void testConstructorRestrictions()
+	public void testConstructorRestrictions() throws LocationOutOfRangeException
 	{
 		new DiagonalLocationPair(25, 44, size);
 	}
@@ -42,14 +56,14 @@ public class DiagonalLocationPairTest
 	}
 	
 	@Test
-	public void testGetCenterBetween()
+	public void testGetCenterBetween() throws LocationOutOfRangeException
 	{
 		DiagonalLocationPair catchPair = new DiagonalLocationPair(37, 28, size);
 		assertEquals(new Location(32, size), catchPair.getCenterBetween());
 	}
 	
 	@Test
-	public void testIsBetween()
+	public void testIsBetween() throws LocationOutOfRangeException
 	{
 		assertTrue(flyFar.isBetween(new Location(46, size)));
 		assertTrue(flyFar.isBetween(new Location(32, size)));

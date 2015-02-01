@@ -19,21 +19,12 @@ public class ActionRequestFactory
 		else if(move.matches("\\d+(\\s*x\\s*\\d+)+")) //(multi-)(fly-)catch
 		{
 			String[] parts = move.split("\\s*x\\s*");
-			if(parts.length == 2)
+			int[] indices = new int[parts.length];
+			for(int i=0; i < parts.length; i++)
 			{
-				int fromIndex = Integer.parseInt(parts[0]);
-				int toIndex = Integer.parseInt(parts[1]);
-				return new AtomicCatchActionRequest(fromIndex, toIndex);
+				indices[i] = Integer.parseInt(parts[i]);
 			}
-			else
-			{
-				int[] indices = new int[parts.length];
-				for(int i=0; i < parts.length; i++)
-				{
-					indices[i] = Integer.parseInt(parts[i]);
-				}
-				return new CatchActionRequest(indices);
-			}
+			return new CatchActionRequest(indices);
 		}
 		throw new IllegalArgumentException(LocalizationManager.getString("invalidPatternException"));
 	}

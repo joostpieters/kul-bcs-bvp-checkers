@@ -10,12 +10,13 @@ import org.junit.Test;
 
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
+import domain.location.LocationOutOfRangeException;
 
 public class BoardFactoryTest
 {
 
 	@Test
-	public void testBoardSize() throws IOException
+	public void testBoardSize() throws IOException, LocationOutOfRangeException
 	{
 		Path input = Paths.get("data", "input", "testPromotion.txt");
 		IBoardSize size = new BoardSize(10, 10);

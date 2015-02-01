@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import common.Player;
 import ui.LocalizationManager;
 import ui.contracts.IUserInterface;
-import domain.action.LegalActionChecker;
+import domain.analyser.LegalActionAnalyser;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoard;
 import domain.game.contracts.IGame;
@@ -20,6 +20,7 @@ import domain.input.InputProvider;
 import domain.input.contracts.IInput;
 import domain.input.contracts.IInputProvider;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.update.contracts.IObserver;
 
 @RunWith(EasyMockRunner.class) 
@@ -47,9 +48,9 @@ public class GameControllerTest
 	}
 	
 	@Test
-	public void testPromotion()
+	public void testPromotion() throws LocationOutOfRangeException
 	{
-		LegalActionChecker legalActionChecker = new LegalActionChecker(game);
+		LegalActionAnalyser legalActionChecker = new LegalActionAnalyser(board);
 		IInputProvider inputProvider = new InputProvider(ui, legalActionChecker, game);
 		GameController controller = new GameController(game, inputProvider);
 		controller.subscribe(observer);
@@ -72,7 +73,7 @@ public class GameControllerTest
 	@Test
 	public void testOutOfMoves()
 	{
-		LegalActionChecker legalActionChecker = new LegalActionChecker(game);
+		LegalActionAnalyser legalActionChecker = new LegalActionAnalyser(board);
 		IInputProvider inputProvider = new InputProvider(ui, legalActionChecker, game);
 		GameController controller = new GameController(game, inputProvider);
 		controller.subscribe(observer);
@@ -93,7 +94,7 @@ public class GameControllerTest
 	@Test
 	public void testInvalidInput()
 	{
-		LegalActionChecker legalActionChecker = new LegalActionChecker(game);
+		LegalActionAnalyser legalActionChecker = new LegalActionAnalyser(board);
 		IInputProvider inputProvider = createMock(IInputProvider.class);
 		GameController controller = new GameController(game, inputProvider);
 		controller.subscribe(observer);
@@ -118,7 +119,7 @@ public class GameControllerTest
 	}
 	
 	@Test
-	public void testValidInput()
+	public void testValidInput() throws LocationOutOfRangeException
 	{
 		IInputProvider inputProvider = createMock(IInputProvider.class);
 		IInput input = createMock(IInput.class);

@@ -7,6 +7,7 @@ import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.location.LocationPair;
 import domain.piece.contracts.IPiece;
 import domain.square.contracts.IReadOnlySquare;
@@ -40,7 +41,7 @@ public class ReadOnlyBoard implements IReadOnlyBoard
 	}
 
 	@Override
-	public Location createLocation(int row, int col)
+	public Location createLocation(int row, int col) throws LocationOutOfRangeException
 	{
 		return getBoard().createLocation(row, col);
 	}
@@ -115,10 +116,17 @@ public class ReadOnlyBoard implements IReadOnlyBoard
 			{
 				for(int col=0; col < getSize().getCols(); col++)
 				{
-					Location location = new Location(row, col, getSize());
-					if(!this.getSquare(location).equals(casted.getSquare(location)))
+					try
 					{
-						return false;
+						Location location = new Location(row, col, getSize());
+						if(!this.getSquare(location).equals(casted.getSquare(location)))
+						{
+							return false;
+						}
+					}
+					catch (LocationOutOfRangeException e)
+					{
+						assert(false);
 					}
 				}
 			}

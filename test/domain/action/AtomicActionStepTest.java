@@ -16,6 +16,7 @@ import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.piece.Dame;
 import domain.piece.Piece;
 import domain.update.contracts.IBasicObserver;
@@ -33,7 +34,7 @@ public class AtomicActionStepTest
 	}
 	
 	@Test
-	public void testIsValidOnNoFromPiece()
+	public void testIsValidOnNoFromPiece() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -43,7 +44,7 @@ public class AtomicActionStepTest
 	}
 	
 	@Test
-	public void testIsValidOnDistanceTooLong()
+	public void testIsValidOnDistanceTooLong() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -54,7 +55,7 @@ public class AtomicActionStepTest
 	}
 	
 	@Test
-	public void testIsValidOnFromPieceFromEnemy()
+	public void testIsValidOnFromPieceFromEnemy() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -65,7 +66,7 @@ public class AtomicActionStepTest
 	}
 	
 	@Test
-	public void testIsValidOnBackwardStepPieceNotAllowed()
+	public void testIsValidOnBackwardStepPieceNotAllowed() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -76,7 +77,7 @@ public class AtomicActionStepTest
 	}
 	
 	@Test
-	public void testIsValidOnBackwardStepDameAllowed()
+	public void testIsValidOnBackwardStepDameAllowed() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -87,7 +88,7 @@ public class AtomicActionStepTest
 	}
 	
 	@Test
-	public void testIsValidOnAllOk()
+	public void testIsValidOnAllOk() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -98,7 +99,7 @@ public class AtomicActionStepTest
 	}
 
 	@Test(expected=IllegalStateException.class)
-	public void testExecuteOnInvalidMove()
+	public void testExecuteOnInvalidMove() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -108,7 +109,7 @@ public class AtomicActionStepTest
 	}
 	
 	@Test
-	public void testExecuteOnValidMove()
+	public void testExecuteOnValidMove() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -133,7 +134,7 @@ public class AtomicActionStepTest
 	}
 
 	@Test
-	public void testIsCatch()
+	public void testIsCatch() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		DiagonalLocationPair pair = new DiagonalLocationPair(1, 7, size);

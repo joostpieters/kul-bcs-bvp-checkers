@@ -30,7 +30,6 @@ public interface IBasicUpdateProcessor extends IBasicObserver, IBasicUpdateSourc
 	 * 
 	 * @param 	processor
 	 * 			The {@link IBasicUpdateProcessor} to check.
-	 * @return TODO
 	 */
 	public boolean isLinkedBasic(IBasicUpdateProcessor processor);
 }

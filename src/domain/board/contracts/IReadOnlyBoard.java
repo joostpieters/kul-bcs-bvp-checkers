@@ -5,6 +5,7 @@ import java.util.HashMap;
 import common.IDeepClonable;
 import common.Player;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.location.LocationPair;
 import domain.piece.contracts.IPiece;
 import domain.square.contracts.IReadOnlySquare;
@@ -13,7 +14,7 @@ public interface IReadOnlyBoard extends IDeepClonable<IBoard>
 {
 	public IBoardSize getSize();
 
-	public Location createLocation(int row, int col);
+	public Location createLocation(int row, int col) throws LocationOutOfRangeException;
 
 	public IReadOnlySquare getSquare(Location location);
 

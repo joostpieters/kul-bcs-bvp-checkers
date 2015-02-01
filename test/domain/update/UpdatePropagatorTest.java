@@ -21,6 +21,7 @@ import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.update.UpdatePropagator;
 import domain.update.contracts.IObserver;
 
@@ -86,7 +87,7 @@ public class UpdatePropagatorTest
 	}
 	
 	@Test
-	public void testExecuteAction()
+	public void testExecuteAction() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		Location from = new Location(1, size);
@@ -130,7 +131,7 @@ public class UpdatePropagatorTest
 	}
 	
 	@Test
-	public void testPromotion()
+	public void testPromotion() throws LocationOutOfRangeException
 	{
 		IBoard board = new Board(new BoardSize(10, 10));
 		Location location = new Location(1, new BoardSize(10, 10));

@@ -7,6 +7,7 @@ import java.util.List;
 import domain.action.contracts.IActionRequest;
 import domain.board.contracts.IBoardSize;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 
 public abstract class ActionRequest implements IActionRequest
 {
@@ -50,13 +51,13 @@ public abstract class ActionRequest implements IActionRequest
 	}
 	
 	@Override
-	public Location getStart(IBoardSize size)
+	public Location getStart(IBoardSize size) throws LocationOutOfRangeException
 	{
 		return new Location(getStartIndex(), size);
 	}
 	
 	@Override
-	public Location getEnd(IBoardSize size)
+	public Location getEnd(IBoardSize size) throws LocationOutOfRangeException
 	{
 		return new Location(getEndIndex(), size);
 	}

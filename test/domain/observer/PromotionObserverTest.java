@@ -14,6 +14,7 @@ import domain.board.BoardSize;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.piece.Dame;
 import domain.piece.Piece;
 import domain.update.contracts.IObserver;
@@ -31,7 +32,7 @@ public class PromotionObserverTest
 	}
 	
 	@Test
-	public void testPromotionDetected()
+	public void testPromotionDetected() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -48,7 +49,7 @@ public class PromotionObserverTest
 	}
 	
 	@Test
-	public void testCannotPromoteTwice()
+	public void testCannotPromoteTwice() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -65,7 +66,7 @@ public class PromotionObserverTest
 	}
 	
 	@Test
-	public void testCannotPromoteIfNotOnPromotionRow()
+	public void testCannotPromoteIfNotOnPromotionRow() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);

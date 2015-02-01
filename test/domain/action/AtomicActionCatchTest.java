@@ -17,6 +17,7 @@ import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.piece.Piece;
 import domain.update.contracts.IBasicObserver;
 
@@ -33,7 +34,7 @@ public class AtomicActionCatchTest
 	}
 	
 	@Test
-	public void testIsValidOnNoFromPiece()
+	public void testIsValidOnNoFromPiece() throws Exception
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -43,7 +44,7 @@ public class AtomicActionCatchTest
 	}
 	
 	@Test
-	public void testIsValidOnDistanceTooShort()
+	public void testIsValidOnDistanceTooShort() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -54,7 +55,7 @@ public class AtomicActionCatchTest
 	}
 	
 	@Test
-	public void testIsValidOnNoCenterPiece()
+	public void testIsValidOnNoCenterPiece() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -65,7 +66,7 @@ public class AtomicActionCatchTest
 	}
 	
 	@Test
-	public void testIsValidOnFromPieceFromEnemy()
+	public void testIsValidOnFromPieceFromEnemy() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -77,7 +78,7 @@ public class AtomicActionCatchTest
 	}
 	
 	@Test
-	public void testIsValidOnCenterPieceFromSelf()
+	public void testIsValidOnCenterPieceFromSelf() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -89,7 +90,7 @@ public class AtomicActionCatchTest
 	}
 	
 	@Test
-	public void testIsValidOnBackwardCatchingNotAllowed()
+	public void testIsValidOnBackwardCatchingNotAllowed() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -104,7 +105,7 @@ public class AtomicActionCatchTest
 	}
 	
 	@Test
-	public void testIsValidOnBackwardCatchingNotAllowedButForwardStillOk()
+	public void testIsValidOnBackwardCatchingNotAllowedButForwardStillOk() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -119,7 +120,7 @@ public class AtomicActionCatchTest
 	}
 	
 	@Test
-	public void testIsValidOnAllOk()
+	public void testIsValidOnAllOk() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -131,7 +132,7 @@ public class AtomicActionCatchTest
 	}
 
 	@Test(expected=IllegalStateException.class)
-	public void testExecuteOnInvalidMove()
+	public void testExecuteOnInvalidMove() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -141,7 +142,7 @@ public class AtomicActionCatchTest
 	}
 	
 	@Test
-	public void testExecuteOnValidMove()
+	public void testExecuteOnValidMove() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -170,7 +171,7 @@ public class AtomicActionCatchTest
 	}
 
 	@Test
-	public void testIsCatch()
+	public void testIsCatch() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		DiagonalLocationPair pair = new DiagonalLocationPair(1, 12, size);

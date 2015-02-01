@@ -59,7 +59,7 @@ public class LocationPair
 		this.to = to;
 	}
 	
-	public LocationPair(int fromIndex, int toIndex, IBoardSize size)
+	public LocationPair(int fromIndex, int toIndex, IBoardSize size) throws LocationOutOfRangeException
 	{
 		this(new Location(fromIndex, size), new Location(toIndex, size));
 	}

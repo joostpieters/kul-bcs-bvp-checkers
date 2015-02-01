@@ -7,11 +7,12 @@ import org.junit.Test;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoardSize;
 import domain.location.DiagonalLocationPair;
+import domain.location.LocationOutOfRangeException;
 
 public class AtomicActionTest
 {
 	@Test
-	public void testAtomicAction()
+	public void testAtomicAction() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		DiagonalLocationPair pair = new DiagonalLocationPair(1, 7, size);
@@ -21,7 +22,7 @@ public class AtomicActionTest
 	}
 
 	@Test
-	public void testGetFrom()
+	public void testGetFrom() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		DiagonalLocationPair pair = new DiagonalLocationPair(1, 7, size);
@@ -31,7 +32,7 @@ public class AtomicActionTest
 	}
 	
 	@Test
-	public void testEquals()
+	public void testEquals() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		DiagonalLocationPair pairStep = new DiagonalLocationPair(1, 7, size);

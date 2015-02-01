@@ -9,6 +9,7 @@ import domain.game.contracts.IGame;
 import domain.input.contracts.IInput;
 import domain.input.contracts.IInputProvider;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.update.UpdatePropagator;
 
 
@@ -42,7 +43,15 @@ public class GameController extends UpdatePropagator
 		while(!game.isOver())
 		{
 			IInput input = getInputProvider().askInput();
-			boolean success = input.process();
+			boolean success;
+			try
+			{
+				success = input.process();
+			}
+			catch(LocationOutOfRangeException e)
+			{
+				success = false;
+			}
 			
 			if(success)
 			{

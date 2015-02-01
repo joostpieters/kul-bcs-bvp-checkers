@@ -15,6 +15,7 @@ import domain.board.contracts.IBoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.piece.Dame;
 import domain.piece.Piece;
 
@@ -22,7 +23,7 @@ public class CompositeActionFlyTest
 {
 
 	@Test
-	public void testIsValidOnInvalidCompositeAction()
+	public void testIsValidOnInvalidCompositeAction() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IReadOnlyBoard board = new Board(size);
@@ -33,7 +34,7 @@ public class CompositeActionFlyTest
 	}
 	
 	@Test
-	public void testIsValidOnSourcePieceCannotFly()
+	public void testIsValidOnSourcePieceCannotFly() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -45,7 +46,7 @@ public class CompositeActionFlyTest
 	}
 	
 	@Test
-	public void testIsValidOn()
+	public void testIsValidOn() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -57,7 +58,7 @@ public class CompositeActionFlyTest
 	}
 
 	@Test(expected=IllegalStateException.class)
-	public void testCompositeActionFlyDistanceTooShort()
+	public void testCompositeActionFlyDistanceTooShort() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		DiagonalLocationPair pair = new DiagonalLocationPair(1, 7, size);
@@ -65,7 +66,7 @@ public class CompositeActionFlyTest
 	}
 	
 	@Test
-	public void testCompositeActionFly()
+	public void testCompositeActionFly() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		DiagonalLocationPair pair = new DiagonalLocationPair(48, 34, size);

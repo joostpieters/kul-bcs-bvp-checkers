@@ -3,7 +3,7 @@ package domain.input;
 import ui.LocalizationManager;
 import ui.contracts.IUserInterface;
 import common.Player;
-import domain.action.LegalActionChecker;
+import domain.analyser.LegalActionAnalyser;
 import domain.game.contracts.IGame;
 import domain.input.contracts.IInput;
 import domain.input.contracts.IInputProvider;
@@ -13,7 +13,7 @@ import domain.update.UpdatePropagator;
 public class InputProvider extends UpdatePropagator implements AutoCloseable, IInputProvider
 {
 	private final IUserInterface ui;
-	private final LegalActionChecker legalActionChecker;
+	private final LegalActionAnalyser legalActionChecker;
 	private boolean closed = false;
 	private final IGame game;
 	
@@ -22,7 +22,7 @@ public class InputProvider extends UpdatePropagator implements AutoCloseable, II
 		return ui;
 	}
 	
-	private LegalActionChecker getLegalActionChecker()
+	private LegalActionAnalyser getLegalActionChecker()
 	{
 		return legalActionChecker;
 	}
@@ -44,7 +44,7 @@ public class InputProvider extends UpdatePropagator implements AutoCloseable, II
 		getUI().close();
 	}
 	
-	public InputProvider(IUserInterface ui, LegalActionChecker legalActionChecker, IGame game)
+	public InputProvider(IUserInterface ui, LegalActionAnalyser legalActionChecker, IGame game)
 	{
 		this.ui = ui;
 		this.legalActionChecker = legalActionChecker;

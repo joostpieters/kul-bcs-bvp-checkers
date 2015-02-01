@@ -18,6 +18,7 @@ import domain.action.request.CatchActionRequest;
 import domain.action.request.MoveActionRequest;
 import domain.board.BoardFactory;
 import domain.board.contracts.IBoard;
+import domain.location.LocationOutOfRangeException;
 
 @RunWith(EasyMockRunner.class) 
 public class ActionFactoryTest
@@ -28,7 +29,7 @@ public class ActionFactoryTest
 	}
 	
 	@Test
-	public void testCreateAtomicActionStep() throws IOException
+	public void testCreateAtomicActionStep() throws IOException, LocationOutOfRangeException
 	{
 		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
 		IActionRequest request = new MoveActionRequest(18, 12);
@@ -38,7 +39,7 @@ public class ActionFactoryTest
 	}
 	
 	@Test
-	public void testCreateCompositeActionFly() throws IOException
+	public void testCreateCompositeActionFly() throws IOException, LocationOutOfRangeException
 	{
 		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
 		IActionRequest request = new MoveActionRequest(18, 4);
@@ -48,7 +49,7 @@ public class ActionFactoryTest
 	}
 	
 	@Test
-	public void testCreateAtomicActionCatch() throws IOException
+	public void testCreateAtomicActionCatch() throws IOException, LocationOutOfRangeException
 	{
 		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
 		IActionRequest request = new CatchActionRequest(18, 27);
@@ -58,7 +59,7 @@ public class ActionFactoryTest
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void testCreateAtomicActionCatchTooClose() throws IOException
+	public void testCreateAtomicActionCatchTooClose() throws IOException, LocationOutOfRangeException
 	{
 		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
 		IActionRequest request = new CatchActionRequest(18, 23);
@@ -66,7 +67,7 @@ public class ActionFactoryTest
 	}
 	
 	@Test
-	public void testCreateCompositeActionFlyCatch() throws IOException
+	public void testCreateCompositeActionFlyCatch() throws IOException, LocationOutOfRangeException
 	{
 		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
 		IActionRequest request = new CatchActionRequest(18, 45);
@@ -76,7 +77,7 @@ public class ActionFactoryTest
 	}
 	
 	@Test
-	public void testCreateCompositeAction() throws IOException
+	public void testCreateCompositeAction() throws IOException, LocationOutOfRangeException
 	{
 		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
 		IActionRequest request = new CatchActionRequest(18, 40, 49);
@@ -88,19 +89,26 @@ public class ActionFactoryTest
 		assertTrue(actions.get(0) instanceof CompositeActionFlyCatch);
 		assertTrue(actions.get(1) instanceof AtomicActionCatch);
 	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void testCreateInvalidCompositeAction() throws IOException, LocationOutOfRangeException
+	{
+		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
+		IActionRequest request = new CatchActionRequest(18, 34, 25);
+		ActionFactory.create(request, board, Player.White);
+	}
 
-//TODO fix bug
-//	@Test
-//	public void testCaughtPiecesAreRemovedImmediately() throws IOException
-//	{
-//		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
-//		IActionRequest request = new CatchActionRequest(18, 40, 49, 38, 15);
-//		IAction action = ActionFactory.create(request, board, Player.White);
-//		assertTrue(action.isCatch());
-//		assertTrue(action instanceof CompositeAction);
-//		CompositeAction composite = (CompositeAction)action;
-//		List<IAction> actions = composite.getActions();
-//		assertTrue(actions.get(0) instanceof CompositeActionFlyCatch);
-//		assertTrue(actions.get(1) instanceof AtomicActionCatch);
-//	}
+	@Test
+	public void testCaughtPiecesAreRemovedImmediately() throws IOException, LocationOutOfRangeException
+	{
+		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
+		IActionRequest request = new CatchActionRequest(18, 40, 49, 38, 15);
+		IAction action = ActionFactory.create(request, board, Player.White);
+		assertTrue(action.isCatch());
+		assertTrue(action instanceof CompositeAction);
+		CompositeAction composite = (CompositeAction)action;
+		List<IAction> actions = composite.getActions();
+		assertTrue(actions.get(0) instanceof CompositeActionFlyCatch);
+		assertTrue(actions.get(1) instanceof AtomicActionCatch);
+	}
 }

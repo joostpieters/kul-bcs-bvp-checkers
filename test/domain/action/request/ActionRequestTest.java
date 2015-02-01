@@ -10,6 +10,7 @@ import domain.action.contracts.IActionRequest;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoardSize;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 
 public class ActionRequestTest
 {
@@ -28,7 +29,7 @@ public class ActionRequestTest
 	public void testActionRequestIterableOfInteger()
 	{
 		CatchActionRequest request1 = new CatchActionRequest(1, 2);
-		CatchActionRequest request2 = new AtomicCatchActionRequest(2, 3);
+		CatchActionRequest request2 = new CatchActionRequest(2, 3);
 		CatchActionRequest request = new CatchActionRequest(request1, request2);
 		List<Integer> indices = request.getIndices();
 		assertTrue(indices.contains(1));
@@ -51,7 +52,7 @@ public class ActionRequestTest
 	}
 
 	@Test
-	public void testGetStart()
+	public void testGetStart() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IActionRequest request = new CatchActionRequest(1,2,3);
@@ -59,7 +60,7 @@ public class ActionRequestTest
 	}
 
 	@Test
-	public void testGetEnd()
+	public void testGetEnd() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IActionRequest request = new CatchActionRequest(1,2,3);

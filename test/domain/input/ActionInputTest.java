@@ -7,21 +7,22 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
-import domain.action.LegalActionChecker;
+import domain.analyser.LegalActionAnalyser;
 import domain.board.BoardFactory;
 import domain.board.contracts.IBoard;
 import domain.game.Game;
 import domain.game.contracts.IGame;
+import domain.location.LocationOutOfRangeException;
 
 public class ActionInputTest
 {
-	private ActionInput getInput(String move, String inputFile)
+	private ActionInput getInput(String move, String inputFile) throws LocationOutOfRangeException
 	{
 		try
 		{
 			IBoard board = BoardFactory.create(Paths.get("data", "input", inputFile));
 			IGame game = new Game(board);
-			LegalActionChecker analyzer = new LegalActionChecker(game);
+			LegalActionAnalyser analyzer = new LegalActionAnalyser(board);
 			return new ActionInput(move, game, analyzer);
 		}
 		catch (IOException ex)
@@ -32,7 +33,7 @@ public class ActionInputTest
 	}
 	
 	@Test
-	public void testInvalidRequest()
+	public void testInvalidRequest() throws LocationOutOfRangeException
 	{
 		ActionInput input = getInput("lalala", "testCatchPriority.txt");
 		boolean result = input.process();
@@ -40,7 +41,7 @@ public class ActionInputTest
 	}
 	
 	@Test
-	public void testIllegalAction()
+	public void testIllegalAction() throws LocationOutOfRangeException
 	{
 		ActionInput input = getInput("36x27", "testCatchPriority.txt"); //non-maximal catch
 		boolean result = input.process();
@@ -49,7 +50,7 @@ public class ActionInputTest
 	
 	
 	@Test
-	public void testInvalidAction()
+	public void testInvalidAction() throws LocationOutOfRangeException
 	{
 		ActionInput input = getInput("36-31", "default.txt"); //move to occupied square
 		boolean result = input.process();
@@ -57,7 +58,7 @@ public class ActionInputTest
 	}
 	
 	@Test
-	public void testValidAction()
+	public void testValidAction() throws LocationOutOfRangeException
 	{
 		ActionInput input = getInput("36x27x38x29x40x49", "testCatchPriority.txt"); //maximal catch
 		boolean result = input.process();

@@ -13,6 +13,7 @@ import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.location.LocationPair;
 import domain.piece.Piece;
 import domain.piece.contracts.IPiece;
@@ -39,10 +40,14 @@ public class BoardTest
 		{
 			e.printStackTrace();
 		}
+		catch (LocationOutOfRangeException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
-	public void testConstructor()
+	public void testConstructor() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		Board board = new Board(size);
@@ -59,7 +64,7 @@ public class BoardTest
 	}
 	
 	@Test
-	public void testCopyConstructor()
+	public void testCopyConstructor() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		Board copy = new Board(board);
@@ -248,7 +253,7 @@ public class BoardTest
 	}
 	
 	@Test
-	public void testCreateLocation()
+	public void testCreateLocation() throws LocationOutOfRangeException
 	{
 		Location created = board.createLocation(7, 8);
 		assertEquals(board.getSize(), created.getBoardSize());

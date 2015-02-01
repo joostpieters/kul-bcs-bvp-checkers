@@ -7,6 +7,7 @@ import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.location.LocationPair;
 import domain.piece.Dame;
 import domain.piece.contracts.IPiece;
@@ -30,8 +31,15 @@ public class Board implements IBoard
 		{
 			for(int col=0; col < size.getCols(); col++)
 			{
-				Location location = new Location(row, col, size);
-				squares[row][col] = createSquare(location);
+				try
+				{
+					Location location = new Location(row, col, size);
+					squares[row][col] = createSquare(location);
+				}
+				catch(LocationOutOfRangeException e)
+				{
+					assert(false);
+				}
 			}
 		}
 	}
@@ -45,21 +53,16 @@ public class Board implements IBoard
 	public Board(IReadOnlyBoard original)
 	{
 		this(original.getSize());
-		IBoardSize size = getSize();
-		for(int row=0; row < size.getRows(); row++)
+		forEachLocation(location ->
 		{
-			for(int col=0; col < size.getCols(); col++)
+			IReadOnlySquare originalSquare = original.getSquare(location);
+			if(originalSquare.hasPiece())
 			{
-				Location location = new Location(row, col, size);
-				IReadOnlySquare originalSquare = original.getSquare(location);
-				if(originalSquare.hasPiece())
-				{
-					IPiece originalPiece = originalSquare.getPiece();
-					IPiece newPiece = originalPiece.getDeepClone();
-					this.addPiece(location, newPiece);
-				}
+				IPiece originalPiece = originalSquare.getPiece();
+				IPiece newPiece = originalPiece.getDeepClone();
+				this.addPiece(location, newPiece);
 			}
-		}
+		}, null);
 	}
 	
 	@Override
@@ -82,7 +85,7 @@ public class Board implements IBoard
 	}
 	
 	@Override
-	public Location createLocation(int row, int col)
+	public Location createLocation(int row, int col) throws LocationOutOfRangeException
 	{
 		return new Location(row, col, getSize());
 	}
@@ -180,22 +183,20 @@ public class Board implements IBoard
 	public HashMap<Location, IPiece> getPlayerPieces(Player player)
 	{
 		HashMap<Location, IPiece> result = new HashMap<Location, IPiece>();
-		for(int row=0; row < getSize().getRows(); row++)
+		
+		forEachLocation(location ->
 		{
-			for(int col=0; col < getSize().getRows(); col++)
+			ISquare square = getSquare(location);
+			if(square.hasPiece())
 			{
-				Location location = createLocation(row, col);
-				ISquare square = getSquare(location);
-				if(square.hasPiece())
+				IPiece piece = square.getPiece();
+				if(piece.getPlayer() == player)
 				{
-					IPiece piece = square.getPiece();
-					if(piece.getPlayer() == player)
-					{
-						result.put(location, piece);
-					}
+					result.put(location, piece);
 				}
 			}
-		}
+			
+		}, null);
 		
 		return result;
 	}
@@ -214,40 +215,79 @@ public class Board implements IBoard
 		return targetSquare.hasPiece() && targetSquare.getPiece().getPlayer() == occupant;
 	}
 	
+	private interface LocationAction
+	{
+		void actOn(Location location);
+	}
+	
+	private interface RowAction
+	{
+		void actOn(int row);
+	}
+	
+	/**
+	 * Executes given locationAction for every {@link Location} on this {@link IBoard}.
+	 * Executes given rowPostAction after each row is processed.
+	 * Use this method to avoid theoretical {@link LocationOutOfRangeException}s.
+	 * 
+	 * @param locationAction
+	 * @param postRowAction
+	 */
+	private void forEachLocation(LocationAction locationAction, RowAction postRowAction)
+	{
+		for(int row=0; row < getSize().getRows(); row++)
+		{
+			for(int col=0; col < getSize().getRows(); col++)
+			{
+				try
+				{
+					Location location = createLocation(row, col);
+					locationAction.actOn(location);
+				}
+				catch(LocationOutOfRangeException e)
+				{
+					assert(false);
+				}
+			}
+			if(postRowAction != null)
+			{
+				postRowAction.actOn(row);
+			}
+		}
+	}
+	
 	@Override
 	public String toString()
 	{
 		StringBuilder builder = new StringBuilder();
 		
-		for(int row=0; row < getSize().getRows(); row++)
+		forEachLocation(location -> 
 		{
-			for(int col=0; col < getSize().getRows(); col++)
+			if(location.isBlack())
 			{
-				Location location = createLocation(row, col);
-				if(location.isBlack())
+				ISquare square = getSquare(location);
+				if(square.hasPiece())
 				{
-					ISquare square = getSquare(location);
-					if(square.hasPiece())
-					{
-						int index = location.getIndex();
-						String paddedIndex = String.format("%2d", index);
-						builder.append(paddedIndex);
-						builder.append(' ');
-						IPiece piece = square.getPiece(); 
-						builder.append(piece.getPieceCode());
-					}
-					else
-					{
-						builder.append("    "); //don't print o's
-					}
+					int index = location.getIndex();
+					String paddedIndex = String.format("%2d", index);
+					builder.append(paddedIndex);
+					builder.append(' ');
+					IPiece piece = square.getPiece(); 
+					builder.append(piece.getPieceCode());
 				}
-				else //white square
+				else
 				{
-					builder.append("    ");
+					builder.append("    "); //don't print o's
 				}
 			}
+			else //white square
+			{
+				builder.append("    ");
+			}
+		}, row -> 
+		{
 			builder.append("\r\n");
-		}
+		});
 		
 		return builder.toString();
 	}
@@ -280,10 +320,17 @@ public class Board implements IBoard
 			{
 				for(int col=0; col < getSize().getCols(); col++)
 				{
-					Location location = new Location(row, col, getSize());
-					if(!this.getSquare(location).equals(casted.getSquare(location)))
+					try
 					{
-						return false;
+						Location location = new Location(row, col, getSize());
+						if(!this.getSquare(location).equals(casted.getSquare(location)))
+						{
+							return false;
+						}
+					}
+					catch (LocationOutOfRangeException e)
+					{
+						assert(false);
 					}
 				}
 			}

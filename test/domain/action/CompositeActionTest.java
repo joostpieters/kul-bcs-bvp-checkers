@@ -14,13 +14,14 @@ import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.piece.Piece;
 
 public class CompositeActionTest
 {
 
 	@Test
-	public void testGetActions()
+	public void testGetActions() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		DiagonalLocationPair step0 = new DiagonalLocationPair(33, 29, size);
@@ -43,7 +44,7 @@ public class CompositeActionTest
 	}
 
 	@Test
-	public void testIsValidOnOneSubActionInvalid()
+	public void testIsValidOnOneSubActionInvalid() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -58,7 +59,7 @@ public class CompositeActionTest
 	}
 	
 	@Test
-	public void testIsValidOn()
+	public void testIsValidOn() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -73,7 +74,7 @@ public class CompositeActionTest
 	}
 
 	@Test(expected=IllegalStateException.class)
-	public void testExecuteOnInvalidAction()
+	public void testExecuteOnInvalidAction() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -88,7 +89,7 @@ public class CompositeActionTest
 	}
 	
 	@Test
-	public void testExecuteOnValidAction()
+	public void testExecuteOnValidAction() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -103,7 +104,7 @@ public class CompositeActionTest
 	}
 
 	@Test
-	public void testGetFrom()
+	public void testGetFrom() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		DiagonalLocationPair step0 = new DiagonalLocationPair(33, 29, size);
@@ -116,7 +117,7 @@ public class CompositeActionTest
 	}
 
 	@Test
-	public void testIsCatchAllSubActionsAreMoves()
+	public void testIsCatchAllSubActionsAreMoves() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		DiagonalLocationPair step0 = new DiagonalLocationPair(33, 29, size);
@@ -129,7 +130,7 @@ public class CompositeActionTest
 	}
 	
 	@Test
-	public void testIsCatchSomeSubActionsAreCatches()
+	public void testIsCatchSomeSubActionsAreCatches() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		DiagonalLocationPair step0 = new DiagonalLocationPair(33, 29, size);
@@ -142,7 +143,7 @@ public class CompositeActionTest
 	}
 	
 	@Test
-	public void testEquals()
+	public void testEquals() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		DiagonalLocationPair step0 = new DiagonalLocationPair(33, 29, size);

@@ -3,20 +3,21 @@ package domain.input;
 import ui.LocalizationManager;
 import common.Player;
 import domain.action.ActionFactory;
-import domain.action.LegalActionChecker;
 import domain.action.contracts.IAction;
 import domain.action.contracts.IActionRequest;
 import domain.action.request.ActionRequestFactory;
+import domain.analyser.LegalActionAnalyser;
 import domain.board.contracts.IBoard;
 import domain.game.contracts.IGame;
 import domain.input.contracts.IInput;
+import domain.location.LocationOutOfRangeException;
 import domain.update.UpdatePropagator;
 
 public class ActionInput extends UpdatePropagator implements IInput
 {
 	private final String move;
 	private final IGame game;
-	private final LegalActionChecker legalActionChecker;
+	private final LegalActionAnalyser legalActionChecker;
 
 	private String getMove()
 	{
@@ -28,12 +29,12 @@ public class ActionInput extends UpdatePropagator implements IInput
 		return game;
 	}
 	
-	private LegalActionChecker getLegalActionChecker()
+	private LegalActionAnalyser getLegalActionChecker()
 	{
 		return legalActionChecker;
 	}
 	
-	public ActionInput(String move, IGame game, LegalActionChecker analyzer)
+	public ActionInput(String move, IGame game, LegalActionAnalyser analyzer)
 	{
 		this.move = move;
 		this.game = game;
@@ -41,7 +42,7 @@ public class ActionInput extends UpdatePropagator implements IInput
 	}
 
 	@Override
-	public boolean process()
+	public boolean process() throws LocationOutOfRangeException
 	{
 		IGame game = getGame();
 		IBoard board = game.getBoard();
@@ -50,7 +51,7 @@ public class ActionInput extends UpdatePropagator implements IInput
 		try
 		{
 			IActionRequest request = ActionRequestFactory.create(getMove());
-			if(!getLegalActionChecker().isActionLegal(request))
+			if(!getLegalActionChecker().isActionLegal(request, currentPlayer))
 			{
 				emitWarning(LocalizationManager.getString("warningIllegalAction"));
 				return false;
@@ -74,6 +75,4 @@ public class ActionInput extends UpdatePropagator implements IInput
 			return false;
 		}
 	}
-	
-	
 }

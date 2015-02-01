@@ -14,6 +14,7 @@ import domain.board.BoardSize;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.piece.Dame;
 import domain.piece.Piece;
 import domain.update.contracts.IObserver;
@@ -61,7 +62,7 @@ public class OutOfMovesObserverTest
 	}
 	
 	@Test
-	public void testNoMoreBlackPieces()
+	public void testNoMoreBlackPieces() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -77,7 +78,7 @@ public class OutOfMovesObserverTest
 	}
 	
 	@Test
-	public void testMovePossibleCatchNotPossible()
+	public void testMovePossibleCatchNotPossible() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -93,7 +94,7 @@ public class OutOfMovesObserverTest
 	}
 	
 	@Test
-	public void testMovePossibleCatchPossible()
+	public void testMovePossibleCatchPossible() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -110,7 +111,7 @@ public class OutOfMovesObserverTest
 	}
 	
 	@Test
-	public void testMoveNotPossibleCatchPossible()
+	public void testMoveNotPossibleCatchPossible() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -127,7 +128,7 @@ public class OutOfMovesObserverTest
 	}
 
 	@Test
-	public void testMoveNotPossibleCatchNotPossible()
+	public void testMoveNotPossibleCatchNotPossible() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -143,7 +144,7 @@ public class OutOfMovesObserverTest
 	}
 	
 	@Test
-	public void testDameMoveNotPossibleCatchNotPossible()
+	public void testDameMoveNotPossibleCatchNotPossible() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);

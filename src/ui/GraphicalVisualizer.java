@@ -12,6 +12,7 @@ import domain.action.contracts.IAction;
 import domain.board.contracts.IBoardSize;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.piece.contracts.IPiece;
 import domain.square.contracts.IReadOnlySquare;
 
@@ -68,31 +69,38 @@ public class GraphicalVisualizer implements IVisualizer
 		{
 			for (int col = 0; col < size.getCols(); col++)
 			{
-				Location location = new Location(row, col, size);
-				IReadOnlySquare square = board.getSquare(location);
-				if (location.isWhite())
+				try
 				{
-					background.plaatsFiguur(whiteSquare, col*Configs.SquareSizePx, row*Configs.SquareSizePx);
-				}
-				else
-				{
-					background.plaatsFiguur(blackSquare, col*Configs.SquareSizePx, row*Configs.SquareSizePx);
-					int hPixels = col*Configs.SquareSizePx;
-					int vPixels = row*Configs.SquareSizePx;
-					if(square.hasPiece())
+					Location location = new Location(row, col, size);
+					IReadOnlySquare square = board.getSquare(location);
+					if (location.isWhite())
 					{
-						IPiece piece = square.getPiece();
-						Figuur figure = getFigure(pieces, piece);
-						background.plaatsFiguur(figure, hPixels, vPixels);
+						background.plaatsFiguur(whiteSquare, col*Configs.SquareSizePx, row*Configs.SquareSizePx);
 					}
-					int index = location.getIndex();
-    				String digits = Integer.toString(index);
-    				for(int i=0; i<digits.length(); i++)
-    				{
-    					String digit = digits.substring(i, i+1);
-    					Figuur figure = numbers.getFiguur(digit).scaleer(10,10);
-						background.plaatsFiguur(figure, hPixels + Configs.SquareSizePx/3 + 10*i, vPixels + Configs.SquareSizePx/3);
-    				}
+					else
+					{
+						background.plaatsFiguur(blackSquare, col*Configs.SquareSizePx, row*Configs.SquareSizePx);
+						int hPixels = col*Configs.SquareSizePx;
+						int vPixels = row*Configs.SquareSizePx;
+						if(square.hasPiece())
+						{
+							IPiece piece = square.getPiece();
+							Figuur figure = getFigure(pieces, piece);
+							background.plaatsFiguur(figure, hPixels, vPixels);
+						}
+						int index = location.getIndex();
+						String digits = Integer.toString(index);
+						for(int i=0; i<digits.length(); i++)
+						{
+							String digit = digits.substring(i, i+1);
+							Figuur figure = numbers.getFiguur(digit).scaleer(10,10);
+							background.plaatsFiguur(figure, hPixels + Configs.SquareSizePx/3 + 10*i, vPixels + Configs.SquareSizePx/3);
+						}
+					}
+				}
+				catch (LocationOutOfRangeException e)
+				{
+					assert false;
 				}
 			}
 		}

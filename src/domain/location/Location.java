@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import common.Player;
 import domain.board.BoardSize;
+import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
 
 /**
@@ -25,12 +26,14 @@ public final class Location
 	 * 			The column on the {@link IBoard}.
 	 * @param 	size
 	 * 			The size of the {@link IBoard}.
+	 * @throws 	LocationOutOfRangeException
+	 * 			When the given row and/or column is outside the given {@link IBoardSize}. 
 	 */
-	public Location(int row, int col, IBoardSize size)
+	public Location(int row, int col, IBoardSize size) throws LocationOutOfRangeException
 	{
 		if(!size.isValidLocation(row, col))
 		{
-			throw new IllegalArgumentException(String.format("Location (%d, %d) is outside of the board size %s.", row, col, size));
+			throw new LocationOutOfRangeException(String.format("Location (%d, %d) is outside of the board size %s.", row, col, size));
 		}
 		this.row = row;
 		this.col = col;
@@ -47,12 +50,14 @@ public final class Location
 	 *          rightmost black square.
 	 * @param 	size
 	 * 			The size of the {@link IBoard}.
+	 * @throws 	LocationOutOfRangeException
+	 * 			When the given index is invalid on the given {@link IBoardSize}.
 	 */
-	public Location(int index, IBoardSize size)
+	public Location(int index, IBoardSize size) throws LocationOutOfRangeException
 	{
 		if(!size.isValidIndex(index))
 		{
-			throw new IllegalArgumentException(String.format("Invalid index %d for board size %s.", index, size));
+			throw new LocationOutOfRangeException(String.format("Invalid index %d for board size %s.", index, size));
 		}
 		index = index - 1; //zero-based indexing
 		this.row = index * 2 / size.getCols();
@@ -74,7 +79,9 @@ public final class Location
 	 */
 	public Location(Location location)
 	{
-		this(location.getRow(), location.getCol(), location.getBoardSize());
+		this.row = location.row;
+		this.col = location.col;
+		this.size = location.size;
 	}
 
 	/**
@@ -285,32 +292,36 @@ public final class Location
 	
 	/**
 	 * Returns the {@link Location} one row above this one.
+	 * @throws LocationOutOfRangeException 
 	 */
-	public Location getAbove()
+	public Location getAbove() throws LocationOutOfRangeException
 	{
 		return new Location(getRow()-1, getCol(), getBoardSize());
 	}
 	
 	/**
 	 * Returns the {@link Location} one row below this one.
+	 * @throws LocationOutOfRangeException 
 	 */
-	public Location getBelow()
+	public Location getBelow() throws LocationOutOfRangeException
 	{
 		return new Location(getRow()+1, getCol(), getBoardSize());
 	}
 	
 	/**
 	 * Returns the {@link Location} one row left of this one.
+	 * @throws LocationOutOfRangeException 
 	 */
-	public Location getLeft()
+	public Location getLeft() throws LocationOutOfRangeException
 	{
 		return new Location(getRow(), getCol()-1, getBoardSize());
 	}
 	
 	/**
 	 * Returns the {@link Location} one row right of this one.
+	 * @throws LocationOutOfRangeException 
 	 */
-	public Location getRight()
+	public Location getRight() throws LocationOutOfRangeException
 	{
 		return new Location(getRow(), getCol()+1, getBoardSize());
 	}
@@ -321,8 +332,9 @@ public final class Location
 	 * 
 	 * @param	player
 	 * 			The {@link Player} whose perspective to consider.
+	 * @throws LocationOutOfRangeException 
 	 */
-	public Location getFront(Player player)
+	public Location getFront(Player player) throws LocationOutOfRangeException
 	{
 		return player == Player.White ?
 				getAbove() :
@@ -335,15 +347,16 @@ public final class Location
 	 * 
 	 * @param	player
 	 * 			The {@link Player} whose perspective to consider.
+	 * @throws LocationOutOfRangeException 
 	 */
-	public Location getBack(Player player)
+	public Location getBack(Player player) throws LocationOutOfRangeException
 	{
 		return player == Player.White ?
 				getBelow() :
 				getAbove();
 	}
 	
-	private Location getByDirection(Player player, Direction direction)
+	private Location getByDirection(Player player, Direction direction) throws LocationOutOfRangeException
 	{
 		switch(direction)
 		{
@@ -365,8 +378,9 @@ public final class Location
 	 *        	The {@link Player} whose perspective to consider.
 	 * @param 	steps
 	 * 			The sequence of {@link Direction}'s to follow.
+	 * @throws LocationOutOfRangeException 
 	 */
-	public Location getRelativeLocation(Player player, Iterable<Direction> steps)
+	public Location getRelativeLocation(Player player, Iterable<Direction> steps) throws LocationOutOfRangeException
 	{
 		Location current = this;
 		for(Direction direction : steps)
@@ -384,8 +398,9 @@ public final class Location
 	 *        	The {@link Player} whose perspective to consider.
 	 * @param 	steps
 	 * 			The sequence of {@link Direction}'s to follow.
+	 * @throws LocationOutOfRangeException 
 	 */
-	public Location getRelativeLocation(Player player, Direction... steps)
+	public Location getRelativeLocation(Player player, Direction... steps) throws LocationOutOfRangeException
 	{
 		return getRelativeLocation(player, Arrays.asList(steps));
 	}

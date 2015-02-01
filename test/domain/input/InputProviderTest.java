@@ -8,7 +8,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import ui.LocalizationManager;
 import ui.contracts.IUserInterface;
 import common.Player;
-import domain.action.LegalActionChecker;
+import domain.analyser.LegalActionAnalyser;
 import domain.board.Board;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoard;
@@ -25,7 +25,7 @@ public class InputProviderTest
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		IGame game = new Game(board);
-		LegalActionChecker legalActionChecker = new LegalActionChecker(game);
+		LegalActionAnalyser legalActionChecker = new LegalActionAnalyser(board);
 		String resign = LocalizationManager.getString("resignInput");
 		InputProvider provider = new InputProvider(getUI(resign), legalActionChecker, game);
 		
@@ -41,7 +41,7 @@ public class InputProviderTest
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		IGame game = new Game(board);
-		LegalActionChecker legalActionChecker = new LegalActionChecker(game);
+		LegalActionAnalyser legalActionChecker = new LegalActionAnalyser(board);
 		String remise = LocalizationManager.getString("remiseInput");
 		InputProvider provider = new InputProvider(getUI(remise), legalActionChecker, game);
 		
@@ -57,7 +57,7 @@ public class InputProviderTest
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		IGame game = new Game(board);
-		LegalActionChecker legalActionChecker = new LegalActionChecker(game);
+		LegalActionAnalyser legalActionChecker = new LegalActionAnalyser(board);
 		InputProvider provider = new InputProvider(getUI("notRemiseOrResign"), legalActionChecker, game);
 		
 		IInput input = provider.askInput();
@@ -72,7 +72,7 @@ public class InputProviderTest
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		IGame game = new Game(board);
-		LegalActionChecker legalActionChecker = new LegalActionChecker(game);
+		LegalActionAnalyser legalActionChecker = new LegalActionAnalyser(board);
 		InputProvider provider = new InputProvider(getUI(""), legalActionChecker, game);
 
 		provider.close();

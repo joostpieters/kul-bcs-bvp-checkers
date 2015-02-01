@@ -21,7 +21,7 @@ public class DiagonalLocationPair extends LocationPair
 		}
 	}
 	
-	public DiagonalLocationPair(int fromIndex, int toIndex, IBoardSize size)
+	public DiagonalLocationPair(int fromIndex, int toIndex, IBoardSize size) throws LocationOutOfRangeException
 	{
 		this(new Location(fromIndex, size), new Location(toIndex, size));
 	}
@@ -39,7 +39,15 @@ public class DiagonalLocationPair extends LocationPair
 		}
 		int centerRow = (getFrom().getRow() + getTo().getRow()) / 2;
 		int centerCol = (getFrom().getCol() + getTo().getCol()) / 2;
-		return new Location(centerRow, centerCol, getFrom().getBoardSize());
+		try
+		{
+			return new Location(centerRow, centerCol, getFrom().getBoardSize());
+		}
+		catch(LocationOutOfRangeException e)
+		{
+			assert(false);
+			return null;
+		}
 	}
 	
 	public List<Location> getStepsBetweenStrict()
@@ -49,8 +57,15 @@ public class DiagonalLocationPair extends LocationPair
 		Location current = new Location(getFrom());
 		while(!current.equals(getTo()))
 		{
-			current = current.getRelativeLocation(null, direction); //move 1 step in direction of to
-			locations.push(current);
+			try
+			{
+				current = current.getRelativeLocation(null, direction); //move 1 step in direction of to
+				locations.push(current);
+			}
+			catch(LocationOutOfRangeException e)
+			{
+				assert(false);
+			}
 		}
 		locations.pop(); //top location == to
 		return locations;
@@ -64,8 +79,15 @@ public class DiagonalLocationPair extends LocationPair
 		Location current = new Location(getFrom());
 		while(!current.equals(getTo()))
 		{
-			current = current.getRelativeLocation(null, direction); //move 1 step in direction of to
-			locations.push(current);
+			try
+			{
+				current = current.getRelativeLocation(null, direction); //move 1 step in direction of to
+				locations.push(current);
+			}
+			catch (LocationOutOfRangeException e)
+			{
+				assert(false);
+			} 
 		}
 		return locations;
 	}

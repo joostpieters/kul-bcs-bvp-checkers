@@ -22,6 +22,7 @@ import domain.board.contracts.IBoardSize;
 import domain.input.RemiseInput;
 import domain.location.DiagonalLocationPair;
 import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 import domain.update.BasicUpdateSource;
 import domain.update.contracts.IObserver;
 
@@ -114,7 +115,7 @@ public class BasicUpdateSourceTest
 	}
 	
 	@Test
-	public void testExecuteAction()
+	public void testExecuteAction() throws LocationOutOfRangeException
 	{
 		IBoardSize size = new BoardSize(10, 10);
 		Location from = new Location(1, size);

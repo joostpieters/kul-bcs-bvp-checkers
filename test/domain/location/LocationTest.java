@@ -2,6 +2,7 @@ package domain.location;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import common.Player;
@@ -11,33 +12,51 @@ import domain.location.Location;
 
 public class LocationTest
 {
-	private final Location loc1x1on4x4 = new Location(1, 1, new BoardSize(4, 4));
-	private final Location loc4x5on8x8 = new Location(4, 5, new BoardSize(8, 8));
-	private final Location loc9x0on10x10 = new Location(9, 0, new BoardSize(10, 10));
-	private final Location loc0x0on10x10 = new Location(0, 0, new BoardSize(10, 10));
-	private final Location loc4x5on8x10 = new Location(4, 5, new BoardSize(8, 10));
-	private final Location loc4x5on10x8 = new Location(4, 5, new BoardSize(10, 8));
+	private Location loc1x1on4x4;
+	private Location loc4x5on8x8;
+	private Location loc9x0on10x10;
+	private Location loc0x0on10x10;
+	private Location loc4x5on8x10;
+	private Location loc4x5on10x8;
 	
-	@Test(expected=IllegalArgumentException.class)
-	public void testJustOutOfRange()
+	@Before
+	public void setup()
+	{
+		try
+		{
+			loc1x1on4x4 = new Location(1, 1, new BoardSize(4, 4));
+			loc4x5on8x8 = new Location(4, 5, new BoardSize(8, 8));
+			loc9x0on10x10 = new Location(9, 0, new BoardSize(10, 10));
+			loc0x0on10x10 = new Location(0, 0, new BoardSize(10, 10));
+			loc4x5on8x10 = new Location(4, 5, new BoardSize(8, 10));
+			loc4x5on10x8 = new Location(4, 5, new BoardSize(10, 8));
+		}
+		catch (LocationOutOfRangeException e)
+		{
+			assert false;
+		}
+	}
+	
+	@Test(expected=LocationOutOfRangeException.class)
+	public void testJustOutOfRange() throws LocationOutOfRangeException
 	{
 		new Location(8,8, new BoardSize(8, 8));
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
-	public void testMoreOutOfRange()
+	@Test(expected=LocationOutOfRangeException.class)
+	public void testMoreOutOfRange() throws LocationOutOfRangeException
 	{
 		new Location(20,20, new BoardSize(8, 8));
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
-	public void testNegativeRowOutOfRange()
+	@Test(expected=LocationOutOfRangeException.class)
+	public void testNegativeRowOutOfRange() throws LocationOutOfRangeException
 	{
 		new Location(-1,5, new BoardSize(8, 8));
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
-	public void testNegativeColOutOfRange()
+	@Test(expected=LocationOutOfRangeException.class)
+	public void testNegativeColOutOfRange() throws LocationOutOfRangeException
 	{
 		new Location(5,-1, new BoardSize(8, 8));
 	}
@@ -69,7 +88,7 @@ public class LocationTest
 	}
 
 	@Test
-	public void testFromIndex()
+	public void testFromIndex() throws LocationOutOfRangeException
 	{
 		Location idx19on8x8 = new Location(19, new BoardSize(8, 8));
 		assertEquals(4, idx19on8x8.getRow());
@@ -88,14 +107,14 @@ public class LocationTest
 		assertEquals(3, idx2on2x3.getCol());
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
-	public void testFromIndexTooHigh()
+	@Test(expected=LocationOutOfRangeException.class)
+	public void testFromIndexTooHigh() throws LocationOutOfRangeException
 	{
 		new Location(10, new BoardSize(4, 4));
 	}
 
-	@Test(expected=IllegalArgumentException.class)
-	public void testFromIndexTooLow()
+	@Test(expected=LocationOutOfRangeException.class)
+	public void testFromIndexTooLow() throws LocationOutOfRangeException
 	{
 		new Location(0, new BoardSize(4, 4));
 	}
@@ -109,7 +128,7 @@ public class LocationTest
 	}
 	
 	@Test
-	public void testSuccessiveIndices()
+	public void testSuccessiveIndices() throws LocationOutOfRangeException
 	{
 		int rows = 2 * (1 + (int)(Math.random() * 25));
 		int cols = 2 * (1 + (int)(Math.random() * 25));
@@ -134,7 +153,7 @@ public class LocationTest
 	}
 	
 	@Test
-	public void testEqualsFalse()
+	public void testEqualsFalse() throws LocationOutOfRangeException
 	{
 		assertFalse(loc4x5on8x8.equals(null));
 		assertFalse(loc4x5on8x8.equals(new Object()));
@@ -168,7 +187,7 @@ public class LocationTest
 	}
 	
 	@Test
-	public void testDirections()
+	public void testDirections() throws LocationOutOfRangeException
 	{
 		assertTrue(loc4x5on8x8.isAbove(loc4x5on8x8.getBelow()));
 		assertTrue(loc4x5on8x8.isBelow(loc4x5on8x8.getAbove()));
@@ -192,7 +211,7 @@ public class LocationTest
 	}
 	
 	@Test
-	public void testRelativeLocation()
+	public void testRelativeLocation() throws LocationOutOfRangeException
 	{
 		assertTrue(loc1x1on4x4.getRelativeLocation(Player.White, Direction.Above).isAbove(loc1x1on4x4));
 		assertTrue(loc1x1on4x4.getRelativeLocation(Player.White, Direction.Below).isBelow(loc1x1on4x4));
