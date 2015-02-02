@@ -41,7 +41,6 @@ public class InputProvider extends UpdatePropagator implements AutoCloseable, II
 	public void close()
 	{
 		this.closed = true;
-		getUI().close();
 	}
 	
 	public InputProvider(IUserInterface ui, LegalActionAnalyser legalActionChecker, IGame game)

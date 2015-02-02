@@ -7,6 +7,9 @@ import domain.game.contracts.IReadOnlyGame;
 import domain.input.contracts.IInput;
 import domain.update.UpdateSource;
 
+/**
+ * A kind of {@link IInput} that represents the intent of the player to propose remise.
+ */
 public class RemiseInput extends UpdateSource implements IInput
 {
 	private final IReadOnlyGame game;
@@ -28,6 +31,9 @@ public class RemiseInput extends UpdateSource implements IInput
 		this.ui = ui;
 	}
 	
+	/**
+	 * Proposes the remise to the other player and - if accepted - actually ends the game in remise. 
+	 */
 	@Override
 	public boolean process()
 	{

@@ -151,6 +151,11 @@ public final class Location
 		return squareNumber / 2 + 1; //only count black squares
 	}
 	
+	/**
+	 * Returns true if this {@link Location} has the same {@link IBoardSize} as the given {@link Location}.
+	 * @param 	other
+	 * 			The other {@link Location} to compare with.
+	 */
 	public boolean equalBoardSize(Location other)
 	{
 		return this.getBoardSize().equals(other.getBoardSize());

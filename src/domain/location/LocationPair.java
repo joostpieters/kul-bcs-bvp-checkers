@@ -6,7 +6,7 @@ import java.util.Stack;
 import domain.board.contracts.IBoardSize;
 
 /**
- * Represents a pair of Locations: from and to.
+ * Represents an immutable pair of Locations: from and to.
  * 
  * @invariant getFrom() != null
  * @invariant getTo() != null
@@ -19,17 +19,25 @@ public class LocationPair
 	private final Location from;
 	private final Location to;
 	
+	/**
+	 * Returns the from {@link Location}.
+	 */
 	public Location getFrom()
 	{
 		return from;
 	}
-	
+
+	/**
+	 * Returns the to {@link Location}.
+	 */
 	public Location getTo()
 	{
 		return to;
 	}
 	
 	/**
+	 * Construct a new {@link LocationPair} based on two {@link Location}s.
+	 * 
 	 * @pre from != null
 	 * @pre to != null
 	 * @pre !from.equals(to)
@@ -38,8 +46,10 @@ public class LocationPair
 	 * @post getFrom() == $pre(Location, from)
 	 * @post getTo() == $pre(Location, to)
 	 * 
-	 * @param from
-	 * @param to
+	 * @param 	from
+	 * 			The from {@link Location}.
+	 * @param 	to
+	 * 			The to {@link Location}.
 	 */
 	public LocationPair(Location from, Location to)
 	{
@@ -59,6 +69,18 @@ public class LocationPair
 		this.to = to;
 	}
 	
+	/**
+	 * Construct a new {@link LocationPair} based on two location indices and an {@link IBoardSize}.
+	 * 
+	 * @param 	fromIndex
+	 * 			The location index corresponding to the from {@link Location}.
+	 * @param 	toIndex
+	 * 			The location index corresponding to the to {@link Location}.
+	 * @param 	size
+	 * 			The {@link IBoardSize} to consider when converting location indices to {@link Location}s. 
+	 * @throws 	LocationOutOfRangeException
+	 * 			If the indices are invalid for the given {@link IBoardSize}.
+	 */
 	public LocationPair(int fromIndex, int toIndex, IBoardSize size) throws LocationOutOfRangeException
 	{
 		this(new Location(fromIndex, size), new Location(toIndex, size));
@@ -80,7 +102,7 @@ public class LocationPair
 	}
 	
 	/**
-	 * Returns the distance in number of rows between this Pair.
+	 * Returns the distance in number of columns between this Pair.
 	 * 
 	 * @post $result == Math.abs(getFrom().getCol()-getTo().getCol())
 	 */
@@ -89,21 +111,34 @@ public class LocationPair
 		return Math.abs(getFrom().getCol()-getTo().getCol());
 	}
 	
+	/**
+	 * Returns true if from and to lie on the same diagonal, false otherwise. 
+	 */
 	public boolean isOnSameDiagonal()
 	{
 		return getRowDistance() == getColumnDistance();
 	}
 	
+	/**
+	 * Returns true if from and to lie on the same row, false otherwise.
+	 */
 	public boolean isOnSameRow()
 	{
 		return getFrom().getRow() == getTo().getRow();
 	}
 	
+	/**
+	 * Returns true if from and to lie on the same column, false otherwise.
+	 */
 	public boolean isOnSameColumn()
 	{
 		return getFrom().getCol() == getTo().getCol();
 	}
 	
+	/**
+	 * Returns one or two {@link Direction}s corresponding to the direction of the vector pointing from <code>from</code> to <code>to</code>.
+	 * For example, if <code>to</code> lies north-east of <code>from</code>, this method will return {@link Direction#Above} and {@link Direction#Right}.
+	 */
 	public Collection<Direction> getUnitDirection()
 	{
 		Location from = getFrom();

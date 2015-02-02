@@ -84,12 +84,6 @@ public class InputProviderTest
 		return new IUserInterface()
 		{
 			@Override
-			public void close()
-			{
-				
-			}
-			
-			@Override
 			public boolean askYesNo(String message)
 			{
 				throw new NotImplementedException();

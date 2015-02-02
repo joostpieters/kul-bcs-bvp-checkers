@@ -37,12 +37,6 @@ public class RemiseInputTest
 		return new IUserInterface()
 		{
 			@Override
-			public void close()
-			{
-				throw new NotImplementedException();
-			}
-			
-			@Override
 			public boolean askYesNo(String message)
 			{
 				return yesno;

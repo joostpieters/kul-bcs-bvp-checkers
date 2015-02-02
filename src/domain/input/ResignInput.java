@@ -5,6 +5,10 @@ import domain.game.contracts.IReadOnlyGame;
 import domain.input.contracts.IInput;
 import domain.update.UpdateSource;
 
+/**
+ * A kind of {@link IInput} that represents the player's intent to resign.
+ *
+ */
 public class ResignInput extends UpdateSource implements IInput
 {
 	private final IReadOnlyGame game;
@@ -18,7 +22,10 @@ public class ResignInput extends UpdateSource implements IInput
 	{
 		this.game = game;
 	}
-	
+
+	/**
+	 * Makes the current player resign.
+	 */
 	@Override
 	public boolean process()
 	{

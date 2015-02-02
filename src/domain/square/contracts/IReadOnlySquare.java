@@ -23,16 +23,4 @@ public interface IReadOnlySquare
 	 * 			If this Square does not contain a Piece.
 	 */
 	public IPiece getPiece() throws IllegalStateException;
-	
-//	/**
-//	 * Returns true if this {@link IReadOnlySquare} can hold an {@link IPiece},
-//	 * false otherwise.
-//	 */
-//	public boolean canHavePiece();
-//	
-//	/**
-//	 * Returns true if the given {@link Location} is suitable for this kind of {@link ISquare}, 
-//	 * false otherwise.
-//	 */
-//	public boolean isValidLocation(Location location);
 }

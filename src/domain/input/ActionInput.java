@@ -13,6 +13,9 @@ import domain.input.contracts.IInput;
 import domain.location.LocationOutOfRangeException;
 import domain.update.UpdatePropagator;
 
+/**
+ * A kind of {@link IInput} that represents an action of the player. 
+ */
 public class ActionInput extends UpdatePropagator implements IInput
 {
 	private final String move;
@@ -41,6 +44,9 @@ public class ActionInput extends UpdatePropagator implements IInput
 		this.legalActionChecker = analyzer;
 	}
 
+	/**
+	 * Processes the given action input by first validating it and - if allowed - executing it. 
+	 */
 	@Override
 	public boolean process() throws LocationOutOfRangeException
 	{

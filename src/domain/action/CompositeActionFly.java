@@ -18,7 +18,7 @@ public class CompositeActionFly extends CompositeAction
 			throw new IllegalStateException("Distance is too short to fly.");
 		}
 		
-		List<DiagonalLocationPair> pairs = pair.getPairsBetween();
+		List<DiagonalLocationPair> pairs = pair.getStepsBetween();
 		for(DiagonalLocationPair p : pairs)
 		{
 			IAction subAction = new AtomicActionStep(p);

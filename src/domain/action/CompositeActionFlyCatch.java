@@ -32,7 +32,7 @@ public class CompositeActionFlyCatch extends CompositeAction
 		}
 		Location opponentLocation = opponentPiecesInBetween.get(0);
 		
-		List<DiagonalLocationPair> pairs = pair.getPairsBetween();
+		List<DiagonalLocationPair> pairs = pair.getStepsBetween();
 		IAction subAction;
 		for(int i=0; i < pairs.size(); i++)
 		{

@@ -5,7 +5,7 @@ import java.util.Scanner;
 import ui.contracts.IUserInterface;
 import common.Player;
 
-public class UserInterface implements IUserInterface
+public class UserInterface implements IUserInterface, AutoCloseable
 {
 	private final static Scanner INPUT_SCANNER = new Scanner(System.in);
 	

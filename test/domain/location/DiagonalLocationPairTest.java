@@ -77,7 +77,7 @@ public class DiagonalLocationPairTest
 	@Test
 	public void testGetPairsBetweenInclusive()
 	{
-		List<DiagonalLocationPair> pairs = flyFar.getPairsBetween();
+		List<DiagonalLocationPair> pairs = flyFar.getStepsBetween();
 		assertEquals(9, pairs.size());
 		for(int i=0; i < pairs.size()-1; i++)
 		{
@@ -88,7 +88,7 @@ public class DiagonalLocationPairTest
 	@Test
 	public void testGetPairsBetweenExclusive()
 	{
-		List<DiagonalLocationPair> pairs = flyFar.getPairsBetweenStrict();
+		List<DiagonalLocationPair> pairs = flyFar.getStepsBetweenStrict();
 		assertEquals(7, pairs.size());
 		for(int i=0; i < pairs.size()-1; i++)
 		{
