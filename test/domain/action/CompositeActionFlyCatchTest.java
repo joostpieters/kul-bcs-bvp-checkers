@@ -63,7 +63,7 @@ public class CompositeActionFlyCatchTest
 		DiagonalLocationPair pair = new DiagonalLocationPair(1, 23, size);
 		CompositeActionFlyCatch flyCatch = new CompositeActionFlyCatch(opponentPieceLocations, Player.White, pair);
 		
-		List<IAction> subActions = flyCatch.getActions();
+		List<IAction> subActions = flyCatch.getSubActions();
 		assertEquals(new AtomicActionStep(new DiagonalLocationPair(1, 7, size)), subActions.get(0));
 		assertEquals(new AtomicActionCatch(new DiagonalLocationPair(7, 18, size)), subActions.get(1));
 		assertEquals(new AtomicActionStep(new DiagonalLocationPair(18, 23, size)), subActions.get(2));

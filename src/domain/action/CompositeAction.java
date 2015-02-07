@@ -11,41 +11,54 @@ import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.update.UpdatePropagator;
 
+/**
+ * Represents a composite {@link IAction}.
+ * Contrary to {@link AtomicAction}s, composite {@link IAction}s comprise multiple subactions.
+ * These subactions can be atomic, but do not have to be.
+ */
 public class CompositeAction extends UpdatePropagator implements IAction
 {
-	private final List<IAction> actions = new ArrayList<IAction>();
+	private final List<IAction> subactions = new ArrayList<IAction>();
 	
 	public CompositeAction(IAction... actions)
 	{
 		for(IAction action : actions)
 		{
-			addAction(action);
+			addSubAction(action);
 		}
 	}
 	
-	protected List<IAction> getActions()
+	protected List<IAction> getSubActions()
 	{
-		return actions;
+		return subactions;
 	}
 	
-	protected void addAction(IAction action)
+	protected void addSubAction(IAction subaction)
 	{
-		getActions().add(action);
-		action.subscribeBasic(this);
+		getSubActions().add(subaction);
+		subaction.subscribeBasic(this);
 	}
 	
+	/**
+	 * Returns true if this {@link IAction} is valid on the given {@link IBoard} and for the given {@link Player},
+	 * false otherwise.
+	 * 
+	 * {@link CompositeAction}s are valid iff their subactions are valid when executed sequentially.
+	 */
 	@Override
 	public boolean isValidOn(IReadOnlyBoard board, Player currentPlayer)
 	{
-		if(getActions().size() == 0)
+		if(getSubActions().size() < 2)
 		{
-			throw new IllegalStateException("CompositeAction is empty.");
+			fireWarning("CompositeAction contains too few subactions.");
+			throw new IllegalStateException("CompositeAction contains too few subactions.");
 		}
 		IBoard testBoard = board.getDeepClone();
-		for(IAction action : getActions())
+		for(IAction action : getSubActions())
 		{
 			if(!action.isValidOn(testBoard, currentPlayer))
 			{
+				fireWarning(String.format("Subaction %s of composite action %s is invalid.", action, this));
 				return false;
 			}
 			disableUpdateObservers();
@@ -63,7 +76,7 @@ public class CompositeAction extends UpdatePropagator implements IAction
 			throw new IllegalStateException(String.format("%s is invalid.", this));
 		}
 		
-		for(IAction action : getActions())
+		for(IAction action : getSubActions())
 		{
 			action.executeOn(board, currentPlayer);
 		}
@@ -73,7 +86,7 @@ public class CompositeAction extends UpdatePropagator implements IAction
 	@Override
 	public String toString()
 	{
-		List<String> list = getActions().stream().map(e -> e.toString()).collect(Collectors.toList());
+		List<String> list = getSubActions().stream().map(e -> e.toString()).collect(Collectors.toList());
 		String[] strings = list.toArray(new String[list.size()]);
 		return "(" + String.join(" + ", strings) + ")";
 	}
@@ -81,13 +94,13 @@ public class CompositeAction extends UpdatePropagator implements IAction
 	@Override
 	public Location getFrom()
 	{
-		return getActions().get(0).getFrom();
+		return getSubActions().get(0).getFrom();
 	}
 
 	@Override
 	public boolean isCatch()
 	{
-		return getActions().stream().anyMatch(a -> a.isCatch());
+		return getSubActions().stream().anyMatch(a -> a.isCatch());
 	}
 	
 	@Override
@@ -104,8 +117,8 @@ public class CompositeAction extends UpdatePropagator implements IAction
 		if(obj instanceof CompositeAction)
 		{
 			CompositeAction casted = (CompositeAction)obj;
-			List<IAction> subActions = getActions();
-			List<IAction> subActionsOther = casted.getActions();
+			List<IAction> subActions = getSubActions();
+			List<IAction> subActionsOther = casted.getSubActions();
 			int nbActions = subActions.size();
 			if(nbActions != subActionsOther.size())
 			{
@@ -127,7 +140,7 @@ public class CompositeAction extends UpdatePropagator implements IAction
 	public int hashCode()
 	{
 		int result = 1;
-		for(IAction action : getActions())
+		for(IAction action : getSubActions())
 		{
 			result = 37 * result + action.hashCode();
 		}

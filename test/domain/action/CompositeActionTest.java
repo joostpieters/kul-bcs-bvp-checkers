@@ -30,7 +30,7 @@ public class CompositeActionTest
 		AtomicActionStep action1 = new AtomicActionStep(step1);
 		CompositeAction action = new CompositeAction(action0, action1);
 		
-		List<IAction> subActions = action.getActions();
+		List<IAction> subActions = action.getSubActions();
 		assertTrue(subActions.get(0).equals(action0));
 		assertTrue(subActions.get(1).equals(action1));
 	}

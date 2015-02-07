@@ -11,7 +11,7 @@ import domain.location.Direction;
 import domain.location.Location;
 import domain.location.LocationOutOfRangeException;
 
-public class PossibleAtomicStepActionAnalyser implements IAnalyser
+public class PossibleAtomicStepActionAnalyser implements IAnalyser<MoveActionRequest>
 {
 	private final IReadOnlyBoard board;
 

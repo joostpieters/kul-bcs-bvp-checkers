@@ -1,6 +1,7 @@
 package domain.action;
 
 import common.Player;
+import domain.action.contracts.IAction;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.DiagonalLocationPair;
@@ -8,13 +9,36 @@ import domain.location.Location;
 import domain.piece.contracts.IPiece;
 import domain.square.contracts.IReadOnlySquare;
 
+/**
+ * Represents a concrete {@link AtomicAction}, more specifically the atomic catch action.
+ */
 public class AtomicActionCatch extends AtomicAction
 {
+	/**
+	 * Creates a new {@link AtomicActionCatch} based on the given {@link DiagonalLocationPair}.
+	 * 
+	 * @param 	pair
+	 * 			The from and to {@link Location}s of this pair will determine the start- and endpoints of this {@link AtomicActionCatch}.
+	 */
 	public AtomicActionCatch(DiagonalLocationPair pair)
 	{
 		super(pair);
 	}
 	
+	/**
+	 * Returns true if this {@link IAction} is valid on the given {@link IBoard} and for the given {@link Player},
+	 * false otherwise.
+	 * 
+	 * {@link AtomicActionCatch}es are valid iff the following conditions are fulfilled:
+	 * <ul>
+	 * <li>Both starting and landing square are black</li>
+	 * <li>The starting square contains a piece of the current player</li>
+	 * <li>The landing square is empty</li>
+	 * <li>The starting and landing squares are exactly a diagonal distance of two apart</li>
+	 * <li>The square in the center between start and end contains a piece from the opponent</li>
+	 * <li>If the landing square lies behind the starting square, backwards catching must be enabled</li>
+	 * </ul>
+	 */
 	@Override
 	public boolean isValidOn(IReadOnlyBoard board, Player currentPlayer)
 	{

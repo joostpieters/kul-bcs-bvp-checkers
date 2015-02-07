@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import common.Player;
-import domain.action.request.ActionRequest;
+import domain.action.contracts.IActionRequest;
 import domain.action.request.ActionRequestPriorityComparator;
 import domain.action.request.CatchActionRequest;
 import domain.analyser.contracts.IAnalyser;
@@ -19,10 +19,10 @@ import domain.piece.contracts.IPiece;
 /**
  * This {@link IAnalyser} find all maximal catches (i.e. those with the highest number of steps) on a given board.
  */
-public class MaximalCatchActionAnalyser implements IAnalyser
+public class MaximalCatchActionAnalyser implements IAnalyser<CatchActionRequest>
 {
 	private final IReadOnlyBoard board;
-	private static final Comparator<ActionRequest> ActionRequestPriorityComparator = new ActionRequestPriorityComparator().reversed();
+	private static final Comparator<IActionRequest> ActionRequestPriorityComparator = new ActionRequestPriorityComparator().reversed();
 	
 	@Override
 	public IReadOnlyBoard getBoard()

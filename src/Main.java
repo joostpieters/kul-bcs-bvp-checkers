@@ -19,14 +19,20 @@ import extensions.BoardSaver;
 
 //TODO documentation
 //TODO diagrams
+
+/**
+ * Contains the main entry point of this checkers game.
+ */
 public class Main
 {
+	/**
+	 * The main entry point of this checkers game.
+	 */
 	public static void main(String[] args) throws IOException, LocationOutOfRangeException
 	{
 		IBoard board = BoardFactory.create(Paths.get("data", "input", "default.txt"));
 		Game game = new Game(board);
 		
-		//try-with-resource (since Java 7)
 		try(UserInterface ui = new UserInterface())
 		{
 			try(InputProvider inputProvider = new InputProvider(ui, new LegalActionAnalyser(board), game))

@@ -1,7 +1,11 @@
 package common;
 
+import domain.piece.Piece;
 import ui.LocalizationManager;
 
+/**
+ * Represents a player participating in this game, identified by the color of his {@link Piece}s.
+ */
 public enum Player
 {
 	Black,

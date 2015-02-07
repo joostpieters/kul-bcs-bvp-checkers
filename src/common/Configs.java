@@ -5,6 +5,9 @@ import java.awt.Color;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoardSize;
 
+/**
+ * Contains configuration settings.
+ */
 public class Configs //TODO move to xml file
 {
 	public final static IBoardSize Size = new BoardSize(10, 10);

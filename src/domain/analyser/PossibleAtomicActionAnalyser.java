@@ -14,7 +14,7 @@ import domain.location.Location;
 /**
  * Finds all possible atomic actions (steps and catches). 
  */
-public class PossibleAtomicActionAnalyser implements IAnalyser
+public class PossibleAtomicActionAnalyser implements IAnalyser<IActionRequest>
 {
 	private final IReadOnlyBoard board;
 

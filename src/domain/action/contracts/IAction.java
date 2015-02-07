@@ -4,8 +4,12 @@ import common.Player;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
+import domain.piece.contracts.IPiece;
 import domain.update.contracts.IBasicUpdateSource;
 
+/**
+ * Basic interface for all possible actions a {@link Player} can perform with his {@link IPiece}s.
+ */
 public interface IAction extends IBasicUpdateSource
 {	
 	/**
@@ -18,7 +22,8 @@ public interface IAction extends IBasicUpdateSource
 	public boolean isValidOn(IReadOnlyBoard board, Player currentPlayer);
 
 	/**
-	 * Executes this {@link IAction} on the given {@link IBoard} for the given {@link Player}.
+	 * Executes this {@link IAction} on the given {@link IBoard} for the given {@link Player}. 
+	 * Execution cannot proceed if this {@link IAction} is not valid on the given {@link IBoard}.
 	 */
 	public void executeOn(IBoard board, Player currentPlayer);
 

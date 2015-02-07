@@ -1,6 +1,5 @@
 package controller;
 
-
 import ui.LocalizationManager;
 import common.Player;
 import domain.board.contracts.IBoard;
@@ -12,7 +11,9 @@ import domain.location.Location;
 import domain.location.LocationOutOfRangeException;
 import domain.update.UpdatePropagator;
 
-
+/**
+ * The controller that controls the main {@link IGame} flow.
+ */
 public class GameController extends UpdatePropagator
 {
 	private final IGame game;
@@ -34,12 +35,14 @@ public class GameController extends UpdatePropagator
 		this.inputProvider = inputProvider;
 	}
 	
+	/**
+	 * Starts the {@link IGame}.
+	 */
 	public void play()
 	{
 		IGame game = getGame();
 		emitStart(game.getBoard().getReadOnlyBoard(), game.getCurrentPlayer());
 		
-		//main game loop
 		while(!game.isOver())
 		{
 			IInput input = getInputProvider().askInput();

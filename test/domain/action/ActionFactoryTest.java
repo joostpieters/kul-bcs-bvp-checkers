@@ -85,7 +85,7 @@ public class ActionFactoryTest
 		assertTrue(action.isCatch());
 		assertTrue(action instanceof CompositeAction);
 		CompositeAction composite = (CompositeAction)action;
-		List<IAction> actions = composite.getActions();
+		List<IAction> actions = composite.getSubActions();
 		assertTrue(actions.get(0) instanceof CompositeActionFlyCatch);
 		assertTrue(actions.get(1) instanceof AtomicActionCatch);
 	}
@@ -107,7 +107,7 @@ public class ActionFactoryTest
 		assertTrue(action.isCatch());
 		assertTrue(action instanceof CompositeAction);
 		CompositeAction composite = (CompositeAction)action;
-		List<IAction> actions = composite.getActions();
+		List<IAction> actions = composite.getSubActions();
 		assertTrue(actions.get(0) instanceof CompositeActionFlyCatch);
 		assertTrue(actions.get(1) instanceof AtomicActionCatch);
 	}

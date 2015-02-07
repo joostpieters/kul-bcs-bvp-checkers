@@ -12,7 +12,7 @@ import domain.location.Direction;
 import domain.location.Location;
 import domain.location.LocationOutOfRangeException;
 
-public class PossibleAtomicCatchActionAnalyser implements IAnalyser
+public class PossibleAtomicCatchActionAnalyser implements IAnalyser<CatchActionRequest>
 {
 	private final IReadOnlyBoard board;
 	

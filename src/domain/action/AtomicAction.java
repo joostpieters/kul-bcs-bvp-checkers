@@ -5,6 +5,9 @@ import domain.location.DiagonalLocationPair;
 import domain.location.Location;
 import domain.update.BasicUpdateSource;
 
+/**
+ * Represents an atomic {@link IAction}. Atomic actions are indivisible. They form the basic building blocks for more complex {@link IAction}s.
+ */
 public abstract class AtomicAction extends BasicUpdateSource implements IAction
 {
 	private final DiagonalLocationPair pair;
@@ -14,6 +17,12 @@ public abstract class AtomicAction extends BasicUpdateSource implements IAction
 		return pair;
 	}
 	
+	/**
+	 * Creates a new {@link AtomicAction} based on the given {@link DiagonalLocationPair}.
+	 * 
+	 * @param 	pair
+	 * 			The from and to {@link Location}s of this pair will determine the start- and endpoints of this {@link AtomicAction}.
+	 */
 	public AtomicAction(DiagonalLocationPair pair)
 	{
 		this.pair = pair;

@@ -11,7 +11,7 @@ import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.piece.contracts.IPiece;
 
-public interface IAnalyser
+public interface IAnalyser<T extends IActionRequest>
 {
 	/**
 	 * Returns the {@link IBoard} this {@link IAnalyser} uses.
@@ -22,7 +22,7 @@ public interface IAnalyser
 	 * Finds {@link CatchActionRequest}s the given player can choose from,
 	 * using any of his {@link IPiece}s.
 	 */
-	default <T extends IActionRequest> List<T> find(Player currentPlayer)
+	default List<T> find(Player currentPlayer)
 	{
 		List<T> result = new ArrayList<T>();
 		IReadOnlyBoard board = getBoard();
@@ -40,5 +40,5 @@ public interface IAnalyser
 	 * Finds {@link CatchActionRequest}s the given player can choose from, 
 	 * using the {@link IPiece} at the given pieceLocation. 
 	 */
-	<T extends IActionRequest> List<T> find(Player currentPlayer, Location pieceLocation);
+	List<T> find(Player currentPlayer, Location pieceLocation);
 }

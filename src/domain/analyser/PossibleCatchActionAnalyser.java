@@ -18,7 +18,7 @@ import domain.piece.contracts.IPiece;
 /**
  * This {@link IAnalyser} find all possible catches on a given board.
  */
-public class PossibleCatchActionAnalyser implements IAnalyser
+public class PossibleCatchActionAnalyser implements IAnalyser<CatchActionRequest>
 {
 	private final IReadOnlyBoard board;
 	
@@ -46,7 +46,7 @@ public class PossibleCatchActionAnalyser implements IAnalyser
 	public List<CatchActionRequest> find(Player currentPlayer, Location pieceLocation)
 	{
 		IReadOnlyBoard board = getBoard();
-		IAnalyser specialisedAnalyser = getSpecialisedAnalyser(board, pieceLocation);
+		IAnalyser<CatchActionRequest> specialisedAnalyser = getSpecialisedAnalyser(board, pieceLocation);
 		
 		Collection<CatchActionRequest> catchRequests = specialisedAnalyser.find(currentPlayer, pieceLocation);
 		
@@ -78,7 +78,7 @@ public class PossibleCatchActionAnalyser implements IAnalyser
 		return result;
 	}
 
-	private IAnalyser getSpecialisedAnalyser(IReadOnlyBoard board, Location pieceLocation)
+	private IAnalyser<CatchActionRequest> getSpecialisedAnalyser(IReadOnlyBoard board, Location pieceLocation)
 	{
 		if(!board.getSquare(pieceLocation).hasPiece())
 		{

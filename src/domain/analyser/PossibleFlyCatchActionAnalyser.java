@@ -11,7 +11,7 @@ import domain.location.Direction;
 import domain.location.Location;
 import domain.location.LocationOutOfRangeException;
 
-public class PossibleFlyCatchActionAnalyser implements IAnalyser
+public class PossibleFlyCatchActionAnalyser implements IAnalyser<CatchActionRequest>
 {
 	private final IReadOnlyBoard board;
 

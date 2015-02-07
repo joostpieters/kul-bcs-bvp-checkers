@@ -72,7 +72,7 @@ public class CompositeActionFlyTest
 		DiagonalLocationPair pair = new DiagonalLocationPair(48, 34, size);
 		CompositeActionFly fly = new CompositeActionFly(pair);
 		
-		List<IAction> subActions = fly.getActions();
+		List<IAction> subActions = fly.getSubActions();
 		assertEquals(3, subActions.size());
 		for(IAction subAction : subActions)
 		{
