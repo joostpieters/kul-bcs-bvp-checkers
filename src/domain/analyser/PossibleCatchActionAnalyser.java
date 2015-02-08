@@ -62,7 +62,7 @@ public class PossibleCatchActionAnalyser implements IAnalyser<CatchActionRequest
 					action.executeOn(testBoard, currentPlayer);
 					result.add(catchRequest);
 					
-					List<CatchActionRequest> allNext = new PossibleCatchActionAnalyser(testBoard).find(currentPlayer, catchRequest.getEnd(testBoard.getSize()));
+					List<CatchActionRequest> allNext = new PossibleCatchActionAnalyser(testBoard).find(currentPlayer, catchRequest.getEnd());
 					for(CatchActionRequest next : allNext)
 					{
 						result.add(new CatchActionRequest(catchRequest, next));

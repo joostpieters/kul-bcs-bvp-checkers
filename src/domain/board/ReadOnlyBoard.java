@@ -41,12 +41,6 @@ public class ReadOnlyBoard implements IReadOnlyBoard
 	}
 
 	@Override
-	public Location createLocation(int row, int col) throws LocationOutOfRangeException
-	{
-		return getBoard().createLocation(row, col);
-	}
-
-	@Override
 	public IReadOnlySquare getSquare(Location location)
 	{
 		return getBoard().getSquare(location).getReadOnlySquare();

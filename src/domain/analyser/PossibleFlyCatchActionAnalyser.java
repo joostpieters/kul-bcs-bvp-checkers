@@ -44,7 +44,7 @@ public class PossibleFlyCatchActionAnalyser implements IAnalyser<CatchActionRequ
 				List<Location> landingSpots = getPossibleSingleFlyCatchLandingLocationsInDirection(player, target, direction);
 				for(Location landingSpot : landingSpots)
 				{
-					CatchActionRequest catchActionRequest = new CatchActionRequest(start.getIndex(), landingSpot.getIndex());
+					CatchActionRequest catchActionRequest = new CatchActionRequest(start, landingSpot);
 					requests.add(catchActionRequest);
 				}
 			}

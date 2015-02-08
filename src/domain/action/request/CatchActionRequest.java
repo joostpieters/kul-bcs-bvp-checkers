@@ -3,34 +3,36 @@ package domain.action.request;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import domain.location.Location;
+
 public class CatchActionRequest extends ActionRequest
 {
-	public CatchActionRequest(int... indices)
+	public CatchActionRequest(Location... locations)
 	{
-		super(indices);
+		super(locations);
 	}
 	
 	public CatchActionRequest(CatchActionRequest base, CatchActionRequest addendum)
 	{
-		super(base.getIndices());
-		int lastBaseIndex = base.getEndIndex();
-		int firstExtraIndex = addendum.getStartIndex();
-		if(lastBaseIndex != firstExtraIndex)
+		super(base.getLocations());
+		Location lastBaseLocation = base.getEnd();
+		Location firstExtraLocation = addendum.getStart();
+		if(!lastBaseLocation.equals(firstExtraLocation))
 		{
 			throw new IllegalArgumentException("Given addendum cannot be chained onto base.");
 		}
-		List<Integer> indicesToAppend = addendum.getIndices();
-		for(int i=1; i < indicesToAppend.size(); i++) //skip firstExtraIndex
+		List<Location> locationsToAppend = addendum.getLocations();
+		for(int i=1; i < locationsToAppend.size(); i++) //skip firstExtraIndex
 		{
-			int index = indicesToAppend.get(i);
-			addIndex(index);
+			Location location = locationsToAppend.get(i);
+			addLocation(location);
 		}
 	}
 	
 	@Override
 	public String toString()
 	{
-		return String.join("x", getIndices().stream().map(i -> i.toString()).collect(Collectors.toList())); 
+		return String.join("x", getLocations().stream().map(i -> Integer.toString(i.getIndex())).collect(Collectors.toList())); 
 	}
 
 	@Override
@@ -42,6 +44,6 @@ public class CatchActionRequest extends ActionRequest
 	@Override
 	public int getNumberOfCatches()
 	{
-		return getIndices().size() - 1;
+		return getLocations().size() - 1;
 	}
 }

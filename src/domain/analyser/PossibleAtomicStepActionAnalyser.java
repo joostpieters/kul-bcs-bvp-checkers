@@ -39,7 +39,7 @@ public class PossibleAtomicStepActionAnalyser implements IAnalyser<MoveActionReq
 			if(	board.isLocationOccupiedBy(player, location) &&
 				board.isLocationFree(target))
 			{
-				requests.add(new MoveActionRequest(location.getIndex(), target.getIndex()));
+				requests.add(new MoveActionRequest(location, target));
 			}
 		}
 		return requests;

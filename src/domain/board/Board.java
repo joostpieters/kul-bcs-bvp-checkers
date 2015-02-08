@@ -85,12 +85,6 @@ public class Board implements IBoard
 	}
 	
 	@Override
-	public Location createLocation(int row, int col) throws LocationOutOfRangeException
-	{
-		return new Location(row, col, getSize());
-	}
-	
-	@Override
 	public ISquare getSquare(Location location)
 	{
 		return squares[location.getRow()][location.getCol()];
@@ -241,7 +235,7 @@ public class Board implements IBoard
 			{
 				try
 				{
-					Location location = createLocation(row, col);
+					Location location = new Location(row, col, getSize());
 					locationAction.actOn(location);
 				}
 				catch(LocationOutOfRangeException e)

@@ -32,10 +32,15 @@ public class PossibleCatchActionAnalyserTest
 		PossibleCatchActionAnalyser analyser = new PossibleCatchActionAnalyser(board);
 		List<CatchActionRequest> requests = analyser.find(Player.White);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(28, 17);
-		CatchActionRequest expected2 = new CatchActionRequest(28, 19);
-		CatchActionRequest expected3 = new CatchActionRequest(28, 37);
-		CatchActionRequest expected4 = new CatchActionRequest(28, 39);
+		Location from = new Location(28, size);
+		Location a = new Location(17, size);
+		Location b = new Location(19, size);
+		Location c = new Location(37, size);
+		Location d = new Location(39, size);
+		CatchActionRequest expected1 = new CatchActionRequest(from, a);
+		CatchActionRequest expected2 = new CatchActionRequest(from, b);
+		CatchActionRequest expected3 = new CatchActionRequest(from, c);
+		CatchActionRequest expected4 = new CatchActionRequest(from, d);
 		
 		assertEquals(4, requests.size());
 		assertTrue(requests.contains(expected1));
@@ -68,8 +73,11 @@ public class PossibleCatchActionAnalyserTest
 		
 		List<CatchActionRequest> results = analyser.find(Player.White, location);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(28, 10);
-		CatchActionRequest expected2 = new CatchActionRequest(28, 5);
+		Location from = new Location(28, size);
+		Location a = new Location(5, size);
+		Location b = new Location(10, size);
+		CatchActionRequest expected1 = new CatchActionRequest(from, a);
+		CatchActionRequest expected2 = new CatchActionRequest(from, b);
 		
 		assertEquals(2, results.size());
 		assertTrue(results.contains(expected1));
@@ -92,19 +100,29 @@ public class PossibleCatchActionAnalyserTest
 		
 		List<CatchActionRequest> results = analyser.find(Player.White, location);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(28, 14);
-		CatchActionRequest expected2 = new CatchActionRequest(28, 14, 3);
-		CatchActionRequest expected3 = new CatchActionRequest(28, 14, 3, 17);
-		CatchActionRequest expected4 = new CatchActionRequest(28, 14, 3, 21);
-		CatchActionRequest expected5 = new CatchActionRequest(28, 14, 3, 26);
-		CatchActionRequest expected6 = new CatchActionRequest(28, 14, 3, 25);
-		CatchActionRequest expected7 = new CatchActionRequest(28, 14, 25);
-		CatchActionRequest expected8 = new CatchActionRequest(28, 14, 25, 3);
-		CatchActionRequest expected9 = new CatchActionRequest(28, 14, 25, 3, 17);
-		CatchActionRequest expected10 = new CatchActionRequest(28, 14, 25, 3, 21);
-		CatchActionRequest expected11 = new CatchActionRequest(28, 14, 25, 3, 26);
-		CatchActionRequest expected12 = new CatchActionRequest(28, 10);
-		CatchActionRequest expected13 = new CatchActionRequest(28, 5);
+		Location from = new Location(28, size);
+		Location l14 = new Location(14, size);
+		Location l03 = new Location(3, size);
+		Location l17 = new Location(17, size);
+		Location l21 = new Location(21, size);
+		Location l26 = new Location(26, size);
+		Location l25 = new Location(25, size);
+		Location l10 = new Location(10, size);
+		Location l05 = new Location(5, size);
+		
+		CatchActionRequest expected1  = new CatchActionRequest(from, l14);
+		CatchActionRequest expected2  = new CatchActionRequest(from, l14, l03);
+		CatchActionRequest expected3  = new CatchActionRequest(from, l14, l03, l17);
+		CatchActionRequest expected4  = new CatchActionRequest(from, l14, l03, l21);
+		CatchActionRequest expected5  = new CatchActionRequest(from, l14, l03, l26);
+		CatchActionRequest expected6  = new CatchActionRequest(from, l14, l03, l25);
+		CatchActionRequest expected7  = new CatchActionRequest(from, l14, l25);
+		CatchActionRequest expected8  = new CatchActionRequest(from, l14, l25, l03);
+		CatchActionRequest expected9  = new CatchActionRequest(from, l14, l25, l03, l17);
+		CatchActionRequest expected10 = new CatchActionRequest(from, l14, l25, l03, l21);
+		CatchActionRequest expected11 = new CatchActionRequest(from, l14, l25, l03, l26);
+		CatchActionRequest expected12 = new CatchActionRequest(from, l10);
+		CatchActionRequest expected13 = new CatchActionRequest(from, l05);
 		
 		assertEquals(13, results.size());
 		assertTrue(results.contains(expected1));

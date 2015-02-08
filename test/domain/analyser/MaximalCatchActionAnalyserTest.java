@@ -42,9 +42,17 @@ public class MaximalCatchActionAnalyserTest
 		
 		List<CatchActionRequest> results = analyser.find(Player.White, location);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(28, 14, 25, 3, 17);
-		CatchActionRequest expected2 = new CatchActionRequest(28, 14, 25, 3, 21);
-		CatchActionRequest expected3 = new CatchActionRequest(28, 14, 25, 3, 26);
+		Location from = new Location(28, size);
+		Location l14 = new Location(14, size);
+		Location l03 = new Location(3, size);
+		Location l17 = new Location(17, size);
+		Location l21 = new Location(21, size);
+		Location l26 = new Location(26, size);
+		Location l25 = new Location(25, size);
+		
+		CatchActionRequest expected1 = new CatchActionRequest(from, l14, l25, l03, l17);
+		CatchActionRequest expected2 = new CatchActionRequest(from, l14, l25, l03, l21);
+		CatchActionRequest expected3 = new CatchActionRequest(from, l14, l25, l03, l26);
 		
 		assertEquals(3, results.size());
 		assertTrue(results.contains(expected1));
@@ -68,9 +76,17 @@ public class MaximalCatchActionAnalyserTest
 		
 		List<CatchActionRequest> results = analyser.find(Player.White);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(28, 14, 25, 3, 17);
-		CatchActionRequest expected2 = new CatchActionRequest(28, 14, 25, 3, 21);
-		CatchActionRequest expected3 = new CatchActionRequest(28, 14, 25, 3, 26);
+		Location from = new Location(28, size);
+		Location l14 = new Location(14, size);
+		Location l03 = new Location(3, size);
+		Location l17 = new Location(17, size);
+		Location l21 = new Location(21, size);
+		Location l26 = new Location(26, size);
+		Location l25 = new Location(25, size);
+		
+		CatchActionRequest expected1 = new CatchActionRequest(from, l14, l25, l03, l17);
+		CatchActionRequest expected2 = new CatchActionRequest(from, l14, l25, l03, l21);
+		CatchActionRequest expected3 = new CatchActionRequest(from, l14, l25, l03, l26);
 		
 		assertEquals(3, results.size());
 		assertTrue(results.contains(expected1));

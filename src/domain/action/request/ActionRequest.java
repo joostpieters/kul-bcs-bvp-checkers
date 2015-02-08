@@ -5,27 +5,25 @@ import java.util.Collections;
 import java.util.List;
 
 import domain.action.contracts.IActionRequest;
-import domain.board.contracts.IBoardSize;
 import domain.location.Location;
-import domain.location.LocationOutOfRangeException;
 
 public abstract class ActionRequest implements IActionRequest
 {
-	protected final List<Integer> indices = new ArrayList<Integer>();
+	protected final List<Location> locations = new ArrayList<Location>();
 	
-	public ActionRequest(int... indices)
+	public ActionRequest(Location... locations)
 	{
-		for(int index : indices)
+		for(Location location : locations)
 		{
-			addIndex(index);
+			addLocation(location);
 		}
 	}
 	
-	protected ActionRequest(Iterable<Integer> indices)
+	protected ActionRequest(Iterable<Location> locations)
 	{
-		for(int index : indices)
+		for(Location location : locations)
 		{
-			addIndex(index);
+			addLocation(location);
 		}
 	}
 
@@ -33,38 +31,26 @@ public abstract class ActionRequest implements IActionRequest
 	public abstract boolean isCatch();
 
 	@Override
-	public List<Integer> getIndices()
+	public List<Location> getLocations()
 	{
-		return Collections.unmodifiableList(indices);
+		return Collections.unmodifiableList(locations);
 	}
 	
 	@Override
-	public int getStartIndex()
+	public Location getStart()
 	{
-		return getIndices().get(0);
+		return getLocations().get(0);
 	}
 	
 	@Override
-	public int getEndIndex()
+	public Location getEnd()
 	{
-		return getIndices().get(getIndices().size()-1);
+		return getLocations().get(getLocations().size()-1);
 	}
 	
-	@Override
-	public Location getStart(IBoardSize size) throws LocationOutOfRangeException
+	protected void addLocation(Location location)
 	{
-		return new Location(getStartIndex(), size);
-	}
-	
-	@Override
-	public Location getEnd(IBoardSize size) throws LocationOutOfRangeException
-	{
-		return new Location(getEndIndex(), size);
-	}
-	
-	protected void addIndex(int index)
-	{
-		indices.add(index);
+		locations.add(location);
 	}
 	
 	@Override
@@ -85,7 +71,7 @@ public abstract class ActionRequest implements IActionRequest
 		{
 			IActionRequest casted = (IActionRequest)obj;
 			return 	this.isCatch() == casted.isCatch() &&
-					this.getIndices().equals(casted.getIndices());
+					this.getLocations().equals(casted.getLocations());
 		}
 		return false;
 	}
@@ -93,6 +79,6 @@ public abstract class ActionRequest implements IActionRequest
 	@Override
 	public int hashCode()
 	{
-		return Boolean.hashCode(isCatch()) + 37 * indices.hashCode();
+		return Boolean.hashCode(isCatch()) + 37 * locations.hashCode();
 	}
 }

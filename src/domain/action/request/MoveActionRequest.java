@@ -1,16 +1,18 @@
 package domain.action.request;
 
+import domain.location.Location;
+
 public class MoveActionRequest extends ActionRequest
 {
-	public MoveActionRequest(int fromIndex, int toIndex)
+	public MoveActionRequest(Location from, Location to)
 	{
-		super(fromIndex, toIndex);
+		super(from, to);
 	}
 	
 	@Override
 	public String toString()
 	{
-		return String.format("%d-%d", getStartIndex(), getEndIndex());
+		return String.format("%d-%d", getStart().getIndex(), getEnd().getIndex());
 	}
 
 	@Override

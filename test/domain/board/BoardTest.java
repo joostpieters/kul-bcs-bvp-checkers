@@ -31,10 +31,10 @@ public class BoardTest
 		try
 		{
 			board = BoardFactory.create(Paths.get("data", "input", "default.txt"));
-			freeBlackTarget = board.createLocation(4, 5);
-			freeWhiteTarget = board.createLocation(4, 4);
-			blackTargetOccupiedByWhite = board.createLocation(9, 0);
-			blackTargetOccupiedByBlack = board.createLocation(0, 1);
+			freeBlackTarget = new Location(4, 5, board.getSize());
+			freeWhiteTarget = new Location(4, 4, board.getSize());
+			blackTargetOccupiedByWhite = new Location(9, 0, board.getSize());
+			blackTargetOccupiedByBlack = new Location(0, 1, board.getSize());
 		}
 		catch (IOException e)
 		{
@@ -250,15 +250,6 @@ public class BoardTest
 		IBoard testBoard = board.getDeepClone();
 		testBoard.removePiece(blackTargetOccupiedByWhite);
 		assertTrue(testBoard.isLocationFree(blackTargetOccupiedByWhite));
-	}
-	
-	@Test
-	public void testCreateLocation() throws LocationOutOfRangeException
-	{
-		Location created = board.createLocation(7, 8);
-		assertEquals(board.getSize(), created.getBoardSize());
-		assertEquals(7, created.getRow());
-		assertEquals(8, created.getCol());
 	}
 	
 	@Test

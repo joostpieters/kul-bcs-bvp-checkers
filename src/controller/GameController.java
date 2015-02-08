@@ -29,6 +29,13 @@ public class GameController extends UpdatePropagator
 		return inputProvider;
 	}
 	
+	/**
+	 * Creates a new {@link GameController} using the given {@link IGame} and {@link IInputProvider}. 
+	 * @param 	game
+	 * 			The {@link IGame} to control.
+	 * @param 	inputProvider
+	 * 			The {@link IInputProvider} to request {@link Player} input from.
+	 */
 	public GameController(IGame game, IInputProvider inputProvider)
 	{
 		this.game = game;

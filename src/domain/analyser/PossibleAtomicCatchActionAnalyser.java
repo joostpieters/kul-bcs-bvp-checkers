@@ -48,7 +48,7 @@ public class PossibleAtomicCatchActionAnalyser implements IAnalyser<CatchActionR
 			if(	getBoard().isLocationFree(target) && 
 				getBoard().isLocationOccupiedBy(player.getOpponent(), pair.getCenterBetween()))
 			{
-				requests.add(new CatchActionRequest(pieceLocation.getIndex(), target.getIndex()));
+				requests.add(new CatchActionRequest(pieceLocation, target));
 			}
 		}
 		return requests;

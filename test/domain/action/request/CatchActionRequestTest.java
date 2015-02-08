@@ -4,28 +4,45 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import domain.board.BoardSize;
+import domain.board.contracts.IBoardSize;
+import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
+
 public class CatchActionRequestTest
 {
-
+	private final static IBoardSize size = new BoardSize(10, 10);
+	
 	@Test
-	public void testIsCatch()
+	public void testIsCatch() throws LocationOutOfRangeException
 	{
-		CatchActionRequest request = new CatchActionRequest(1, 2);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		CatchActionRequest request = new CatchActionRequest(a, b);
 		assertTrue(request.isCatch());
 	}
 
 	@Test
-	public void testGetNumberOfCatches()
+	public void testGetNumberOfCatches() throws LocationOutOfRangeException
 	{
-		CatchActionRequest request = new CatchActionRequest(1, 2, 3, 4, 5);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		Location c = new Location(3, size);
+		Location d = new Location(4, size);
+		Location e = new Location(5, size);
+		CatchActionRequest request = new CatchActionRequest(a, b, c, d, e);
 		assertEquals(4, request.getNumberOfCatches());
 	}
 
 	@Test(expected=IllegalArgumentException.class)
-	public void testCatchActionRequestCatchActionRequestCatchActionRequest()
+	public void testCatchActionRequestCatchActionRequestCatchActionRequest() throws LocationOutOfRangeException
 	{
-		CatchActionRequest request1 = new CatchActionRequest(1, 2);
-		CatchActionRequest request2 = new CatchActionRequest(3, 4);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		Location c = new Location(3, size);
+		Location d = new Location(4, size);
+		CatchActionRequest request1 = new CatchActionRequest(a, b);
+		CatchActionRequest request2 = new CatchActionRequest(c, d);
 		new CatchActionRequest(request1, request2);
 	}
 

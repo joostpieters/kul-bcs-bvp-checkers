@@ -43,13 +43,6 @@ public class ReadOnlyBoardTest
 	}
 
 	@Test
-	public void testCreateLocation() throws LocationOutOfRangeException
-	{
-		assertEquals(	original.createLocation(0, 0), 
-						readonly.createLocation(0, 0));
-	}
-	
-	@Test
 	public void testGetDeepClone()
 	{
 		assertEquals(original, readonly.getDeepClone());
@@ -67,21 +60,21 @@ public class ReadOnlyBoardTest
 	@Test
 	public void testGetSquare() throws LocationOutOfRangeException
 	{
-		Location location = original.createLocation(0, 0);
+		Location location = new Location(0, 0, original.getSize());
 		assertEquals(original.getSquare(location).getReadOnlySquare(), readonly.getSquare(location));
 	}
 	
 	@Test
 	public void testIsLocationFree() throws LocationOutOfRangeException
 	{
-		Location target = original.createLocation(5, 5);
+		Location target = new Location(5, 5, original.getSize());
 		assertEquals(original.isLocationFree(target), readonly.isLocationFree(target));
 	}
 	
 	@Test
 	public void testIsLocationOccupiedBy() throws LocationOutOfRangeException
 	{
-		Location target = original.createLocation(5, 5);
+		Location target = new Location(5, 5, original.getSize());
 		assertEquals(	original.isLocationOccupiedBy(Player.White, target), 
 						readonly.isLocationOccupiedBy(Player.White, target));
 		assertEquals(	original.isLocationOccupiedBy(Player.Black, target), 
@@ -91,8 +84,8 @@ public class ReadOnlyBoardTest
 	@Test
 	public void testIsValidMove() throws LocationOutOfRangeException
 	{
-		Location x = original.createLocation(5, 5);
-		Location y = original.createLocation(7, 7);
+		Location x = new Location(5, 5, original.getSize());
+		Location y = new Location(7, 7, original.getSize());
 		LocationPair pair = new LocationPair(x, y);
 		assertEquals(original.isValidMove(pair), readonly.isValidMove(pair));
 	}

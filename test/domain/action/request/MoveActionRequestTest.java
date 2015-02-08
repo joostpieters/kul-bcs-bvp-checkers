@@ -5,20 +5,30 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import domain.action.contracts.IActionRequest;
+import domain.board.BoardSize;
+import domain.board.contracts.IBoardSize;
+import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
 
 public class MoveActionRequestTest
 {
+	private final static IBoardSize size = new BoardSize(10, 10);
+	
 	@Test
-	public void testIsCatch()
+	public void testIsCatch() throws LocationOutOfRangeException
 	{
-		IActionRequest request = new MoveActionRequest(1,2);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		IActionRequest request = new MoveActionRequest(a, b);
 		assertFalse(request.isCatch());
 	}
 
 	@Test
-	public void testGetNumberOfCatches()
+	public void testGetNumberOfCatches() throws LocationOutOfRangeException
 	{
-		IActionRequest request = new MoveActionRequest(1,2);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		IActionRequest request = new MoveActionRequest(a, b);
 		assertEquals(0, request.getNumberOfCatches());
 	}
 }

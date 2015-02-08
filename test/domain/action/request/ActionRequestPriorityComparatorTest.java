@@ -4,33 +4,48 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import domain.board.BoardSize;
+import domain.board.contracts.IBoardSize;
+import domain.location.Location;
+import domain.location.LocationOutOfRangeException;
+
 public class ActionRequestPriorityComparatorTest
 {
 	private final static ActionRequestPriorityComparator comparator = new ActionRequestPriorityComparator();
+	private final static IBoardSize size = new BoardSize(10, 10);
 	
 	@Test
-	public void testCompareEqual()
+	public void testCompareEqual() throws LocationOutOfRangeException
 	{
-		ActionRequest request1 = new CatchActionRequest(1,2,3);
-		ActionRequest request2 = new CatchActionRequest(1,2,3);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		Location c = new Location(3, size);	
+		ActionRequest request1 = new CatchActionRequest(a, b, c);
+		ActionRequest request2 = new CatchActionRequest(a, b, c);
 		
 		assertEquals(0, comparator.compare(request1, request2));
 	}
 	
 	@Test
-	public void testCompareMore()
+	public void testCompareMore() throws LocationOutOfRangeException
 	{
-		ActionRequest request1 = new CatchActionRequest(1,2,3);
-		ActionRequest request2 = new CatchActionRequest(1,2);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		Location c = new Location(3, size);
+		ActionRequest request1 = new CatchActionRequest(a, b, c);
+		ActionRequest request2 = new CatchActionRequest(a, b);
 		
 		assertEquals(1, comparator.compare(request1, request2));
 	}
 	
 	@Test
-	public void testCompareLess()
+	public void testCompareLess() throws LocationOutOfRangeException
 	{
-		ActionRequest request1 = new CatchActionRequest(1,2);
-		ActionRequest request2 = new CatchActionRequest(1,2,3);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		Location c = new Location(3, size);
+		ActionRequest request1 = new CatchActionRequest(a, b);
+		ActionRequest request2 = new CatchActionRequest(a, b, c);
 		
 		assertEquals(-1, comparator.compare(request1, request2));
 	}

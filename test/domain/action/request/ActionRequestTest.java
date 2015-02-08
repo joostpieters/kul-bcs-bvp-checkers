@@ -14,74 +14,76 @@ import domain.location.LocationOutOfRangeException;
 
 public class ActionRequestTest
 {
-
+	private final static IBoardSize size = new BoardSize(10, 10);
 	@Test
-	public void testActionRequestIntArray()
+	public void testActionRequestIntArray() throws LocationOutOfRangeException
 	{
-		IActionRequest request = new CatchActionRequest(1,2,3);
-		List<Integer> indices = request.getIndices();
-		assertTrue(indices.contains(1));
-		assertTrue(indices.contains(2));
-		assertTrue(indices.contains(3));
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		Location c = new Location(3, size);
+		IActionRequest request = new CatchActionRequest(a, b, c);
+		List<Location> indices = request.getLocations();
+		assertTrue(indices.contains(a));
+		assertTrue(indices.contains(b));
+		assertTrue(indices.contains(c));
 	}
 
 	@Test
-	public void testActionRequestIterableOfInteger()
+	public void testActionRequestIterableOfInteger() throws LocationOutOfRangeException
 	{
-		CatchActionRequest request1 = new CatchActionRequest(1, 2);
-		CatchActionRequest request2 = new CatchActionRequest(2, 3);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		Location c = new Location(3, size);
+		CatchActionRequest request1 = new CatchActionRequest(a, b);
+		CatchActionRequest request2 = new CatchActionRequest(b, c);
 		CatchActionRequest request = new CatchActionRequest(request1, request2);
-		List<Integer> indices = request.getIndices();
-		assertTrue(indices.contains(1));
-		assertTrue(indices.contains(2));
-		assertTrue(indices.contains(3));
-	}
-
-	@Test
-	public void testGetStartIndex()
-	{
-		IActionRequest request = new CatchActionRequest(1,2,3);
-		assertEquals(1, request.getStartIndex());
-	}
-
-	@Test
-	public void testGetEndIndex()
-	{
-		IActionRequest request = new CatchActionRequest(1,2,3);
-		assertEquals(3, request.getEndIndex());
+		List<Location> indices = request.getLocations();
+		assertTrue(indices.contains(a));
+		assertTrue(indices.contains(b));
+		assertTrue(indices.contains(c));
 	}
 
 	@Test
 	public void testGetStart() throws LocationOutOfRangeException
 	{
-		IBoardSize size = new BoardSize(10, 10);
-		IActionRequest request = new CatchActionRequest(1,2,3);
-		assertEquals(new Location(1, size), request.getStart(size));
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		Location c = new Location(3, size);
+		IActionRequest request = new CatchActionRequest(a, b, c);
+		assertEquals(a, request.getStart());
 	}
 
 	@Test
 	public void testGetEnd() throws LocationOutOfRangeException
 	{
-		IBoardSize size = new BoardSize(10, 10);
-		IActionRequest request = new CatchActionRequest(1,2,3);
-		assertEquals(new Location(3, size), request.getEnd(size));
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		Location c = new Location(3, size);
+		IActionRequest request = new CatchActionRequest(a, b, c);
+		assertEquals(c, request.getEnd());
 	}
 
 	@Test
-	public void testAddIndex()
+	public void testAddLocation() throws LocationOutOfRangeException
 	{
-		ActionRequest request = new CatchActionRequest(1,2);
-		request.addIndex(3);
-		assertEquals(3, request.getEndIndex());
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		Location c = new Location(3, size);
+		ActionRequest request = new CatchActionRequest(a, b);
+		request.addLocation(c);
+		assertEquals(c, request.getEnd());
 	}
 
 	@Test
-	public void testEqualsObject()
+	public void testEquals() throws LocationOutOfRangeException
 	{
-		IActionRequest request = new CatchActionRequest(1,2);
-		IActionRequest copy = new CatchActionRequest(1, 2);
-		IActionRequest other = new CatchActionRequest(1, 2, 3);
-		IActionRequest moveRequest = new MoveActionRequest(1, 2);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		Location c = new Location(3, size);
+		IActionRequest request = new CatchActionRequest(a, b);
+		IActionRequest copy = new CatchActionRequest(a, b);
+		IActionRequest other = new CatchActionRequest(a, b, c);
+		IActionRequest moveRequest = new MoveActionRequest(a, b);
 		assertFalse(request.equals(null));
 		assertFalse(request.equals(new Object()));
 		assertTrue(request.equals(request));

@@ -21,6 +21,7 @@ public class ActionInput extends UpdatePropagator implements IInput
 	private final String move;
 	private final IGame game;
 	private final LegalActionAnalyser legalActionChecker;
+	private final ActionRequestFactory actionRequestFactory;
 
 	private String getMove()
 	{
@@ -37,11 +38,17 @@ public class ActionInput extends UpdatePropagator implements IInput
 		return legalActionChecker;
 	}
 	
+	private ActionRequestFactory getActionRequestFactory()
+	{
+		return actionRequestFactory;
+	}
+	
 	public ActionInput(String move, IGame game, LegalActionAnalyser analyzer)
 	{
 		this.move = move;
 		this.game = game;
 		this.legalActionChecker = analyzer;
+		this.actionRequestFactory = new ActionRequestFactory(game.getBoard().getSize());
 	}
 
 	/**
@@ -56,7 +63,7 @@ public class ActionInput extends UpdatePropagator implements IInput
 		
 		try
 		{
-			IActionRequest request = ActionRequestFactory.create(getMove());
+			IActionRequest request = getActionRequestFactory().create(getMove());
 			if(!getLegalActionChecker().isActionLegal(request, currentPlayer))
 			{
 				emitWarning(LocalizationManager.getString("warningIllegalAction"));

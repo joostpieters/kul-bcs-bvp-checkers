@@ -19,10 +19,12 @@ import domain.piece.Piece;
 
 public class PossibleAtomicActionAnalyserTest
 {
+	private static final BoardSize size = new BoardSize(10, 10);
+
 	@Test
 	public void testGetBoard()
 	{
-		IBoard board = new Board(new BoardSize(10, 10));
+		IBoard board = new Board(size);
 		PossibleAtomicActionAnalyser analyser = new PossibleAtomicActionAnalyser(board);
 		assertEquals(board, analyser.getBoard());
 	}
@@ -30,7 +32,6 @@ public class PossibleAtomicActionAnalyserTest
 	@Test
 	public void testFind() throws LocationOutOfRangeException
 	{
-		BoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		board.addPiece(new Location(28, size), new Piece(Player.White));
 		board.addPiece(new Location(22, size), new Piece(Player.Black));
@@ -39,10 +40,15 @@ public class PossibleAtomicActionAnalyserTest
 		PossibleAtomicActionAnalyser analyser = new PossibleAtomicActionAnalyser(board);
 		List<IActionRequest> requests = analyser.find(Player.White);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(28, 17);
-		MoveActionRequest expected2 = new MoveActionRequest(28, 23);
-		CatchActionRequest expected3 = new CatchActionRequest(28, 37);
-		MoveActionRequest expected4 = new MoveActionRequest(28, 33);
+		Location from = new Location(28, size);
+		Location a = new Location(17, size);
+		Location b = new Location(23, size);
+		Location c = new Location(37, size);
+		Location d = new Location(33, size);
+		CatchActionRequest expected1 = new CatchActionRequest(from, a);
+		MoveActionRequest expected2 = new MoveActionRequest(from, b);
+		CatchActionRequest expected3 = new CatchActionRequest(from, c);
+		MoveActionRequest expected4 = new MoveActionRequest(from, d);
 		
 		assertEquals(4, requests.size());
 		assertTrue(requests.contains(expected1));

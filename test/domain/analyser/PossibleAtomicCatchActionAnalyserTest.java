@@ -17,12 +17,14 @@ import domain.piece.Piece;
 
 public class PossibleAtomicCatchActionAnalyserTest
 {
+	private static final BoardSize size = new BoardSize(10, 10);
+	
 	@Test
 	public void testFind() throws LocationOutOfRangeException
 	{
-		BoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
-		board.addPiece(new Location(28, size), new Piece(Player.White));
+		Location from = new Location(28, size);
+		board.addPiece(from, new Piece(Player.White));
 		board.addPiece(new Location(22, size), new Piece(Player.Black));
 		board.addPiece(new Location(23, size), new Piece(Player.Black));
 		board.addPiece(new Location(32, size), new Piece(Player.Black));
@@ -30,10 +32,14 @@ public class PossibleAtomicCatchActionAnalyserTest
 		PossibleAtomicCatchActionAnalyser analyser = new PossibleAtomicCatchActionAnalyser(board);
 		List<CatchActionRequest> requests = analyser.find(Player.White);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(28, 17);
-		CatchActionRequest expected2 = new CatchActionRequest(28, 19);
-		CatchActionRequest expected3 = new CatchActionRequest(28, 37);
-		CatchActionRequest expected4 = new CatchActionRequest(28, 39);
+		Location a = new Location(17, size);
+		Location b = new Location(19, size);
+		Location c = new Location(37, size);
+		Location d = new Location(39, size);
+		CatchActionRequest expected1 = new CatchActionRequest(from, a);
+		CatchActionRequest expected2 = new CatchActionRequest(from, b);
+		CatchActionRequest expected3 = new CatchActionRequest(from, c);
+		CatchActionRequest expected4 = new CatchActionRequest(from, d);
 		
 		assertEquals(4, requests.size());
 		assertTrue(requests.contains(expected1));
@@ -45,7 +51,6 @@ public class PossibleAtomicCatchActionAnalyserTest
 	@Test
 	public void testFindOnBorder() throws LocationOutOfRangeException
 	{
-		BoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		board.addPiece(new Location(36, size), new Piece(Player.White));
 		board.addPiece(new Location(31, size), new Piece(Player.Black));
@@ -53,8 +58,11 @@ public class PossibleAtomicCatchActionAnalyserTest
 		PossibleAtomicCatchActionAnalyser analyser = new PossibleAtomicCatchActionAnalyser(board);
 		List<CatchActionRequest> requests = analyser.find(Player.White);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(36, 27);
-		CatchActionRequest expected2 = new CatchActionRequest(36, 47);
+		Location from = new Location(36, size);
+		Location a = new Location(27, size);
+		Location b = new Location(47, size);
+		CatchActionRequest expected1 = new CatchActionRequest(from, a);
+		CatchActionRequest expected2 = new CatchActionRequest(from, b);
 		
 		assertEquals(2, requests.size());
 		assertTrue(requests.contains(expected1));
@@ -64,7 +72,6 @@ public class PossibleAtomicCatchActionAnalyserTest
 	@Test(expected=IllegalArgumentException.class)
 	public void testFindNotPieceOfPlayer() throws LocationOutOfRangeException
 	{
-		BoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		Location location = new Location(28, size);
 		board.addPiece(location, new Piece(Player.Black));
@@ -75,7 +82,6 @@ public class PossibleAtomicCatchActionAnalyserTest
 	@Test
 	public void testFindTargetOccupied() throws LocationOutOfRangeException
 	{
-		BoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		board.addPiece(new Location(28, size), new Piece(Player.White));
 		board.addPiece(new Location(22, size), new Piece(Player.Black));
@@ -86,9 +92,13 @@ public class PossibleAtomicCatchActionAnalyserTest
 		PossibleAtomicCatchActionAnalyser analyser = new PossibleAtomicCatchActionAnalyser(board);
 		List<CatchActionRequest> requests = analyser.find(Player.White);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(28, 19);
-		CatchActionRequest expected2 = new CatchActionRequest(28, 37);
-		CatchActionRequest expected4 = new CatchActionRequest(28, 39);
+		Location from = new Location(28, size);
+		Location a = new Location(19, size);
+		Location b = new Location(37, size);
+		Location c = new Location(39, size);
+		CatchActionRequest expected1 = new CatchActionRequest(from, a);
+		CatchActionRequest expected2 = new CatchActionRequest(from, b);
+		CatchActionRequest expected4 = new CatchActionRequest(from, c);
 		
 		assertEquals(3, requests.size());
 		assertTrue(requests.contains(expected1));
@@ -99,7 +109,6 @@ public class PossibleAtomicCatchActionAnalyserTest
 	@Test
 	public void testFindNoOpponent() throws LocationOutOfRangeException
 	{
-		BoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		board.addPiece(new Location(28, size), new Piece(Player.White));
 		board.addPiece(new Location(23, size), new Piece(Player.Black));
@@ -108,9 +117,13 @@ public class PossibleAtomicCatchActionAnalyserTest
 		PossibleAtomicCatchActionAnalyser analyser = new PossibleAtomicCatchActionAnalyser(board);
 		List<CatchActionRequest> requests = analyser.find(Player.White);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(28, 19);
-		CatchActionRequest expected2 = new CatchActionRequest(28, 37);
-		CatchActionRequest expected4 = new CatchActionRequest(28, 39);
+		Location from = new Location(28, size);
+		Location a = new Location(19, size);
+		Location b = new Location(37, size);
+		Location c = new Location(39, size);
+		CatchActionRequest expected1 = new CatchActionRequest(from, a);
+		CatchActionRequest expected2 = new CatchActionRequest(from, b);
+		CatchActionRequest expected4 = new CatchActionRequest(from, c);
 		
 		assertEquals(3, requests.size());
 		assertTrue(requests.contains(expected1));

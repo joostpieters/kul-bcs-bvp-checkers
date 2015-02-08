@@ -15,7 +15,6 @@ import domain.analyser.LegalActionAnalyser;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoard;
 import domain.game.contracts.IGame;
-import domain.input.ActionInput;
 import domain.input.InputProvider;
 import domain.input.contracts.IInput;
 import domain.input.contracts.IInputProvider;
@@ -92,19 +91,20 @@ public class GameControllerTest
 	}
 	
 	@Test
-	public void testInvalidInput()
+	public void testInvalidInput() throws LocationOutOfRangeException
 	{
-		LegalActionAnalyser legalActionChecker = new LegalActionAnalyser(board);
 		IInputProvider inputProvider = createMock(IInputProvider.class);
+		IInput input = createMock(IInput.class);
 		GameController controller = new GameController(game, inputProvider);
 		controller.subscribe(observer);
 		
 		observer.fireStart(board, Player.White);
 		expect(game.isOver()).andReturn(false).andReturn(true);
-		expect(game.getBoard()).andReturn(board).times(2);
+		expect(game.getBoard()).andReturn(board);
 		expect(board.getReadOnlyBoard()).andReturn(board);
-		expect(game.getCurrentPlayer()).andReturn(Player.White).times(2);
-		expect(inputProvider.askInput()).andReturn(new ActionInput("lalala", game, legalActionChecker));
+		expect(game.getCurrentPlayer()).andReturn(Player.White);
+		expect(inputProvider.askInput()).andReturn(input);
+		expect(input.process()).andReturn(false);
 		observer.fireWarning(LocalizationManager.getString("failedInput"));
 		replay(game);
 		replay(board);

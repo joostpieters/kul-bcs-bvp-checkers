@@ -37,7 +37,7 @@ public class LegalActionAnalyserTest
 	}
 	
 	@Test
-	public void testIsActionLegalNonMaximalCatching()
+	public void testIsActionLegalNonMaximalCatching() throws LocationOutOfRangeException
 	{
 		
 		Configs.MandatoryMaximalCatching = false;
@@ -45,22 +45,26 @@ public class LegalActionAnalyserTest
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		LegalActionAnalyser analyser = new LegalActionAnalyser(board);
-		ActionRequest moveRequest = new MoveActionRequest(1, 2);
-		ActionRequest catchRequest = new CatchActionRequest(1, 2);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		ActionRequest moveRequest = new MoveActionRequest(a, b);
+		ActionRequest catchRequest = new CatchActionRequest(a, b);
 		
 		assertFalse(analyser.isActionLegal(moveRequest, Player.White));
 		assertTrue(analyser.isActionLegal(catchRequest, Player.White));
 	}
 	
 	@Test
-	public void testIsActionLegalMaximalCatchingMoveAllowedIfNoCatches()
+	public void testIsActionLegalMaximalCatchingMoveAllowedIfNoCatches() throws LocationOutOfRangeException
 	{
 		Configs.MandatoryMaximalCatching = true;
 		
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		LegalActionAnalyser analyser = new LegalActionAnalyser(board);
-		ActionRequest moveRequest = new MoveActionRequest(1, 2);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		ActionRequest moveRequest = new MoveActionRequest(a, b);
 		
 		assertTrue(analyser.isActionLegal(moveRequest, Player.White));
 	}
@@ -73,7 +77,9 @@ public class LegalActionAnalyserTest
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		LegalActionAnalyser analyser = new LegalActionAnalyser(board);
-		ActionRequest catchRequest = new CatchActionRequest(1, 2);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		ActionRequest catchRequest = new CatchActionRequest(a, b);
 		
 		analyser.isActionLegal(catchRequest, Player.White);
 	}
@@ -88,7 +94,9 @@ public class LegalActionAnalyserTest
 		board.addPiece(new Location(28, size), new Piece(Player.White));
 		board.addPiece(new Location(23, size), new Piece(Player.Black));
 		LegalActionAnalyser analyser = new LegalActionAnalyser(board);
-		ActionRequest moveRequest = new MoveActionRequest(1, 2);
+		Location a = new Location(1, size);
+		Location b = new Location(2, size);
+		ActionRequest moveRequest = new MoveActionRequest(a, b);
 		
 		assertFalse(analyser.isActionLegal(moveRequest, Player.White));
 	}
@@ -107,14 +115,21 @@ public class LegalActionAnalyserTest
 		
 		LegalActionAnalyser analyser = new LegalActionAnalyser(board);
 		
+		Location from = new Location(28, size);
+		Location l14 = new Location(14, size);
+		Location l03 = new Location(3, size);
+		Location l17 = new Location(17, size);
+		Location l21 = new Location(21, size);
+		Location l26 = new Location(26, size);
+		Location l25 = new Location(25, size);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(28, 14, 25, 3, 17);
-		CatchActionRequest expected2 = new CatchActionRequest(28, 14, 25, 3, 21);
-		CatchActionRequest expected3 = new CatchActionRequest(28, 14, 25, 3, 26);
+		CatchActionRequest expected1 = new CatchActionRequest(from, l14, l25, l03, l17);
+		CatchActionRequest expected2 = new CatchActionRequest(from, l14, l25, l03, l21);
+		CatchActionRequest expected3 = new CatchActionRequest(from, l14, l25, l03, l26);
 		
-		CatchActionRequest nonMax1 = new CatchActionRequest(28, 14);
-		CatchActionRequest nonMax2 = new CatchActionRequest(28, 14, 25);
-		CatchActionRequest nonMax3 = new CatchActionRequest(28, 14, 25, 3);
+		CatchActionRequest nonMax1 = new CatchActionRequest(from, l14);
+		CatchActionRequest nonMax2 = new CatchActionRequest(from, l14, l25);
+		CatchActionRequest nonMax3 = new CatchActionRequest(from, l14, l25, l03);
 		
 		assertTrue(analyser.isActionLegal(expected1, Player.White));
 		assertTrue(analyser.isActionLegal(expected2, Player.White));

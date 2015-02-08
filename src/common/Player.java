@@ -11,6 +11,9 @@ public enum Player
 	Black,
 	White;
 
+	/**
+	 * Returns the opponent of this player.
+	 */
 	public Player getOpponent()
 	{
 		return this == Black ? White : Black;
