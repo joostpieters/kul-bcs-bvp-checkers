@@ -1,12 +1,11 @@
 package ui;
 
 import java.awt.event.WindowEvent;
-
 import ui.contracts.IVisualizer;
 import bvp.Bord;
 import bvp.Figuren;
 import bvp.Figuur;
-import common.Configs;
+import common.ConfigurationManager;
 import common.Player;
 import domain.action.contracts.IAction;
 import domain.board.contracts.IBoardSize;
@@ -58,13 +57,15 @@ public class GraphicalVisualizer implements IVisualizer
 	{
 		Bord frame = getFrame();
 		IBoardSize size = board.getSize();
-		Figuren numbers = new Figuren(Configs.CijfersPath);
-		Figuren pieces = new Figuren(Configs.SchijvenPath);
+		 System.out.println("Working Directory = " + System.getProperty("user.dir"));
+		Figuren numbers = new Figuren(ConfigurationManager.getInstance().getCijfersPath());
+		Figuren pieces = new Figuren(ConfigurationManager.getInstance().getSchijvenPath());
 		Figuur background = new Figuur(size.getCols()*50, size.getRows()*50);
-		Figuur whiteSquare = new Figuur(Configs.SquareSizePx, Configs.SquareSizePx);
-		Figuur blackSquare = new Figuur(Configs.SquareSizePx, Configs.SquareSizePx);
-		whiteSquare.vulRechthoek(0,0,Configs.SquareSizePx,Configs.SquareSizePx,Configs.LightColor);
-		blackSquare.vulRechthoek(0,0,Configs.SquareSizePx,Configs.SquareSizePx,Configs.DarkColor);
+		int squareSizePx = ConfigurationManager.getInstance().getSquareSizePx();
+		Figuur whiteSquare = new Figuur(squareSizePx, squareSizePx);
+		Figuur blackSquare = new Figuur(squareSizePx, squareSizePx);
+		whiteSquare.vulRechthoek(0,0,squareSizePx, squareSizePx, ConfigurationManager.getInstance().getLightColor());
+		blackSquare.vulRechthoek(0,0,squareSizePx, squareSizePx, ConfigurationManager.getInstance().getDarkColor());
 		for (int row = 0; row < size.getRows(); row++)
 		{
 			for (int col = 0; col < size.getCols(); col++)
@@ -75,13 +76,13 @@ public class GraphicalVisualizer implements IVisualizer
 					IReadOnlySquare square = board.getSquare(location);
 					if (location.isWhite())
 					{
-						background.plaatsFiguur(whiteSquare, col*Configs.SquareSizePx, row*Configs.SquareSizePx);
+						background.plaatsFiguur(whiteSquare, col*squareSizePx, row*squareSizePx);
 					}
 					else
 					{
-						background.plaatsFiguur(blackSquare, col*Configs.SquareSizePx, row*Configs.SquareSizePx);
-						int hPixels = col*Configs.SquareSizePx;
-						int vPixels = row*Configs.SquareSizePx;
+						background.plaatsFiguur(blackSquare, col*squareSizePx, row*squareSizePx);
+						int hPixels = col*squareSizePx;
+						int vPixels = row*squareSizePx;
 						if(square.hasPiece())
 						{
 							IPiece piece = square.getPiece();
@@ -94,7 +95,7 @@ public class GraphicalVisualizer implements IVisualizer
 						{
 							String digit = digits.substring(i, i+1);
 							Figuur figure = numbers.getFiguur(digit).scaleer(10,10);
-							background.plaatsFiguur(figure, hPixels + Configs.SquareSizePx/3 + 10*i, vPixels + Configs.SquareSizePx/3);
+							background.plaatsFiguur(figure, hPixels + squareSizePx/3 + 10*i, vPixels + squareSizePx/3);
 						}
 					}
 				}
@@ -105,7 +106,7 @@ public class GraphicalVisualizer implements IVisualizer
 			}
 		}
 		frame.toon(background);
-		try {Thread.sleep(Configs.PaintDelayMs);} catch (InterruptedException e) { }
+		try {Thread.sleep(ConfigurationManager.getInstance().getPaintDelayMs());} catch (InterruptedException e) { }
 	}
 	
 	private void close()

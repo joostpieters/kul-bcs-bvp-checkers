@@ -1,5 +1,5 @@
 package domain.piece;
-import common.Configs;
+import common.ConfigurationManager;
 import common.Player;
 import domain.piece.contracts.IPiece;
 
@@ -55,7 +55,7 @@ public class Piece implements IPiece
 	@Override
 	public boolean canCatchBackward()
 	{
-		return Configs.BackwardCatchingAllowed;
+		return ConfigurationManager.getInstance().getBackwardCatchingAllowed();
 	}
 	
 	@Override

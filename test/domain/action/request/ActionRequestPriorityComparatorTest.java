@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import common.Player;
+
 import domain.board.BoardSize;
 import domain.board.contracts.IBoardSize;
 import domain.location.Location;
@@ -20,8 +22,8 @@ public class ActionRequestPriorityComparatorTest
 		Location a = new Location(1, size);
 		Location b = new Location(2, size);
 		Location c = new Location(3, size);	
-		ActionRequest request1 = new CatchActionRequest(a, b, c);
-		ActionRequest request2 = new CatchActionRequest(a, b, c);
+		ActionRequest request1 = new CatchActionRequest(Player.White, a, b, c);
+		ActionRequest request2 = new CatchActionRequest(Player.White, a, b, c);
 		
 		assertEquals(0, comparator.compare(request1, request2));
 	}
@@ -32,8 +34,8 @@ public class ActionRequestPriorityComparatorTest
 		Location a = new Location(1, size);
 		Location b = new Location(2, size);
 		Location c = new Location(3, size);
-		ActionRequest request1 = new CatchActionRequest(a, b, c);
-		ActionRequest request2 = new CatchActionRequest(a, b);
+		ActionRequest request1 = new CatchActionRequest(Player.White, a, b, c);
+		ActionRequest request2 = new CatchActionRequest(Player.White, a, b);
 		
 		assertEquals(1, comparator.compare(request1, request2));
 	}
@@ -44,8 +46,8 @@ public class ActionRequestPriorityComparatorTest
 		Location a = new Location(1, size);
 		Location b = new Location(2, size);
 		Location c = new Location(3, size);
-		ActionRequest request1 = new CatchActionRequest(a, b);
-		ActionRequest request2 = new CatchActionRequest(a, b, c);
+		ActionRequest request1 = new CatchActionRequest(Player.White, a, b);
+		ActionRequest request2 = new CatchActionRequest(Player.White, a, b, c);
 		
 		assertEquals(-1, comparator.compare(request1, request2));
 	}

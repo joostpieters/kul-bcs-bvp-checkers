@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import common.Player;
+
 import domain.action.contracts.IActionRequest;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoardSize;
@@ -19,7 +21,7 @@ public class MoveActionRequestTest
 	{
 		Location a = new Location(1, size);
 		Location b = new Location(2, size);
-		IActionRequest request = new MoveActionRequest(a, b);
+		IActionRequest request = new MoveActionRequest(Player.White, a, b);
 		assertFalse(request.isCatch());
 	}
 
@@ -28,7 +30,7 @@ public class MoveActionRequestTest
 	{
 		Location a = new Location(1, size);
 		Location b = new Location(2, size);
-		IActionRequest request = new MoveActionRequest(a, b);
+		IActionRequest request = new MoveActionRequest(Player.White, a, b);
 		assertEquals(0, request.getNumberOfCatches());
 	}
 }

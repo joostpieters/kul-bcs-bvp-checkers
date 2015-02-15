@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import common.Configs;
+import common.ConfigurationManager;
 import common.Player;
 
 public class DameTest
@@ -36,7 +36,7 @@ public class DameTest
 	@Test
 	public void testProperties()
 	{
-		assertEquals(Configs.FlyingDame, whiteDame.canFly());
+		assertEquals(ConfigurationManager.getInstance().getFlyingDame(), whiteDame.canFly());
 		assertTrue(whiteDame.canStepBackward());
 		assertTrue(whiteDame.canCatchBackward());
 		assertFalse(whiteDame.canPromote());

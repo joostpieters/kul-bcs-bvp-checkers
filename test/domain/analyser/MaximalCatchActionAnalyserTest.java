@@ -50,9 +50,9 @@ public class MaximalCatchActionAnalyserTest
 		Location l26 = new Location(26, size);
 		Location l25 = new Location(25, size);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(from, l14, l25, l03, l17);
-		CatchActionRequest expected2 = new CatchActionRequest(from, l14, l25, l03, l21);
-		CatchActionRequest expected3 = new CatchActionRequest(from, l14, l25, l03, l26);
+		CatchActionRequest expected1 = new CatchActionRequest(Player.White, from, l14, l25, l03, l17);
+		CatchActionRequest expected2 = new CatchActionRequest(Player.White, from, l14, l25, l03, l21);
+		CatchActionRequest expected3 = new CatchActionRequest(Player.White, from, l14, l25, l03, l26);
 		
 		assertEquals(3, results.size());
 		assertTrue(results.contains(expected1));
@@ -84,9 +84,9 @@ public class MaximalCatchActionAnalyserTest
 		Location l26 = new Location(26, size);
 		Location l25 = new Location(25, size);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(from, l14, l25, l03, l17);
-		CatchActionRequest expected2 = new CatchActionRequest(from, l14, l25, l03, l21);
-		CatchActionRequest expected3 = new CatchActionRequest(from, l14, l25, l03, l26);
+		CatchActionRequest expected1 = new CatchActionRequest(Player.White, from, l14, l25, l03, l17);
+		CatchActionRequest expected2 = new CatchActionRequest(Player.White, from, l14, l25, l03, l21);
+		CatchActionRequest expected3 = new CatchActionRequest(Player.White, from, l14, l25, l03, l26);
 		
 		assertEquals(3, results.size());
 		assertTrue(results.contains(expected1));

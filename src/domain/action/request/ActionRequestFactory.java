@@ -1,5 +1,7 @@
 package domain.action.request;
 
+import common.Player;
+
 import domain.action.contracts.IActionRequest;
 import domain.board.contracts.IBoardSize;
 import domain.location.Location;
@@ -20,7 +22,7 @@ public class ActionRequestFactory
 		this.size = size;
 	}
 	
-	public IActionRequest create(String move) throws LocationOutOfRangeException
+	public IActionRequest create(Player player, String move) throws LocationOutOfRangeException
 	{
 		if(move.matches("\\d+\\s*-\\s*\\d+")) //step or fly
 		{
@@ -30,7 +32,7 @@ public class ActionRequestFactory
 			
 			Location from = new Location(fromIndex, getSize());
 			Location to = new Location(toIndex, getSize());
-			return new MoveActionRequest(from, to);
+			return new MoveActionRequest(player, from, to);
 		}
 		else if(move.matches("\\d+(\\s*x\\s*\\d+)+")) //(multi-)(fly-)catch
 		{
@@ -41,7 +43,7 @@ public class ActionRequestFactory
 				int index = Integer.parseInt(parts[i]);
 				locations[i] = new Location(index, getSize());
 			}
-			return new CatchActionRequest(locations);
+			return new CatchActionRequest(player, locations);
 		}
 		throw new IllegalArgumentException(LocalizationManager.getString("invalidPatternException"));
 	}

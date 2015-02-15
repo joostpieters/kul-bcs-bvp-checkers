@@ -2,7 +2,7 @@ package domain.analyser;
 
 import java.util.List;
 
-import common.Configs;
+import common.ConfigurationManager;
 import common.Player;
 import domain.action.contracts.IAction;
 import domain.action.contracts.IActionRequest;
@@ -27,13 +27,14 @@ public class LegalActionAnalyser
 		this.board = board;
 	}
 	
-	public boolean isActionLegal(IActionRequest request, Player currentPlayer)
+	public boolean isActionLegal(IActionRequest request)
 	{
-		if(!Configs.MandatoryMaximalCatching)
+		if(!ConfigurationManager.getInstance().getMandatoryMaximalCatching())
 		{
 			return request.isCatch();
 		}
 		
+		Player currentPlayer = request.getPlayer();
 		MaximalCatchActionAnalyser analyser = new MaximalCatchActionAnalyser(getBoard());
 		List<CatchActionRequest> maximalCatchActions = analyser.find(currentPlayer);
 		if(maximalCatchActions.size() > 0) //there is a (maximal) catch

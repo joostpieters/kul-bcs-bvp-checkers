@@ -3,7 +3,7 @@ package ui;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import common.Configs;
+import common.ConfigurationManager;
 
 public class LocalizationManager
 {
@@ -16,7 +16,7 @@ public class LocalizationManager
 	
 	static
 	{
-		Locale currentLocale = new Locale(Configs.Language, Configs.Country);
+		Locale currentLocale = new Locale(ConfigurationManager.getInstance().getLanguage(), ConfigurationManager.getInstance().getCountry());
 		localizations = ResourceBundle.getBundle("Localizations", currentLocale);
 	}
 }

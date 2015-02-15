@@ -56,7 +56,7 @@ public class PossibleCatchActionAnalyser implements IAnalyser<CatchActionRequest
 			IBoard testBoard = board.getDeepClone();
 			try
 			{
-				IAction action = ActionFactory.create(catchRequest, testBoard, currentPlayer);
+				IAction action = ActionFactory.create(catchRequest, testBoard);
 				if(action.isValidOn(testBoard, currentPlayer)) //this should be OK in most cases
 				{
 					action.executeOn(testBoard, currentPlayer);

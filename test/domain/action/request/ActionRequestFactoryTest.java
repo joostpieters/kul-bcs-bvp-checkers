@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import common.Player;
+
 import domain.action.contracts.IActionRequest;
 import domain.board.BoardSize;
 import domain.location.LocationOutOfRangeException;
@@ -14,14 +16,16 @@ public class ActionRequestFactoryTest
 	@Test
 	public void testStep() throws LocationOutOfRangeException
 	{
-		IActionRequest request = factory.create("1-2");
+		IActionRequest request = factory.create(Player.White, "1-2");
+		assertEquals(Player.White, request.getPlayer());
 		assertFalse(request.isCatch());
 	}
 
 	@Test
 	public void testCatch() throws LocationOutOfRangeException
 	{
-		IActionRequest request = factory.create("1x2");
+		IActionRequest request = factory.create(Player.Black, "1x2");
+		assertEquals(Player.Black, request.getPlayer());
 		assertTrue(request.isCatch());
 		assertEquals(1, request.getNumberOfCatches());
 	}
@@ -29,7 +33,8 @@ public class ActionRequestFactoryTest
 	@Test
 	public void testMutiCatch() throws LocationOutOfRangeException
 	{
-		IActionRequest request = factory.create("1x2x3");
+		IActionRequest request = factory.create(Player.White, "1x2x3");
+		assertEquals(Player.White, request.getPlayer());
 		assertTrue(request.isCatch());
 		assertEquals(2, request.getNumberOfCatches());
 	}
@@ -37,6 +42,6 @@ public class ActionRequestFactoryTest
 	@Test(expected=IllegalArgumentException.class)
 	public void testInvalidPattern() throws LocationOutOfRangeException
 	{
-		factory.create("lalala");
+		factory.create(Player.White, "lalala");
 	}
 }

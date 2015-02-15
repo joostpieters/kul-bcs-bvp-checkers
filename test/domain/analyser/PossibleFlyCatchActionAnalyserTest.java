@@ -34,8 +34,8 @@ public class PossibleFlyCatchActionAnalyserTest
 		Location from = new Location(28, size);
 		Location a = new Location(10, size);
 		Location b = new Location(5, size);
-		CatchActionRequest expected1 = new CatchActionRequest(from, a);
-		CatchActionRequest expected2 = new CatchActionRequest(from, b);
+		CatchActionRequest expected1 = new CatchActionRequest(Player.White, from, a);
+		CatchActionRequest expected2 = new CatchActionRequest(Player.White, from, b);
 		
 		assertEquals(2, results.size());
 		assertTrue(results.contains(expected1));
@@ -131,7 +131,7 @@ public class PossibleFlyCatchActionAnalyserTest
 		List<CatchActionRequest> results = analyser.find(Player.White, location);
 		Location from = new Location(28, size);
 		Location to = new Location(14, size);
-		CatchActionRequest expected1 = new CatchActionRequest(from, to);
+		CatchActionRequest expected1 = new CatchActionRequest(Player.White, from, to);
 		
 		assertEquals(1, results.size());
 		assertTrue(results.contains(expected1));

@@ -4,27 +4,38 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import common.Player;
+
 import domain.action.contracts.IActionRequest;
 import domain.location.Location;
 
 public abstract class ActionRequest implements IActionRequest
 {
+	protected final Player player;
 	protected final List<Location> locations = new ArrayList<Location>();
 	
-	public ActionRequest(Location... locations)
+	public ActionRequest(Player player, Location... locations)
 	{
+		this.player = player;
 		for(Location location : locations)
 		{
 			addLocation(location);
 		}
 	}
 	
-	protected ActionRequest(Iterable<Location> locations)
+	protected ActionRequest(Player player, Iterable<Location> locations)
 	{
+		this.player = player;
 		for(Location location : locations)
 		{
 			addLocation(location);
 		}
+	}
+	
+	@Override
+	public Player getPlayer()
+	{
+		return player;
 	}
 
 	@Override

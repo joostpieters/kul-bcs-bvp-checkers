@@ -1,6 +1,6 @@
 package domain.game;
 
-import common.Configs;
+import common.ConfigurationManager;
 import common.Player;
 import domain.board.contracts.IBoard;
 import domain.game.contracts.GameState;
@@ -10,7 +10,7 @@ import domain.game.contracts.IReadOnlyGame;
 public class Game implements IGame
 {
 	private final IBoard board;
-	private Player currentPlayer = Configs.FirstPlayer;
+	private Player currentPlayer = ConfigurationManager.getInstance().getFirstPlayer();
 	private Player winner = null;
 	private GameState state = GameState.Ongoing;
 	

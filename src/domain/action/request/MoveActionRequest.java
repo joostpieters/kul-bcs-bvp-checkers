@@ -1,12 +1,14 @@
 package domain.action.request;
 
+import common.Player;
+
 import domain.location.Location;
 
 public class MoveActionRequest extends ActionRequest
 {
-	public MoveActionRequest(Location from, Location to)
+	public MoveActionRequest(Player player, Location from, Location to)
 	{
-		super(from, to);
+		super(player, from, to);
 	}
 	
 	@Override

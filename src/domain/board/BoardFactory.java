@@ -3,7 +3,7 @@ import java.nio.file.Path;
 import java.io.IOException;
 import java.util.Scanner;
 
-import common.Configs;
+import common.ConfigurationManager;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
 import domain.location.Location;
@@ -35,6 +35,6 @@ public class BoardFactory
 	
 	public static IBoard create(Path input) throws IOException, LocationOutOfRangeException
 	{
-		return create(Configs.Size, input);
+		return create(ConfigurationManager.getInstance().getBoardSize(), input);
 	}
 }

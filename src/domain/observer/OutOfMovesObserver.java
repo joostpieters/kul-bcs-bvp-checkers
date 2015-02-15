@@ -23,7 +23,7 @@ import domain.update.contracts.IObserver;
  */
 public class OutOfMovesObserver extends UpdateProcessor
 {
-	private static boolean isCurrentPlayerOutOfMoves(IReadOnlyBoard board, Player player) //TODO analyser?
+	private static boolean isCurrentPlayerOutOfMoves(IReadOnlyBoard board, Player player)
 	{
 		Set<Location> locations = board.getPlayerPieces(player).keySet();
 		for(Location location : locations)
@@ -43,7 +43,7 @@ public class OutOfMovesObserver extends UpdateProcessor
 		{
 			try
 			{
-				IAction action = ActionFactory.create(step, board, player);
+				IAction action = ActionFactory.create(step, board);
 				if(action.isValidOn(board, player)) //no need to execute in case of atomic actions
 				{
 					filteredRequests.add(step);

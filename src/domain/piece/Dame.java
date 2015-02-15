@@ -1,6 +1,6 @@
 package domain.piece;
 
-import common.Configs;
+import common.ConfigurationManager;
 import common.Player;
 import domain.piece.contracts.IPiece;
 
@@ -62,7 +62,7 @@ public class Dame implements IPiece
 	@Override
 	public boolean canFly()
 	{
-		return Configs.FlyingDame;
+		return ConfigurationManager.getInstance().getFlyingDame();
 	}
 	
 	@Override

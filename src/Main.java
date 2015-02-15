@@ -4,7 +4,7 @@ import java.nio.file.Paths;
 import ui.GraphicalVisualizer;
 import ui.TextualVisualizer;
 import ui.UserInterface;
-import common.Configs;
+import common.ConfigurationManager;
 import controller.GameController;
 import domain.analyser.LegalActionAnalyser;
 import domain.board.BoardFactory;
@@ -32,15 +32,15 @@ public class Main
 	{
 		IBoard board = BoardFactory.create(Paths.get("data", "input", "default.txt"));
 		Game game = new Game(board);
+		PromotionObserver promotionObserver = new PromotionObserver();
+		OutOfMovesObserver oomObserver = new OutOfMovesObserver();
+		ForcedRemiseObserver forcedRemiseObserver = new ForcedRemiseObserver(ConfigurationManager.getInstance().getRemiseThreshold());
 		
 		try(UserInterface ui = new UserInterface())
 		{
 			try(InputProvider inputProvider = new InputProvider(ui, new LegalActionAnalyser(board), game))
 			{
 				GameController controller = new GameController(game, inputProvider);
-				PromotionObserver promotionObserver = new PromotionObserver();
-				OutOfMovesObserver oomObserver = new OutOfMovesObserver();
-				ForcedRemiseObserver forcedRemiseObserver = new ForcedRemiseObserver(Configs.RemiseThreshold);
 				
 				inputProvider.subscribe(controller);
 				promotionObserver.subscribe(controller);

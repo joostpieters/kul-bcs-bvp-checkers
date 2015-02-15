@@ -28,14 +28,13 @@ public class ActionFactory
 	 * 			The {@link IActionRequest} to create the new {@link IAction} from.
 	 * @param 	board
 	 * 			The {@link IBoard} of the current {@link IGame}.
-	 * @param 	currentPlayer
-	 * 			The {@link Player} that requests the {@link IAction}.
 	 * @throws 	LocationOutOfRangeException
 	 * 			When the {@link IActionRequest} contains invalid indices.
 	 */
-	public static IAction create(IActionRequest request, IReadOnlyBoard board, Player currentPlayer) throws LocationOutOfRangeException
+	public static IAction create(IActionRequest request, IReadOnlyBoard board) throws LocationOutOfRangeException
 	{
 		List<Location> locations = request.getLocations();
+		Player currentPlayer = request.getPlayer();
 		if(!request.isCatch())
 		{
 			return createActionMove(locations);

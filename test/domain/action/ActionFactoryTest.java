@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import common.Player;
+
 import domain.action.contracts.IAction;
 import domain.action.contracts.IActionRequest;
 import domain.action.request.CatchActionRequest;
@@ -35,8 +36,9 @@ public class ActionFactoryTest
 		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
 		Location from = new Location(18, board.getSize());
 		Location to = new Location(12, board.getSize());
-		IActionRequest request = new MoveActionRequest(from, to);
-		IAction action = ActionFactory.create(request, board, Player.White);
+		IActionRequest request = new MoveActionRequest(Player.White, from, to);
+		IAction action = ActionFactory.create(request, board);
+		assertEquals(Player.White, request.getPlayer());
 		assertFalse(action.isCatch());
 		assertTrue(action instanceof AtomicActionStep);
 	}
@@ -47,8 +49,9 @@ public class ActionFactoryTest
 		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
 		Location from = new Location(18, board.getSize());
 		Location to = new Location(4, board.getSize());
-		IActionRequest request = new MoveActionRequest(from, to);
-		IAction action = ActionFactory.create(request, board, Player.White);
+		IActionRequest request = new MoveActionRequest(Player.Black, from, to);
+		IAction action = ActionFactory.create(request, board);
+		assertEquals(Player.Black, request.getPlayer());
 		assertFalse(action.isCatch());
 		assertTrue(action instanceof CompositeActionFly);
 	}
@@ -59,8 +62,9 @@ public class ActionFactoryTest
 		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
 		Location from = new Location(18, board.getSize());
 		Location to = new Location(27, board.getSize());
-		IActionRequest request = new CatchActionRequest(from, to);
-		IAction action = ActionFactory.create(request, board, Player.White);
+		IActionRequest request = new CatchActionRequest(Player.White, from, to);
+		IAction action = ActionFactory.create(request, board);
+		assertEquals(Player.White, request.getPlayer());
 		assertTrue(action.isCatch());
 		assertTrue(action instanceof AtomicActionCatch);
 	}
@@ -71,8 +75,8 @@ public class ActionFactoryTest
 		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
 		Location from = new Location(18, board.getSize());
 		Location to = new Location(23, board.getSize());
-		IActionRequest request = new CatchActionRequest(from, to);
-		ActionFactory.create(request, board, Player.White);
+		IActionRequest request = new CatchActionRequest(Player.White, from, to);
+		ActionFactory.create(request, board);
 	}
 	
 	@Test
@@ -81,8 +85,9 @@ public class ActionFactoryTest
 		IBoard board = BoardFactory.create(Paths.get("data", "input", "allActions.txt"));
 		Location from = new Location(18, board.getSize());
 		Location to = new Location(45, board.getSize());
-		IActionRequest request = new CatchActionRequest(from, to);
-		IAction action = ActionFactory.create(request, board, Player.White);
+		IActionRequest request = new CatchActionRequest(Player.White, from, to);
+		IAction action = ActionFactory.create(request, board);
+		assertEquals(Player.White, request.getPlayer());
 		assertTrue(action.isCatch());
 		assertTrue(action instanceof CompositeActionFlyCatch);
 	}
@@ -94,8 +99,9 @@ public class ActionFactoryTest
 		Location a = new Location(18, board.getSize());
 		Location b = new Location(40, board.getSize());
 		Location c = new Location(49, board.getSize());
-		IActionRequest request = new CatchActionRequest(a, b, c);
-		IAction action = ActionFactory.create(request, board, Player.White);
+		IActionRequest request = new CatchActionRequest(Player.White, a, b, c);
+		IAction action = ActionFactory.create(request, board);
+		assertEquals(Player.White, request.getPlayer());
 		assertTrue(action.isCatch());
 		assertTrue(action instanceof CompositeAction);
 		CompositeAction composite = (CompositeAction)action;
@@ -111,8 +117,8 @@ public class ActionFactoryTest
 		Location a = new Location(18, board.getSize());
 		Location b = new Location(34, board.getSize());
 		Location c = new Location(25, board.getSize());
-		IActionRequest request = new CatchActionRequest(a, b, c);
-		ActionFactory.create(request, board, Player.White);
+		IActionRequest request = new CatchActionRequest(Player.White, a, b, c);
+		ActionFactory.create(request, board);
 	}
 
 	@Test
@@ -124,8 +130,9 @@ public class ActionFactoryTest
 		Location c = new Location(49, board.getSize());
 		Location d = new Location(38, board.getSize());
 		Location e = new Location(15, board.getSize());
-		IActionRequest request = new CatchActionRequest(a, b, c, d, e);
-		IAction action = ActionFactory.create(request, board, Player.White);
+		IActionRequest request = new CatchActionRequest(Player.White, a, b, c, d, e);
+		IAction action = ActionFactory.create(request, board);
+		assertEquals(Player.White, request.getPlayer());
 		assertTrue(action.isCatch());
 		assertTrue(action instanceof CompositeAction);
 		CompositeAction composite = (CompositeAction)action;

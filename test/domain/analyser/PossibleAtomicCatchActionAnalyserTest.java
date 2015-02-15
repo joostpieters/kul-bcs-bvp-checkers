@@ -36,10 +36,10 @@ public class PossibleAtomicCatchActionAnalyserTest
 		Location b = new Location(19, size);
 		Location c = new Location(37, size);
 		Location d = new Location(39, size);
-		CatchActionRequest expected1 = new CatchActionRequest(from, a);
-		CatchActionRequest expected2 = new CatchActionRequest(from, b);
-		CatchActionRequest expected3 = new CatchActionRequest(from, c);
-		CatchActionRequest expected4 = new CatchActionRequest(from, d);
+		CatchActionRequest expected1 = new CatchActionRequest(Player.White, from, a);
+		CatchActionRequest expected2 = new CatchActionRequest(Player.White, from, b);
+		CatchActionRequest expected3 = new CatchActionRequest(Player.White, from, c);
+		CatchActionRequest expected4 = new CatchActionRequest(Player.White, from, d);
 		
 		assertEquals(4, requests.size());
 		assertTrue(requests.contains(expected1));
@@ -61,8 +61,8 @@ public class PossibleAtomicCatchActionAnalyserTest
 		Location from = new Location(36, size);
 		Location a = new Location(27, size);
 		Location b = new Location(47, size);
-		CatchActionRequest expected1 = new CatchActionRequest(from, a);
-		CatchActionRequest expected2 = new CatchActionRequest(from, b);
+		CatchActionRequest expected1 = new CatchActionRequest(Player.White, from, a);
+		CatchActionRequest expected2 = new CatchActionRequest(Player.White, from, b);
 		
 		assertEquals(2, requests.size());
 		assertTrue(requests.contains(expected1));
@@ -96,9 +96,9 @@ public class PossibleAtomicCatchActionAnalyserTest
 		Location a = new Location(19, size);
 		Location b = new Location(37, size);
 		Location c = new Location(39, size);
-		CatchActionRequest expected1 = new CatchActionRequest(from, a);
-		CatchActionRequest expected2 = new CatchActionRequest(from, b);
-		CatchActionRequest expected4 = new CatchActionRequest(from, c);
+		CatchActionRequest expected1 = new CatchActionRequest(Player.White, from, a);
+		CatchActionRequest expected2 = new CatchActionRequest(Player.White, from, b);
+		CatchActionRequest expected4 = new CatchActionRequest(Player.White, from, c);
 		
 		assertEquals(3, requests.size());
 		assertTrue(requests.contains(expected1));
@@ -121,9 +121,9 @@ public class PossibleAtomicCatchActionAnalyserTest
 		Location a = new Location(19, size);
 		Location b = new Location(37, size);
 		Location c = new Location(39, size);
-		CatchActionRequest expected1 = new CatchActionRequest(from, a);
-		CatchActionRequest expected2 = new CatchActionRequest(from, b);
-		CatchActionRequest expected4 = new CatchActionRequest(from, c);
+		CatchActionRequest expected1 = new CatchActionRequest(Player.White, from, a);
+		CatchActionRequest expected2 = new CatchActionRequest(Player.White, from, b);
+		CatchActionRequest expected4 = new CatchActionRequest(Player.White, from, c);
 		
 		assertEquals(3, requests.size());
 		assertTrue(requests.contains(expected1));

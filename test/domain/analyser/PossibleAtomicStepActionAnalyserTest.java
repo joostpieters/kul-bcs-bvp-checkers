@@ -41,10 +41,10 @@ public class PossibleAtomicStepActionAnalyserTest
 		Location c = new Location(32, size);
 		Location d = new Location(33, size);
 		
-		MoveActionRequest expected1 = new MoveActionRequest(from, a);
-		MoveActionRequest expected2 = new MoveActionRequest(from, b);
-		MoveActionRequest expected3 = new MoveActionRequest(from, c);
-		MoveActionRequest expected4 = new MoveActionRequest(from, d);
+		MoveActionRequest expected1 = new MoveActionRequest(Player.White, from, a);
+		MoveActionRequest expected2 = new MoveActionRequest(Player.White, from, b);
+		MoveActionRequest expected3 = new MoveActionRequest(Player.White, from, c);
+		MoveActionRequest expected4 = new MoveActionRequest(Player.White, from, d);
 		
 		assertEquals(4, requests.size());
 		assertTrue(requests.contains(expected1));
@@ -65,8 +65,8 @@ public class PossibleAtomicStepActionAnalyserTest
 		Location a = new Location(31, size);
 		Location b = new Location(41, size);
 		
-		MoveActionRequest expected1 = new MoveActionRequest(from, a);
-		MoveActionRequest expected2 = new MoveActionRequest(from, b);
+		MoveActionRequest expected1 = new MoveActionRequest(Player.White, from, a);
+		MoveActionRequest expected2 = new MoveActionRequest(Player.White, from, b);
 		
 		assertEquals(2, requests.size());
 		assertTrue(requests.contains(expected1));
@@ -100,9 +100,9 @@ public class PossibleAtomicStepActionAnalyserTest
 		Location b = new Location(23, size);
 		Location c = new Location(33, size);
 		
-		MoveActionRequest expected1 = new MoveActionRequest(from, a);
-		MoveActionRequest expected2 = new MoveActionRequest(from, b);
-		MoveActionRequest expected4 = new MoveActionRequest(from, c);
+		MoveActionRequest expected1 = new MoveActionRequest(Player.White, from, a);
+		MoveActionRequest expected2 = new MoveActionRequest(Player.White, from, b);
+		MoveActionRequest expected4 = new MoveActionRequest(Player.White, from, c);
 		
 		assertEquals(3, requests.size());
 		assertTrue(requests.contains(expected1));

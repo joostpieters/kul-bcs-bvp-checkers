@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import common.Configs;
+import common.ConfigurationManager;
 import common.Player;
 import domain.action.request.ActionRequest;
 import domain.action.request.CatchActionRequest;
@@ -27,67 +27,66 @@ public class LegalActionAnalyserTest
 	@Before
 	public void setup()
 	{
-		previousConfigSetting = Configs.MandatoryMaximalCatching;
+		previousConfigSetting = ConfigurationManager.getInstance().getMandatoryMaximalCatching();
 	}
 	
 	@After
 	public void tearDown()
 	{
-		Configs.MandatoryMaximalCatching = previousConfigSetting;
+		ConfigurationManager.getInstance().setMandatoryMaximalCatching(previousConfigSetting);
 	}
 	
 	@Test
 	public void testIsActionLegalNonMaximalCatching() throws LocationOutOfRangeException
 	{
-		
-		Configs.MandatoryMaximalCatching = false;
+		ConfigurationManager.getInstance().setMandatoryMaximalCatching(false);
 		
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		LegalActionAnalyser analyser = new LegalActionAnalyser(board);
 		Location a = new Location(1, size);
 		Location b = new Location(2, size);
-		ActionRequest moveRequest = new MoveActionRequest(a, b);
-		ActionRequest catchRequest = new CatchActionRequest(a, b);
+		ActionRequest moveRequest = new MoveActionRequest(Player.White, a, b);
+		ActionRequest catchRequest = new CatchActionRequest(Player.White, a, b);
 		
-		assertFalse(analyser.isActionLegal(moveRequest, Player.White));
-		assertTrue(analyser.isActionLegal(catchRequest, Player.White));
+		assertFalse(analyser.isActionLegal(moveRequest));
+		assertTrue(analyser.isActionLegal(catchRequest));
 	}
 	
 	@Test
 	public void testIsActionLegalMaximalCatchingMoveAllowedIfNoCatches() throws LocationOutOfRangeException
 	{
-		Configs.MandatoryMaximalCatching = true;
+		ConfigurationManager.getInstance().setMandatoryMaximalCatching(true);
 		
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		LegalActionAnalyser analyser = new LegalActionAnalyser(board);
 		Location a = new Location(1, size);
 		Location b = new Location(2, size);
-		ActionRequest moveRequest = new MoveActionRequest(a, b);
+		ActionRequest moveRequest = new MoveActionRequest(Player.White, a, b);
 		
-		assertTrue(analyser.isActionLegal(moveRequest, Player.White));
+		assertTrue(analyser.isActionLegal(moveRequest));
 	}
 	
 	@Test(expected=AssertionError.class)
 	public void testIsActionLegalMaximalCatchingNoCatchesProposeCatch() throws LocationOutOfRangeException
 	{
-		Configs.MandatoryMaximalCatching = true;
+		ConfigurationManager.getInstance().setMandatoryMaximalCatching(true);
 		
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		LegalActionAnalyser analyser = new LegalActionAnalyser(board);
 		Location a = new Location(1, size);
 		Location b = new Location(2, size);
-		ActionRequest catchRequest = new CatchActionRequest(a, b);
+		ActionRequest catchRequest = new CatchActionRequest(Player.White, a, b);
 		
-		analyser.isActionLegal(catchRequest, Player.White);
+		analyser.isActionLegal(catchRequest);
 	}
 	
 	@Test
 	public void testIsActionLegalMaximalCatchingMoveNotAllowedIfCatches() throws LocationOutOfRangeException
 	{
-		Configs.MandatoryMaximalCatching = true;
+		ConfigurationManager.getInstance().setMandatoryMaximalCatching(true);
 		
 		IBoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
@@ -96,14 +95,16 @@ public class LegalActionAnalyserTest
 		LegalActionAnalyser analyser = new LegalActionAnalyser(board);
 		Location a = new Location(1, size);
 		Location b = new Location(2, size);
-		ActionRequest moveRequest = new MoveActionRequest(a, b);
+		ActionRequest moveRequest = new MoveActionRequest(Player.White, a, b);
 		
-		assertFalse(analyser.isActionLegal(moveRequest, Player.White));
+		assertFalse(analyser.isActionLegal(moveRequest));
 	}
 	
 	@Test
 	public void testFindAllMaxiMultiFlyCatch() throws LocationOutOfRangeException
 	{
+		ConfigurationManager.getInstance().setMandatoryMaximalCatching(true);
+		
 		BoardSize size = new BoardSize(10, 10);
 		IBoard board = new Board(size);
 		Location location = new Location(28, size);
@@ -123,20 +124,20 @@ public class LegalActionAnalyserTest
 		Location l26 = new Location(26, size);
 		Location l25 = new Location(25, size);
 		
-		CatchActionRequest expected1 = new CatchActionRequest(from, l14, l25, l03, l17);
-		CatchActionRequest expected2 = new CatchActionRequest(from, l14, l25, l03, l21);
-		CatchActionRequest expected3 = new CatchActionRequest(from, l14, l25, l03, l26);
+		CatchActionRequest expected1 = new CatchActionRequest(Player.White, from, l14, l25, l03, l17);
+		CatchActionRequest expected2 = new CatchActionRequest(Player.White, from, l14, l25, l03, l21);
+		CatchActionRequest expected3 = new CatchActionRequest(Player.White, from, l14, l25, l03, l26);
 		
-		CatchActionRequest nonMax1 = new CatchActionRequest(from, l14);
-		CatchActionRequest nonMax2 = new CatchActionRequest(from, l14, l25);
-		CatchActionRequest nonMax3 = new CatchActionRequest(from, l14, l25, l03);
+		CatchActionRequest nonMax1 = new CatchActionRequest(Player.White, from, l14);
+		CatchActionRequest nonMax2 = new CatchActionRequest(Player.White, from, l14, l25);
+		CatchActionRequest nonMax3 = new CatchActionRequest(Player.White, from, l14, l25, l03);
 		
-		assertTrue(analyser.isActionLegal(expected1, Player.White));
-		assertTrue(analyser.isActionLegal(expected2, Player.White));
-		assertTrue(analyser.isActionLegal(expected3, Player.White));
+		assertTrue(analyser.isActionLegal(expected1));
+		assertTrue(analyser.isActionLegal(expected2));
+		assertTrue(analyser.isActionLegal(expected3));
 		
-		assertFalse(analyser.isActionLegal(nonMax1, Player.White));
-		assertFalse(analyser.isActionLegal(nonMax2, Player.White));
-		assertFalse(analyser.isActionLegal(nonMax3, Player.White));
+		assertFalse(analyser.isActionLegal(nonMax1));
+		assertFalse(analyser.isActionLegal(nonMax2));
+		assertFalse(analyser.isActionLegal(nonMax3));
 	}
 }

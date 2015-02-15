@@ -45,10 +45,10 @@ public class PossibleAtomicActionAnalyserTest
 		Location b = new Location(23, size);
 		Location c = new Location(37, size);
 		Location d = new Location(33, size);
-		CatchActionRequest expected1 = new CatchActionRequest(from, a);
-		MoveActionRequest expected2 = new MoveActionRequest(from, b);
-		CatchActionRequest expected3 = new CatchActionRequest(from, c);
-		MoveActionRequest expected4 = new MoveActionRequest(from, d);
+		CatchActionRequest expected1 = new CatchActionRequest(Player.White, from, a);
+		MoveActionRequest expected2 = new MoveActionRequest(Player.White, from, b);
+		CatchActionRequest expected3 = new CatchActionRequest(Player.White, from, c);
+		MoveActionRequest expected4 = new MoveActionRequest(Player.White, from, d);
 		
 		assertEquals(4, requests.size());
 		assertTrue(requests.contains(expected1));

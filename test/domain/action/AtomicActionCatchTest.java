@@ -9,7 +9,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import common.Configs;
+import common.ConfigurationManager;
 import common.Player;
 import domain.board.Board;
 import domain.board.BoardSize;
@@ -98,10 +98,10 @@ public class AtomicActionCatchTest
 		board.addPiece(new Location(7, size), new Piece(Player.Black));
 		DiagonalLocationPair pair = new DiagonalLocationPair(1, 12, size);
 		AtomicAction action = new AtomicActionCatch(pair);
-		boolean defaultSetting = Configs.BackwardCatchingAllowed;
-		Configs.BackwardCatchingAllowed = false;
+		boolean defaultSetting = ConfigurationManager.getInstance().getBackwardCatchingAllowed();
+		ConfigurationManager.getInstance().setBackwardCatchingAllowed(false);
 		assertFalse(action.isValidOn(board, Player.White));
-		Configs.BackwardCatchingAllowed = defaultSetting;
+		ConfigurationManager.getInstance().setBackwardCatchingAllowed(defaultSetting);
 	}
 	
 	@Test
@@ -113,10 +113,10 @@ public class AtomicActionCatchTest
 		board.addPiece(new Location(7, size), new Piece(Player.Black));
 		DiagonalLocationPair pair = new DiagonalLocationPair(12, 1, size);
 		AtomicAction action = new AtomicActionCatch(pair);
-		boolean defaultSetting = Configs.BackwardCatchingAllowed;
-		Configs.BackwardCatchingAllowed = false;
+		boolean defaultSetting = ConfigurationManager.getInstance().getBackwardCatchingAllowed();
+		ConfigurationManager.getInstance().setBackwardCatchingAllowed(false);
 		assertTrue(action.isValidOn(board, Player.White));
-		Configs.BackwardCatchingAllowed = defaultSetting;
+		ConfigurationManager.getInstance().setBackwardCatchingAllowed(defaultSetting);
 	}
 	
 	@Test

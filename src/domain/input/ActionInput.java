@@ -63,13 +63,13 @@ public class ActionInput extends UpdatePropagator implements IInput
 		
 		try
 		{
-			IActionRequest request = getActionRequestFactory().create(getMove());
-			if(!getLegalActionChecker().isActionLegal(request, currentPlayer))
+			IActionRequest request = getActionRequestFactory().create(currentPlayer, getMove());
+			if(!getLegalActionChecker().isActionLegal(request))
 			{
 				emitWarning(LocalizationManager.getString("warningIllegalAction"));
 				return false;
 			}
-			IAction action = ActionFactory.create(request, board, currentPlayer);
+			IAction action = ActionFactory.create(request, board);
 			action.subscribeBasic(this);
 			if(action.isValidOn(board, currentPlayer))
 			{

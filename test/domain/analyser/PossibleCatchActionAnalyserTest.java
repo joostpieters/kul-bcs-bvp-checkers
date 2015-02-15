@@ -37,10 +37,10 @@ public class PossibleCatchActionAnalyserTest
 		Location b = new Location(19, size);
 		Location c = new Location(37, size);
 		Location d = new Location(39, size);
-		CatchActionRequest expected1 = new CatchActionRequest(from, a);
-		CatchActionRequest expected2 = new CatchActionRequest(from, b);
-		CatchActionRequest expected3 = new CatchActionRequest(from, c);
-		CatchActionRequest expected4 = new CatchActionRequest(from, d);
+		CatchActionRequest expected1 = new CatchActionRequest(Player.White, from, a);
+		CatchActionRequest expected2 = new CatchActionRequest(Player.White, from, b);
+		CatchActionRequest expected3 = new CatchActionRequest(Player.White, from, c);
+		CatchActionRequest expected4 = new CatchActionRequest(Player.White, from, d);
 		
 		assertEquals(4, requests.size());
 		assertTrue(requests.contains(expected1));
@@ -76,8 +76,8 @@ public class PossibleCatchActionAnalyserTest
 		Location from = new Location(28, size);
 		Location a = new Location(5, size);
 		Location b = new Location(10, size);
-		CatchActionRequest expected1 = new CatchActionRequest(from, a);
-		CatchActionRequest expected2 = new CatchActionRequest(from, b);
+		CatchActionRequest expected1 = new CatchActionRequest(Player.White, from, a);
+		CatchActionRequest expected2 = new CatchActionRequest(Player.White, from, b);
 		
 		assertEquals(2, results.size());
 		assertTrue(results.contains(expected1));
@@ -110,19 +110,19 @@ public class PossibleCatchActionAnalyserTest
 		Location l10 = new Location(10, size);
 		Location l05 = new Location(5, size);
 		
-		CatchActionRequest expected1  = new CatchActionRequest(from, l14);
-		CatchActionRequest expected2  = new CatchActionRequest(from, l14, l03);
-		CatchActionRequest expected3  = new CatchActionRequest(from, l14, l03, l17);
-		CatchActionRequest expected4  = new CatchActionRequest(from, l14, l03, l21);
-		CatchActionRequest expected5  = new CatchActionRequest(from, l14, l03, l26);
-		CatchActionRequest expected6  = new CatchActionRequest(from, l14, l03, l25);
-		CatchActionRequest expected7  = new CatchActionRequest(from, l14, l25);
-		CatchActionRequest expected8  = new CatchActionRequest(from, l14, l25, l03);
-		CatchActionRequest expected9  = new CatchActionRequest(from, l14, l25, l03, l17);
-		CatchActionRequest expected10 = new CatchActionRequest(from, l14, l25, l03, l21);
-		CatchActionRequest expected11 = new CatchActionRequest(from, l14, l25, l03, l26);
-		CatchActionRequest expected12 = new CatchActionRequest(from, l10);
-		CatchActionRequest expected13 = new CatchActionRequest(from, l05);
+		CatchActionRequest expected1  = new CatchActionRequest(Player.White, from, l14);
+		CatchActionRequest expected2  = new CatchActionRequest(Player.White, from, l14, l03);
+		CatchActionRequest expected3  = new CatchActionRequest(Player.White, from, l14, l03, l17);
+		CatchActionRequest expected4  = new CatchActionRequest(Player.White, from, l14, l03, l21);
+		CatchActionRequest expected5  = new CatchActionRequest(Player.White, from, l14, l03, l26);
+		CatchActionRequest expected6  = new CatchActionRequest(Player.White, from, l14, l03, l25);
+		CatchActionRequest expected7  = new CatchActionRequest(Player.White, from, l14, l25);
+		CatchActionRequest expected8  = new CatchActionRequest(Player.White, from, l14, l25, l03);
+		CatchActionRequest expected9  = new CatchActionRequest(Player.White, from, l14, l25, l03, l17);
+		CatchActionRequest expected10 = new CatchActionRequest(Player.White, from, l14, l25, l03, l21);
+		CatchActionRequest expected11 = new CatchActionRequest(Player.White, from, l14, l25, l03, l26);
+		CatchActionRequest expected12 = new CatchActionRequest(Player.White, from, l10);
+		CatchActionRequest expected13 = new CatchActionRequest(Player.White, from, l05);
 		
 		assertEquals(13, results.size());
 		assertTrue(results.contains(expected1));
