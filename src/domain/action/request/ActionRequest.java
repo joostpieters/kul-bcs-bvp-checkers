@@ -9,11 +9,21 @@ import common.Player;
 import domain.action.contracts.IActionRequest;
 import domain.location.Location;
 
+/**
+ * Base class for all {@link IActionRequest} implementations.
+ */
 public abstract class ActionRequest implements IActionRequest
 {
 	protected final Player player;
 	protected final List<Location> locations = new ArrayList<Location>();
 	
+	/**
+	 * Creates a new {@link ActionRequest} with the given parameters.
+	 * @param 	player
+	 * 			The {@link Player} that made this {@link ActionRequest}.
+	 * @param 	locations
+	 * 			The {@link Location}s in this {@link ActionRequest}.
+	 */
 	public ActionRequest(Player player, Location... locations)
 	{
 		this.player = player;

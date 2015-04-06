@@ -1,3 +1,5 @@
+package main;
+
 import java.io.IOException;
 import java.nio.file.Paths;
 
@@ -16,9 +18,6 @@ import domain.observer.ForcedRemiseObserver;
 import domain.observer.OutOfMovesObserver;
 import domain.observer.PromotionObserver;
 import extensions.BoardSaver;
-
-//TODO documentation
-//TODO diagrams
 
 /**
  * Contains the main entry point of this checkers game.

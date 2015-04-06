@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.event.WindowEvent;
+
 import ui.contracts.IVisualizer;
 import bvp.Bord;
 import bvp.Figuren;
@@ -10,11 +11,15 @@ import common.Player;
 import domain.action.contracts.IAction;
 import domain.board.contracts.IBoardSize;
 import domain.board.contracts.IReadOnlyBoard;
+import domain.game.contracts.IGame;
 import domain.location.Location;
 import domain.location.LocationOutOfRangeException;
 import domain.piece.contracts.IPiece;
 import domain.square.contracts.IReadOnlySquare;
 
+/**
+ * Visualizes the {@link IGame}'s progress through graphical output.
+ */
 public class GraphicalVisualizer implements IVisualizer
 {
 	private final Bord frame = new Bord("Checkers");
@@ -24,8 +29,6 @@ public class GraphicalVisualizer implements IVisualizer
 		return frame;
 	}
 	
-	public GraphicalVisualizer() { }
-
 	private Figuur getFigure(Figuren pieces, IPiece piece) //50 x 50
 	{
 		if(!piece.canPromote())

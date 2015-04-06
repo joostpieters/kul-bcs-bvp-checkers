@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.Player;
+import domain.action.AtomicActionCatch;
 import domain.action.request.CatchActionRequest;
 import domain.analyser.contracts.IAnalyser;
 import domain.board.contracts.IReadOnlyBoard;
@@ -12,6 +13,9 @@ import domain.location.Direction;
 import domain.location.Location;
 import domain.location.LocationOutOfRangeException;
 
+/**
+ * Finds all possible {@link AtomicActionCatch}es.
+ */
 public class PossibleAtomicCatchActionAnalyser implements IAnalyser<CatchActionRequest>
 {
 	private final IReadOnlyBoard board;

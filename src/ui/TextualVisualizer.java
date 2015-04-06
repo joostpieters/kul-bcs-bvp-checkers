@@ -4,8 +4,12 @@ import ui.contracts.IVisualizer;
 import common.Player;
 import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
+import domain.game.contracts.IGame;
 import domain.location.Location;
 
+/**
+ * Visualizes the {@link IGame}'s progress through text output.
+ */
 public class TextualVisualizer implements IVisualizer
 {
 	@Override

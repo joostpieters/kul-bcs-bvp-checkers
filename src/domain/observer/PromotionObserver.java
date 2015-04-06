@@ -9,6 +9,7 @@ import domain.game.contracts.IGame;
 import domain.location.Location;
 import domain.piece.contracts.IPiece;
 import domain.update.BasicUpdateProcessor;
+import domain.update.contracts.IObserver;
 
 /**
  * This {@link IObserver} monitors the {@link IGame} 

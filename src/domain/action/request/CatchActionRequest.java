@@ -4,15 +4,33 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import common.Player;
+import domain.action.contracts.IActionRequest;
 import domain.location.Location;
 
+/**
+ * Represents a specific {@link IActionRequest} specifically related to catches.
+ */
 public class CatchActionRequest extends ActionRequest
 {
+	/**
+	 * Creates a new {@link CatchActionRequest} with the given parameters.
+	 * @param 	player
+	 * 			The {@link Player} that made this {@link ActionRequest}.
+	 * @param 	locations
+	 * 			The {@link Location}s in this {@link ActionRequest}.
+	 */
 	public CatchActionRequest(Player player, Location... locations)
 	{
 		super(player, locations);
 	}
 	
+	/**
+	 * Creates a new {@link CatchActionRequest} based on two other {@link CatchActionRequest}s: a base and an addemdum.
+	 * @param 	base
+	 * 			This request will form the base of the new request.
+	 * @param 	addendum
+	 * 			The {@link Location}s in this request will be appended to the base request to form a new request.
+	 */
 	public CatchActionRequest(CatchActionRequest base, CatchActionRequest addendum)
 	{
 		super(base.getPlayer(), base.getLocations());

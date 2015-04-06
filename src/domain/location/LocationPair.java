@@ -7,12 +7,6 @@ import domain.board.contracts.IBoardSize;
 
 /**
  * Represents an immutable pair of Locations: from and to.
- * 
- * @invariant getFrom() != null
- * @invariant getTo() != null
- * @invariant !getFrom().equals(getTo())
- * @invariant getFrom().getBoardSize().equals(getTo().getBoardSize())
- * @invariant this.equals(this)
  */
 public class LocationPair
 {
@@ -37,14 +31,6 @@ public class LocationPair
 	
 	/**
 	 * Construct a new {@link LocationPair} based on two {@link Location}s.
-	 * 
-	 * @pre from != null
-	 * @pre to != null
-	 * @pre !from.equals(to)
-	 * @pre from.getBoardSize().equals(to.getBoardSize()
-	 * 
-	 * @post getFrom() == $pre(Location, from)
-	 * @post getTo() == $pre(Location, to)
 	 * 
 	 * @param 	from
 	 * 			The from {@link Location}.
@@ -93,8 +79,6 @@ public class LocationPair
 	
 	/**
 	 * Returns the distance in number of rows between this Pair.
-	 * 
-	 * @post $result == Math.abs(getFrom().getRow()-getTo().getRow())
 	 */
 	public int getRowDistance()
 	{
@@ -103,8 +87,6 @@ public class LocationPair
 	
 	/**
 	 * Returns the distance in number of columns between this Pair.
-	 * 
-	 * @post $result == Math.abs(getFrom().getCol()-getTo().getCol())
 	 */
 	public int getColumnDistance()
 	{

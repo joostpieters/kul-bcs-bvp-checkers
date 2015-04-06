@@ -16,7 +16,7 @@ public interface IAction extends IBasicUpdateSource
 	 * Returns true if this {@link IAction} is valid on the given {@link IBoard} and for the given {@link Player},
 	 * false otherwise.
 	 * 
-	 * @Note 	This method only checks the {@link IAction} in its own limited scope.
+	 * Note: 	This method only checks the {@link IAction} in its own limited scope.
 	 * 			Game rules about priority moves etc. are ignored here.
 	 */
 	public boolean isValidOn(IReadOnlyBoard board, Player currentPlayer);

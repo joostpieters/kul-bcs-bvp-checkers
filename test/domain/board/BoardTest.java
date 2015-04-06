@@ -143,30 +143,6 @@ public class BoardTest
 		}
 	}
 	
-	@Test(expected=IllegalStateException.class)
-	public void testPromotePieceEmptySquare()
-	{
-		board.promotePiece(freeBlackTarget);
-	}
-	
-	@Test(expected=IllegalStateException.class)
-	public void testPromotePieceWrongRow()
-	{
-		board.promotePiece(blackTargetOccupiedByWhite);
-	}
-	
-	@Test
-	public void testPromotePiece()
-	{
-		IBoard testBoard = board.getDeepClone();
-		testBoard.removePiece(blackTargetOccupiedByWhite);
-		testBoard.addPiece(blackTargetOccupiedByWhite, new Piece(Player.Black));
-		
-		assertTrue(testBoard.getSquare(blackTargetOccupiedByWhite).getPiece().canPromote());
-		testBoard.promotePiece(blackTargetOccupiedByWhite);
-		assertFalse(testBoard.getSquare(blackTargetOccupiedByWhite).getPiece().canPromote());
-	}
-	
 	@Test
 	public void testIsValidMoveFromWhite()
 	{

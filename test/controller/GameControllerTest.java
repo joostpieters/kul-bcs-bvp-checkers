@@ -20,6 +20,9 @@ import domain.input.contracts.IInput;
 import domain.input.contracts.IInputProvider;
 import domain.location.Location;
 import domain.location.LocationOutOfRangeException;
+import domain.piece.Dame;
+import domain.piece.contracts.IPiece;
+import domain.square.contracts.ISquare;
 import domain.update.contracts.IObserver;
 
 @RunWith(EasyMockRunner.class) 
@@ -33,6 +36,12 @@ public class GameControllerTest
 	
 	@Mock
 	private IBoard board; 
+	
+	@Mock
+	private ISquare square;
+	
+	@Mock
+	private IPiece piece;
 	
 	@Mock
 	private IUserInterface ui;
@@ -56,17 +65,20 @@ public class GameControllerTest
 		Location location = new Location(1, new BoardSize(10, 10));
 		
 		expect(game.getBoard()).andReturn(board);
+		expect(game.getCurrentPlayer()).andReturn(Player.Black);
 		expect(board.getReadOnlyBoard()).andReturn(board);
+		expect(board.getSquare(location)).andReturn(square).times(2);
+		expect(square.hasPiece()).andReturn(true);
+		expect(square.getPiece()).andReturn(piece).times(2);
+		expect(piece.canPromote()).andReturn(true);
+		expect(piece.getPlayer()).andReturn(Player.White).times(2);
+		board.removePiece(location);
+		board.addPiece(location, new Dame(Player.White));
 		observer.firePromotion(board, location);
-		board.promotePiece(location);
-		replay(observer);
-		replay(board);
-		replay(game);
+		replay(observer, game, board, square, piece);
 		
 		controller.firePromotion(board, location);
-		verify(observer);
-		verify(board);
-		verify(game);
+		verify(observer, game, board, square, piece);
 	}
 
 	@Test

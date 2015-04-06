@@ -2,6 +2,7 @@ package controller;
 
 import ui.LocalizationManager;
 import common.Player;
+import domain.action.ActionPromotion;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.game.contracts.IGame;
@@ -82,10 +83,13 @@ public class GameController extends UpdatePropagator
 		
 		if(!board.getReadOnlyBoard().equals(readOnlyBoard))
 		{
-			throw new IllegalStateException("promotion() called with wrong board.");
+			throw new IllegalStateException("firePromotion() called with wrong board.");
 		}
 		
-		board.promotePiece(location);
+		ActionPromotion promotion = new ActionPromotion(location);
+		Player currentPlayer = game.getCurrentPlayer().getOpponent(); //switchPlayer already fired
+		promotion.executeOn(board, currentPlayer);
+		
 		super.firePromotion(readOnlyBoard, location); //disseminate update
 	}
 	

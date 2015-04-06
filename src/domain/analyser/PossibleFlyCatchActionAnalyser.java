@@ -11,6 +11,9 @@ import domain.location.Direction;
 import domain.location.Location;
 import domain.location.LocationOutOfRangeException;
 
+/**
+ * This {@link IAnalyser} find all possible flying catches on a given board.
+ */
 public class PossibleFlyCatchActionAnalyser implements IAnalyser<CatchActionRequest>
 {
 	private final IReadOnlyBoard board;

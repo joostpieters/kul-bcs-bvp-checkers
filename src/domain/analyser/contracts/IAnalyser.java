@@ -6,7 +6,6 @@ import java.util.List;
 
 import common.Player;
 import domain.action.contracts.IActionRequest;
-import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.piece.contracts.IPiece;
@@ -14,12 +13,12 @@ import domain.piece.contracts.IPiece;
 public interface IAnalyser<T extends IActionRequest>
 {
 	/**
-	 * Returns the {@link IBoard} this {@link IAnalyser} uses.
+	 * Returns the {@link IReadOnlyBoard} this {@link IAnalyser} uses.
 	 */
 	IReadOnlyBoard getBoard();
 	
 	/**
-	 * Finds {@link CatchActionRequest}s the given player can choose from,
+	 * Finds {@link IActionRequest}s the given {@link Player} can choose from,
 	 * using any of his {@link IPiece}s.
 	 */
 	default List<T> find(Player currentPlayer)
@@ -37,8 +36,8 @@ public interface IAnalyser<T extends IActionRequest>
 	}
 	
 	/**
-	 * Finds {@link CatchActionRequest}s the given player can choose from, 
-	 * using the {@link IPiece} at the given pieceLocation. 
+	 * Finds {@link IActionRequest}s the given {@link Player} can choose from, 
+	 * using the {@link IPiece} at the given {@link Location}. 
 	 */
 	List<T> find(Player currentPlayer, Location pieceLocation);
 }

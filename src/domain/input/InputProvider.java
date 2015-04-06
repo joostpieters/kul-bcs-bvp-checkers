@@ -1,6 +1,7 @@
 package domain.input;
 
 import ui.LocalizationManager;
+import ui.UserInterface;
 import ui.contracts.IUserInterface;
 import common.Player;
 import domain.analyser.LegalActionAnalyser;
@@ -9,7 +10,10 @@ import domain.input.contracts.IInput;
 import domain.input.contracts.IInputProvider;
 import domain.update.UpdatePropagator;
 
-
+/**
+ * This class provides a means to ask a {@link Player} for input through some {@link UserInterface} 
+ * and return that input as an {@link IInput} object.
+ */
 public class InputProvider extends UpdatePropagator implements AutoCloseable, IInputProvider
 {
 	private final IUserInterface ui;

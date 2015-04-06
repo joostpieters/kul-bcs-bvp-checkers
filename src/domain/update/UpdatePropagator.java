@@ -4,6 +4,7 @@ import common.Player;
 import domain.action.contracts.IAction;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
+import domain.update.contracts.IUpdate;
 
 /**
  * This class directly propagates all {@link IUpdate}s from source to observer, 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.Player;
+import domain.action.AtomicAction;
 import domain.action.contracts.IActionRequest;
 import domain.action.request.CatchActionRequest;
 import domain.action.request.MoveActionRequest;
@@ -12,7 +13,7 @@ import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 
 /**
- * Finds all possible atomic actions (steps and catches). 
+ * Finds all possible {@link AtomicAction}s, i.e. both steps and catches. 
  */
 public class PossibleAtomicActionAnalyser implements IAnalyser<IActionRequest>
 {

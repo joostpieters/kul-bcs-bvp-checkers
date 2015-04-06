@@ -5,7 +5,7 @@ import domain.square.contracts.ISquare;
 
 /**
  * Represents a White Square on a Board.
- * Cannot contain {@link Piece}s.
+ * Cannot contain {@link IPiece}s.
  */
 public class SquareWhite implements ISquare
 {

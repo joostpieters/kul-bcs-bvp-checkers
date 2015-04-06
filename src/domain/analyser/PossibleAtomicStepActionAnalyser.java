@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.Player;
+import domain.action.AtomicActionStep;
 import domain.action.request.MoveActionRequest;
 import domain.analyser.contracts.IAnalyser;
 import domain.board.contracts.IReadOnlyBoard;
@@ -11,6 +12,9 @@ import domain.location.Direction;
 import domain.location.Location;
 import domain.location.LocationOutOfRangeException;
 
+/**
+ * Finds all possible {@link AtomicActionStep}s.
+ */
 public class PossibleAtomicStepActionAnalyser implements IAnalyser<MoveActionRequest>
 {
 	private final IReadOnlyBoard board;

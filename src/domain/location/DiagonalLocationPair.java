@@ -11,8 +11,6 @@ import domain.square.contracts.ISquare;
 /**
  * A special variant of {@link LocationPair} where both {@link Location}s
  * are forced to lie on the same diagonal.
- * 
- * @invariant super.isOnSameDiagonal()
  */
 public class DiagonalLocationPair extends LocationPair
 {

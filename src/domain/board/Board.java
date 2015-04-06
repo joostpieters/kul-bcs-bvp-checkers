@@ -9,7 +9,6 @@ import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.location.LocationOutOfRangeException;
 import domain.location.LocationPair;
-import domain.piece.Dame;
 import domain.piece.contracts.IPiece;
 import domain.square.SquareBlack;
 import domain.square.SquareWhite;
@@ -138,39 +137,6 @@ public class Board implements IBoard
 		IPiece piece = fromSquare.getPiece();
 		removePiece(pair.getFrom());
 		addPiece(pair.getTo(), piece);
-	}
-	
-	private boolean isValidPromotion(Location location)
-	{
-		ISquare square = getSquare(location);
-		if(!square.hasPiece())
-		{
-			//throw new IllegalStateException(String.format("Square %s does not contains a piece.", location));
-			return false;
-		}
-		IPiece piece = square.getPiece();
-		Player player = piece.getPlayer();
-		if(!location.isOnPromotionRow(player))
-		{
-			//throw new IllegalStateException(String.format("Cannot promote piece of player %s on row %d.", player, location.getRow()));
-			return false;
-		}
-		return true;
-	}
-	
-	@Override
-	public void promotePiece(Location location) //TODO move promotion logic somewhere else
-	{
-		if(!isValidPromotion(location))
-		{
-			throw new IllegalStateException(String.format("Location %s does not contain a piece that can legally be promoted.", location));
-		}
-		ISquare square = getSquare(location);
-		IPiece piece = square.getPiece();
-		Player player = piece.getPlayer();
-		Dame dame = new Dame(player);
-		removePiece(location);
-		addPiece(location, dame);
 	}
 	
 	@Override

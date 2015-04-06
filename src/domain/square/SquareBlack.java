@@ -5,7 +5,7 @@ import domain.square.contracts.ISquare;
 
 /**
  * Represents a Black Square on a Board.
- * Can contain {@link Piece}s.
+ * Can contain {@link IPiece}s.
  */
 public class SquareBlack implements ISquare
 {

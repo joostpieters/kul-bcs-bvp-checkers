@@ -1,7 +1,9 @@
 package domain.update.contracts;
 
 import common.Player;
+import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
+import domain.game.contracts.IGame;
 import domain.location.Location;
 
 /**

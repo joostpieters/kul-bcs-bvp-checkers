@@ -2,7 +2,9 @@ package domain.update.contracts;
 
 import common.Player;
 import domain.action.contracts.IAction;
+import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
+import domain.game.contracts.IGame;
 
 /**
  * Implementers can observe the {@link IGame} by receiving {@link IBoard} and status updates.
@@ -25,7 +27,7 @@ public interface IBasicObserver
 	 * Indicates that it is now the given Player's turn.
 	 * 
 	 * @param	board
-	 * 			The current Baord.
+	 * 			The current {@link IBoard}.
 	 * @param	switchedIn
 	 * 			The newly active Player.
 	 */

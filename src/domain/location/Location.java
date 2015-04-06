@@ -6,6 +6,7 @@ import common.Player;
 import domain.board.BoardSize;
 import domain.board.contracts.IBoard;
 import domain.board.contracts.IBoardSize;
+import domain.square.SquareBlack;
 
 /**
  * An immutable class representing a location on an {@link IBoard} with 
@@ -45,7 +46,7 @@ public final class Location
 	 * 
 	 * @param 	index
 	 *          The position of this location based on the index number of the
-	 *          corresponding {@link BlackSquare}. Numbering starts at 1 in
+	 *          corresponding {@link SquareBlack}. Numbering starts at 1 in
 	 *          the upper leftmost black square and ends in the lower
 	 *          rightmost black square.
 	 * @param 	size
@@ -138,7 +139,7 @@ public final class Location
 	}
 	
 	/**
-	 * Returns the black square index of this {@link Location} as defined in {@link Location#Location(int, BoardSize)}.
+	 * Returns the black square index of this {@link Location} as defined in {@link #Location(int, IBoardSize)}.
 	 */
 	public int getIndex()
 	{
@@ -297,7 +298,8 @@ public final class Location
 	
 	/**
 	 * Returns the {@link Location} one row above this one.
-	 * @throws LocationOutOfRangeException 
+	 * @throws 	LocationOutOfRangeException
+	 * 			When a location index cannot be converted to a Location considering the {@link IBoardSize}. 
 	 */
 	public Location getAbove() throws LocationOutOfRangeException
 	{
@@ -306,7 +308,8 @@ public final class Location
 	
 	/**
 	 * Returns the {@link Location} one row below this one.
-	 * @throws LocationOutOfRangeException 
+	 * @throws 	LocationOutOfRangeException
+	 * 			When a location index cannot be converted to a Location considering the {@link IBoardSize}. 
 	 */
 	public Location getBelow() throws LocationOutOfRangeException
 	{
@@ -315,7 +318,8 @@ public final class Location
 	
 	/**
 	 * Returns the {@link Location} one row left of this one.
-	 * @throws LocationOutOfRangeException 
+	 * @throws 	LocationOutOfRangeException
+	 * 			When a location index cannot be converted to a Location considering the {@link IBoardSize}. 
 	 */
 	public Location getLeft() throws LocationOutOfRangeException
 	{
@@ -324,7 +328,8 @@ public final class Location
 	
 	/**
 	 * Returns the {@link Location} one row right of this one.
-	 * @throws LocationOutOfRangeException 
+	 * @throws 	LocationOutOfRangeException
+	 * 			When a location index cannot be converted to a Location considering the {@link IBoardSize}. 
 	 */
 	public Location getRight() throws LocationOutOfRangeException
 	{
@@ -337,7 +342,8 @@ public final class Location
 	 * 
 	 * @param	player
 	 * 			The {@link Player} whose perspective to consider.
-	 * @throws LocationOutOfRangeException 
+	 * @throws 	LocationOutOfRangeException
+	 * 			When a location index cannot be converted to a Location considering the {@link IBoardSize}. 
 	 */
 	public Location getFront(Player player) throws LocationOutOfRangeException
 	{
@@ -352,7 +358,8 @@ public final class Location
 	 * 
 	 * @param	player
 	 * 			The {@link Player} whose perspective to consider.
-	 * @throws LocationOutOfRangeException 
+	 * @throws 	LocationOutOfRangeException
+	 * 			When a location index cannot be converted to a Location considering the {@link IBoardSize}. 
 	 */
 	public Location getBack(Player player) throws LocationOutOfRangeException
 	{
@@ -383,7 +390,8 @@ public final class Location
 	 *        	The {@link Player} whose perspective to consider.
 	 * @param 	steps
 	 * 			The sequence of {@link Direction}'s to follow.
-	 * @throws LocationOutOfRangeException 
+	 * @throws 	LocationOutOfRangeException
+	 * 			When a location index cannot be converted to a Location considering the {@link IBoardSize}. 
 	 */
 	public Location getRelativeLocation(Player player, Iterable<Direction> steps) throws LocationOutOfRangeException
 	{
@@ -403,7 +411,8 @@ public final class Location
 	 *        	The {@link Player} whose perspective to consider.
 	 * @param 	steps
 	 * 			The sequence of {@link Direction}'s to follow.
-	 * @throws LocationOutOfRangeException 
+	 * @throws 	LocationOutOfRangeException
+	 * 			When a location index cannot be converted to a Location considering the {@link IBoardSize}. 
 	 */
 	public Location getRelativeLocation(Player player, Direction... steps) throws LocationOutOfRangeException
 	{

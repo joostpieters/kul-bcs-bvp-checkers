@@ -2,6 +2,7 @@ package domain.piece.contracts;
 
 import common.IDeepClonable;
 import common.Player;
+import domain.board.contracts.IBoard;
 
 /**
  * Represents a piece on the {@link IBoard}. Each {@link IPiece} has a {@link Player}.

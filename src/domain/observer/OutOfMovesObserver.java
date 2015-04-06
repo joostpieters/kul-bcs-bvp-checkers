@@ -9,6 +9,7 @@ import domain.action.ActionFactory;
 import domain.action.contracts.IAction;
 import domain.action.contracts.IActionRequest;
 import domain.analyser.PossibleAtomicActionAnalyser;
+import domain.board.contracts.IBoard;
 import domain.board.contracts.IReadOnlyBoard;
 import domain.location.Location;
 import domain.location.LocationOutOfRangeException;
